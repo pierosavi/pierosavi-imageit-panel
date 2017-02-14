@@ -1,0 +1,5 @@
+<div ng-style="{height:ctrl.panel.height,width:'100%','background-repeat':'no-repeat','background-image':'url('+ctrl.panel.bgimage+')'}">
+  <div ng-repeat="sensor in ctrl.panel.sensors">
+	<div ng-style="{position: 'relative', left:sensor.xlocation, top:sensor.ylocation, 'font-size':sensor.size,color:sensor.color}"><div ng-style="{position: 'absolute', top: 0, left: 0,'background-color': sensor.bgcolor,'border-style':'solid','border-color':sensor.bordercolor,'border-width':'1px',padding:'5px'}">{{sensor.valueFormatted}}</div></div>
+  </div>
+</div>

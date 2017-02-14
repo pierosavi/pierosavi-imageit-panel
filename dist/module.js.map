@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/module.js"],"names":["PictureItCtrl"],"mappings":";;;;;;;;AAAQA,mB,mBAAAA,a;;;2BAGNA,a","file":"module.js","sourcesContent":["import {PictureItCtrl} from './pictureit_ctrl';\n\nexport {\n  PictureItCtrl as PanelCtrl\n};\n"]}

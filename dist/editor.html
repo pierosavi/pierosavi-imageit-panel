@@ -1,0 +1,76 @@
+<div class="editor-row">
+	<div class="section gf-form-group">
+		<div class="gf-form">
+			<label class="gf-form-label width-8">Picture URL</label>
+			<input type="text" class="input-small gf-form-input width-30" ng-model="ctrl.panel.bgimage" ng-change="ctrl.render()" ng-model-onblur />
+		</div>	
+	</div>
+</div>
+<div class="editor-row">
+	<div ng-repeat="sensor in ctrl.panel.sensors">
+		<div class="section gf-form-group">
+			<h5 class="section-heading">&nbsp</h5>
+			<span class="gf-form-label">
+				<i class="fa fa-remove pointer" ng-click="ctrl.deleteSensor($index)"></i>
+			</span>
+		</div>
+		<div class="section gf-form-group">
+			<h5 class="section-heading">Metric</h5>
+			<div class="gf-form-inline">				
+				<div class="gf-form">
+					<input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.name" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+		</div>
+		<div class="section gf-form-group">
+			<h5 class="section-heading">Position</h5>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">X Location</label>
+					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.xlocation" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>	
+			<div class="gf-form-inline">
+				<div class="gf-form">		
+					
+					<label class="gf-form-label width-8">Y Location</label>
+					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.ylocation" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+		</div>
+		<div class="section gf-form-group">
+			<h5 class="section-heading">Appearance</h5>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Format</label>
+					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.format" ng-change="ctrl.render()" ng-model-onblur />
+					<label class="gf-form-label width-8">Font Color</label>
+					<span class="gf-form-label">
+						<spectrum-picker ng-model="sensor.color" ng-change="ctrl.render()" ></spectrum-picker>
+					</span>
+					<label class="gf-form-label width-8">Border Color</label>
+					<span class="gf-form-label">
+						<spectrum-picker ng-model="sensor.bordercolor" ng-change="ctrl.render()" ></spectrum-picker>
+					</span>
+				</div>
+			</div>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Font Size</label>
+					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.size" ng-change="ctrl.render()" ng-model-onblur />
+										<label class="gf-form-label width-8">Background</label>
+					<span class="gf-form-label">
+						<spectrum-picker ng-model="sensor.bgcolor" ng-change="ctrl.render()" ></spectrum-picker>
+					</span
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="editor-row">
+	<div class="gf-form-button">
+		<button class="btn btn-inverse" ng-click="ctrl.addSensor();ctrl.render()">
+		<i class="fa fa-plus"></i>&nbsp;Add Sensor
+		</button>
+	</div>
+</div>
