@@ -114,7 +114,7 @@ System.register(['lodash', 'app/plugins/sdk', './sprintf.js', './angular-sprintf
 				}, {
 					key: 'onInitEditMode',
 					value: function onInitEditMode() {
-						this.addEditorTab('Options', 'public/plugins/viv-pictureit-panel/editor.html', 2);
+						this.addEditorTab('Options', 'public/plugins/grafana-pictureit/editor.html', 2);
 					}
 				}, {
 					key: 'link',
