@@ -8,7 +8,7 @@ Then add sensor displays to the picture and tie them to the metrics.
 
 ### PictureIt  
   
-![PictureIt](https://raw.githubusercontent.com/vbessler/grafana-pictureit/master/src/img/bridge.png?raw=true) 
+![PictureIt](https://raw.githubusercontent.com/vbessler/grafana-pictureit/master/src/img/bridge_strains.png?raw=true) 
 
 ### Options  
   
