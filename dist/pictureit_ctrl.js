@@ -66,7 +66,8 @@ System.register(['lodash', 'app/plugins/sdk', './sprintf.js', './angular-sprintf
 				series: [],
 				bgimage: '',
 				sensors: [],
-				height: '400px'
+				height: '400px',
+				width: '100px'
 			};
 
 			_export('PictureItCtrl', PictureItCtrl = function (_MetricsPanelCtrl) {
@@ -105,10 +106,10 @@ System.register(['lodash', 'app/plugins/sdk', './sprintf.js', './angular-sprintf
 				}, {
 					key: 'addSensor',
 					value: function addSensor() {
-						if (this.panel.sensors.length == 0) this.panel.sensors.push({ name: 'A-series', xlocation: '200px', ylocation: '200px', format: '%.2f', bgcolor: 'rgba(0, 0, 0, 0.58)', color: '#FFFFFF', size: '22px', bordercolor: 'rgb(251, 4, 4)' });else {
+						if (this.panel.sensors.length == 0) this.panel.sensors.push({ name: 'A-series', xlocationStr: '200px', ylocationStr: '200px', format: '%.2f', bgcolor: 'rgba(0, 0, 0, 0.58)', color: '#FFFFFF', size: '22px', bordercolor: 'rgb(251, 4, 4)', visible: true });else {
 							var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
 
-							this.panel.sensors.push({ name: lastSensor.name, xlocation: '200px', ylocation: '200px', format: lastSensor.format, bgcolor: lastSensor.bgcolor, color: lastSensor.color, size: lastSensor.size, bordercolor: lastSensor.bordercolor });
+							this.panel.sensors.push({ name: lastSensor.name, xlocationStr: '200px', ylocationStr: '200px', format: lastSensor.format, bgcolor: lastSensor.bgcolor, color: lastSensor.color, size: lastSensor.size, bordercolor: lastSensor.bordercolor, visible: true });
 						}
 					}
 				}, {
@@ -122,10 +123,18 @@ System.register(['lodash', 'app/plugins/sdk', './sprintf.js', './angular-sprintf
 						var sensors;
 						var valueMaps;
 
+						var $panelContainer = elem.find('.panel-container');
+
+						function pixelStrToNum(str) {
+							return parseInt(str.substr(0, str.length - 2));
+						}
+
 						function render() {
 							if (!ctrl.panel.sensors) {
 								return;
 							}
+							var width = pixelStrToNum($panelContainer.css("width"));
+							var height = pixelStrToNum($panelContainer.css("height"));
 
 							sensors = ctrl.panel.sensors;
 							valueMaps = ctrl.panel.valueMaps;
@@ -134,6 +143,7 @@ System.register(['lodash', 'app/plugins/sdk', './sprintf.js', './angular-sprintf
 							var valueMapsLength = valueMaps.length;
 
 							for (var sensor = 0; sensor < sensorsLength; sensor++) {
+								sensors[sensor].visible = pixelStrToNum(sensors[sensor].xlocationStr) < width && pixelStrToNum(sensors[sensor].ylocationStr) < height;
 								for (var valueMap = 0; valueMap < valueMapsLength; valueMap++) {
 									if (sensors[sensor].name == valueMaps[valueMap].name) {
 										sensors[sensor].valueFormatted = sprintf(sensors[sensor].format, valueMaps[valueMap].value);
