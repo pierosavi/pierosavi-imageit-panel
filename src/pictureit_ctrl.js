@@ -42,11 +42,11 @@ export class PictureItCtrl extends MetricsPanelCtrl  {
   
   addSensor() {
 	if (this.panel.sensors.length==0)
-		this.panel.sensors.push({name: 'A-series', xlocationStr: '200px',ylocationStr: '200px',format: '%.2f',bgcolor:'rgba(0, 0, 0, 0.58)',color:'#FFFFFF',size:'22px', bordercolor:'rgb(251, 4, 4)',visible:true});
+		this.panel.sensors.push({name: 'A-series', xlocation: 200,ylocation: 200,format: '%.2f',bgcolor:'rgba(0, 0, 0, 0.58)',color:'#FFFFFF',size:22, bordercolor:'rgb(251, 4, 4)',visible:true});
 	else {
 		var lastSensor=this.panel.sensors[this.panel.sensors.length-1];
 	
-		this.panel.sensors.push({name: lastSensor.name, xlocationStr: '200px',ylocationStr: '200px',format: lastSensor.format,bgcolor:lastSensor.bgcolor,color:lastSensor.color,size:lastSensor.size, bordercolor:lastSensor.bordercolor,visible:true});
+		this.panel.sensors.push({name: lastSensor.name, xlocation: 200,ylocation: 200,format: lastSensor.format,bgcolor:lastSensor.bgcolor,color:lastSensor.color,size:lastSensor.size, bordercolor:lastSensor.bordercolor,visible:true});
 	}
   }
   
@@ -76,7 +76,10 @@ export class PictureItCtrl extends MetricsPanelCtrl  {
 	  var valueMapsLength = valueMaps.length;
 	  
 	  for (var sensor=0;sensor<sensorsLength;sensor++) {
-		sensors[sensor].visible = pixelStrToNum(sensors[sensor].xlocationStr)<width && pixelStrToNum(sensors[sensor].ylocationStr)<height;
+		sensors[sensor].visible = sensors[sensor].xlocation<width && sensors[sensor].ylocation<height;
+		sensors[sensor].ylocationStr=sensors[sensor].ylocation.toString()+"px";
+		sensors[sensor].xlocationStr=sensors[sensor].xlocation.toString()+"px";
+		sensors[sensor].sizeStr=sensors[sensor].size.toString()+"px";
 		for (var valueMap=0;valueMap<valueMapsLength;valueMap++) {	
 			if (sensors[sensor].name==valueMaps[valueMap].name) {
 				sensors[sensor].valueFormatted=sprintf(sensors[sensor].format,valueMaps[valueMap].value);

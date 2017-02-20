@@ -27,14 +27,14 @@
 			<div class="gf-form-inline">
 				<div class="gf-form">
 					<label class="gf-form-label width-8">X Location</label>
-					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.xlocationStr" ng-change="ctrl.render()" />
+					<input type="number" class="input-small gf-form-input width-8" ng-model="sensor.xlocation" ng-change="ctrl.render()" />
 				</div>
 			</div>	
 			<div class="gf-form-inline">
 				<div class="gf-form">		
 					
 					<label class="gf-form-label width-8">Y Location</label>
-					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.ylocationStr" ng-change="ctrl.render()" />
+					<input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation" ng-change="ctrl.render()" />
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 			<div class="gf-form-inline">
 				<div class="gf-form">
 					<label class="gf-form-label width-8">Font Size</label>
-					<input type="text" class="input-small gf-form-input width-8" ng-model="sensor.size" ng-change="ctrl.render()" />
+					<input type="number" class="input-small gf-form-input width-8" ng-model="sensor.size" ng-change="ctrl.render()" />
 										<label class="gf-form-label width-8">Background</label>
 					<span class="gf-form-label">
 						<spectrum-picker ng-model="sensor.bgcolor" ng-change="ctrl.render()" ></spectrum-picker>
