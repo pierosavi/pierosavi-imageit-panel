@@ -16,9 +16,10 @@
     "links": [
       {"name": "Project site", "url": "https://github.com/vbessler/grafana-pictureit"},
       {"name": "MIT License", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE"}
+	  {"name": "3-clause BSD license", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE_additional"}
     ],
     "screenshots": [
-      {"name": "Showcase", "path": "src/img/screenshot-pictureit.png"}
+      {"name": "Showcase", "path": "src/img/bridge_strains.png"}
     ],
     "version": "1.0.0",
     "updated": "2017-01-30"
