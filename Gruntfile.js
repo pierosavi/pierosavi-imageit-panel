@@ -17,7 +17,7 @@ module.exports = (grunt) => {
       },
       pluginDef: {
         expand: true,
-        src: ['plugin.json', 'README.md'],
+        src: ['README.md'],
         dest: 'dist',
       },
       img_to_dist: {
