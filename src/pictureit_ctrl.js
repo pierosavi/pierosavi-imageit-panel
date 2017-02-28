@@ -51,7 +51,7 @@ export class PictureItCtrl extends MetricsPanelCtrl  {
   }
   
   onInitEditMode() {
-    this.addEditorTab('Options', 'public/plugins/grafana-pictureit/editor.html', 2);
+    this.addEditorTab('Options', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
   }
 	
   link(scope, elem, attrs, ctrl) {
