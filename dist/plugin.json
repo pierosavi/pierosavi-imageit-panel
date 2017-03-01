@@ -10,19 +10,19 @@
     },
     "keywords": ["pictureit","picture", "panel"],
     "logos": {
-      "small": "src/img/pictureit_logo.png",
-      "large": "src/img/pictureit_logo.png"
+      "small": "img/pictureit_logo.png",
+      "large": "img/pictureit_logo.png"
     },
     "links": [
       {"name": "Project site", "url": "https://github.com/vbessler/grafana-pictureit"},
       {"name": "MIT License", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE"},
-	  {"name": "3-clause BSD license", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE_additional"}
+      {"name": "3-clause BSD license", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE_additional"}
     ],
     "screenshots": [
-      {"name": "Showcase", "path": "src/img/bridge_strains.png"}
+      {"name": "Showcase", "path": "img/bridge_strains.png"}
     ],
     "version": "1.0.0",
-    "updated": "2017-01-30"
+    "updated": "2017-03-01"
   },
 
   "dependencies": {
