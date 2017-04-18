@@ -2,10 +2,11 @@
     <div ng-repeat="sensor in ctrl.panel.sensors">
         <div ng-if="sensor.visible">
             <div ng-style="{position: 'relative', left:sensor.xlocationStr, top:sensor.ylocationStr, 'font-size':sensor.sizeStr,color:sensor.color}">
+
                 <div ng-style="{position: 'absolute', top: 0, left: 0,'background-color': sensor.bgcolor,'border-style':'solid','border-color':sensor.bordercolor,'border-width':'1px',padding:'5px'}">
                     <a href="{{sensor.link_url}}"
-                        bs-tooltip="sensor.link_hover">
-                    {{sensor.valueFormatted}}
+                       bs-tooltip="sensor.link_hover">
+                        {{sensor.valueFormatted}} {{sensor.valueUnit}}
                     </a>
 
                 </div>

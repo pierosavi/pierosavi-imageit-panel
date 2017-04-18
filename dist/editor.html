@@ -18,7 +18,14 @@
 			<h5 class="section-heading">Metric</h5>
 			<div class="gf-form-inline">				
 				<div class="gf-form">
+					<label class="gf-form-label width-8">Name</label>
 					<input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.name" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Unit</label>
+					<input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.valueUnit" ng-change="ctrl.render()" ng-model-onblur />
 				</div>
 			</div>
 		</div>
