@@ -18,7 +18,14 @@
 			<h5 class="section-heading">Metric</h5>
 			<div class="gf-form-inline">				
 				<div class="gf-form">
+					<label class="gf-form-label width-8">Name</label>
 					<input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.name" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Unit</label>
+					<input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.valueUnit" ng-change="ctrl.render()" ng-model-onblur />
 				</div>
 			</div>
 		</div>
@@ -29,15 +36,32 @@
 					<label class="gf-form-label width-8">X Location</label>
 					<input type="number" class="input-small gf-form-input width-8" ng-model="sensor.xlocation" ng-change="ctrl.render()" />
 				</div>
-			</div>	
+			</div>
 			<div class="gf-form-inline">
-				<div class="gf-form">		
-					
+				<div class="gf-form">
+
 					<label class="gf-form-label width-8">Y Location</label>
 					<input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation" ng-change="ctrl.render()" />
 				</div>
 			</div>
 		</div>
+
+		<div class="section gf-form-group">
+			<h5 class="section-heading">Link</h5>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Url (absolute)</label>
+					<input type="text" class="input-small gf-form-input width-30" ng-model="sensor.link_url" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+			<div class="gf-form-inline">
+				<div class="gf-form">
+					<label class="gf-form-label width-8">Hover text</label>
+					<input type="text" class="input-small gf-form-input width-30" ng-model="sensor.link_hover" ng-change="ctrl.render()" ng-model-onblur />
+				</div>
+			</div>
+		</div>
+
 		<div class="section gf-form-group">
 			<h5 class="section-heading">Appearance</h5>
 			<div class="gf-form-inline">
