@@ -1,0 +1,57 @@
+<div class="editor-row">
+    <h5 class="page-heading">Value Color Mappings</h5>
+    <div class="gf-form-group">
+        <div class="gf-form" ng-repeat="mapping in ctrl.panel.valueMappings">
+      <span class="gf-form-label">
+        <i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap(mapping)"></i>
+      </span>
+            <input type="text" ng-model="mapping.value" placeholder="metric value" class="gf-form-input max-width-6"
+                   ng-blur="ctrl.render()">
+            <span class="gf-form-label">
+        <i class="fa fa-arrow-right"></i>
+      </span>
+            <!--<input type="text" placeholder="color name" ng-model="mapping.colorName" class="gf-form-input max-width-8"
+                   ng-blur="ctrl.render()">-->
+            <select name="repeatSelect"
+                    id="repeatSelect"
+                    class="gf-form-input max-width-8"
+                    ng-blur="ctrl.render()"
+                    ng-model="mapping.colorName">
+                <option ng-repeat="color in ctrl.panel.colorMappings" value="{{color.name}}">{{color.name}}</option>
+            </select>
+
+        </div>
+
+        <div class="gf-form-button-row">
+            <button class="btn btn-inverse" ng-click="ctrl.addValueMappingMap();">
+                <i class="fa fa-plus"></i>
+                Add a value mapping
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="editor-row">
+    <h5 class="page-heading">Range Color Mappings</h5>
+    <div class="gf-form-group">
+        <div class="gf-form" ng-repeat="rangeMap in ctrl.panel.rangeMappingMap">
+        <span class="gf-form-label">
+          <i class="fa fa-remove pointer" ng-click="ctrl.removeRangeMappingMap(rangeMap)"></i>
+        </span>
+            <span class="gf-form-label">From</span>
+            <input type="text" ng-model="rangeMap.from" class="gf-form-input max-width-6" ng-blur="ctrl.render()">
+            <span class="gf-form-label">To</span>
+            <input type="text" ng-model="rangeMap.to" class="gf-form-input max-width-6" ng-blur="ctrl.render()">
+            <span class="gf-form-label">Text</span>
+            <input type="text" ng-model="rangeMap.text" class="gf-form-input max-width-8" ng-blur="ctrl.render()">
+        </div>
+
+        <div class="gf-form-button-row">
+            <button class="btn btn-inverse" ng-click="ctrl.addRangeMappingMap()">
+                <i class="fa fa-plus"></i>
+                Add a range mapping
+            </button>
+        </div>
+    </div>
+</div>-->

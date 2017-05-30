@@ -1,4 +1,5 @@
 {
+  "esversion": 7,
   "browser": true,
   "esnext": true,
 
@@ -28,6 +29,7 @@
   "maxlen": 140,
 
   "globals": {
+    "esversion"     : 6,
     "System": true,
     "Promise": true,
     "define": true,
