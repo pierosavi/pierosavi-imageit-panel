@@ -20,7 +20,7 @@
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Name</label>
-                    <input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.name"
+                    <input type="text" class="input-small gf-form-input max-width-40" ng-model="sensor.metric"
                            ng-change="ctrl.render()" ng-model-onblur/>
                 </div>
             </div>
@@ -74,7 +74,7 @@
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Display Name</label>
-                    <input type="text" class="input-small gf-form-input width-8" ng-model="sensor.valueFormatted"
+                    <input type="text" class="input-small gf-form-input width-8" ng-model="sensor.displayName"
                            ng-change="ctrl.render()"/>
                     <label class="gf-form-label width-8">Font Color</label>
                     <span class="gf-form-label">
@@ -91,10 +91,10 @@
                     <label class="gf-form-label width-8">Font Size</label>
                     <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.size"
                            ng-change="ctrl.render()"/>
-                    <!-- <label class="gf-form-label width-8">Background</label>
+                    <label class="gf-form-label width-8">Render Value</label>
                     <span class="gf-form-label">
-                        <spectrum-picker ng-model="sensor.bgcolor" ng-change="ctrl.render()"></spectrum-picker>
-                    </span>-->
+                        <input type="checkbox" name="renderValue" ng-model="sensor.renderValue">
+                    </span>
                 </div>
             </div>
         </div>

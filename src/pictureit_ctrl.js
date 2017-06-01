@@ -13,16 +13,17 @@ const panelDefaults = {
     bgimage: '',
     sensors: [],
     height: '400px',
-    width: '100px'
+    width: '100px',
+    templateSrv: null
 };
 
 export class PictureItCtrl extends MetricsPanelCtrl {
 
 
-    constructor($scope, $injector) {
+    constructor($scope, $injector, templateSrv) {
         super($scope, $injector);
         _.defaults(this.panel, panelDefaults);
-
+        this.templateSrv = templateSrv;
         this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
         this.events.on('panel-initialized', this.render.bind(this));
         this.events.on('data-received', this.onDataReceived.bind(this));
@@ -47,47 +48,25 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     }
 
     addSensor() {
-        if (this.panel.sensors.length === 0)
-            this.panel.sensors.push({
-                name: 'A-series',
-                xlocation: 200,
-                ylocation: 200,
-                format: '%.2f',
-                bgcolor: 'rgba(0, 0, 0, 0.58)',
-                color: '#000000',
-                size: 22,
-                bordercolor: 'rgb(251, 4, 4)',
-                visible: true
-            });
-        else {
+        if (this.panel.sensors.length === 0) {
+            this.panel.sensors.push(
+                new Sensor('Series Name', 200, 200, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 22, 'rgb(251, 4, 4)', true)
+            );
+        } else {
             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
-
-            this.panel.sensors.push({
-                name: lastSensor.name,
-                xlocation: 200,
-                ylocation: 200,
-                format: lastSensor.format,
-                bgcolor: lastSensor.bgcolor,
-                color: lastSensor.color,
-                size: lastSensor.size,
-                bordercolor: lastSensor.bordercolor,
-                visible: true
-            });
+            this.panel.sensors.push(
+                new Sensor(lastSensor.metric, 200, 200, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true)
+            );
         }
     }
 
     onInitEditMode() {
-        this.addEditorTab('Options', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
+        this.addEditorTab('Sensor', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
         this.addEditorTab('Color Mapping', 'public/plugins/bessler-pictureit-panel/colors.html', 3);
         this.addEditorTab('Value Color Mapping', 'public/plugins/bessler-pictureit-panel/mappings.html', 4);
     }
 
     link(scope, elem, attrs, ctrl) {
-        var sensors;
-        var metricValues;
-        var valueMappings;
-        var colorMap;
-
         const $panelContainer = elem.find('.panel-container');
 
         function pixelStrToNum(str) {
@@ -98,41 +77,39 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             if (!ctrl.panel.sensors) {
                 return;
             }
-            var width = pixelStrToNum($panelContainer.css("width"));
-            var height = pixelStrToNum($panelContainer.css("height"));
+            let width = pixelStrToNum($panelContainer.css("width"));
+            let height = pixelStrToNum($panelContainer.css("height"));
+            let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
+            let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.value);
 
-            sensors = ctrl.panel.sensors;
-            metricValues = ctrl.panel.metricValues;
-            valueMappings = ctrl.panel.valueMappings;
-            colorMap = ctrl.panel.colorMappingMap;
-            var metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
+            for (let sensor of ctrl.panel.sensors) {
+                sensor.visible = sensor.xlocation < width && sensor.ylocation < height;
+                sensor.ylocationStr = sensor.ylocation.toString() + "px";
+                sensor.xlocationStr = sensor.xlocation.toString() + "px";
+                sensor.sizeStr = sensor.size.toString() + "px";
+                sensor.bgcolor = 'rgb(64, 64, 64)';
+                sensor.bordercolor = 'rgb(64, 64, 64)';
 
-            for (var sensor = 0; sensor < sensors.length; sensor++) {
-                sensors[sensor].visible = sensors[sensor].xlocation < width && sensors[sensor].ylocation < height;
-                sensors[sensor].ylocationStr = sensors[sensor].ylocation.toString() + "px";
-                sensors[sensor].xlocationStr = sensors[sensor].xlocation.toString() + "px";
-                sensors[sensor].sizeStr = sensors[sensor].size.toString() + "px";
-                sensors[sensor].bgcolor = 'rgb(64, 64, 64)'
-                sensors[sensor].bordercolor = 'rgb(64, 64, 64)';
+                //We need to replace possible variables in the sensors name
+                var effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                var mValue = metricMap[sensors[sensor].name];
+                var mValue = metricMap[effectiveName];
                 if (mValue === undefined) {
                     mValue = {name: "dummy", value: 'null'};
                 }
 
-                var found = _.find(valueMappings, function (mapping) {
-                    if (mapping.value == mValue.value) {
-                        return mapping;
-                    }
-                });
+                var valueMapping = valueMappingsMap[mValue.value];
 
-                if (found !== undefined) {
-                    var colorMapping = colorMap[found.colorName];
+                if (valueMapping !== undefined) {
+                    let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
                     if (colorMapping !== undefined) {
-                        sensors[sensor].bgcolor = colorMapping.color;
-                        sensors[sensor].bordercolor = colorMapping.color;
+                        sensor.bgcolor = colorMapping.color;
+                        sensor.bordercolor = colorMapping.color;
                     }
                 }
+
+                //finally format the value itself
+                sensor.valueFormatted = sprintf(sensor.format,mValue.value);
             }
         }
 
@@ -203,4 +180,28 @@ function ColorMapping(name, color) {
     this.color = color;
 }
 
+function Sensor(metric,
+                xlocation,
+                ylocation,
+                format,
+                bgcolor,
+                fontColor,
+                size,
+                bordercolor,
+                visible) {
+    'use strict';
+    this.metric = metric;
+    this.xlocation = xlocation;
+    this.ylocation = ylocation;
+    this.format = format;
+    this.bgcolor = bgcolor;
+    this.fontColor = fontColor;
+    this.size = size;
+    this.bordercolor = bordercolor;
+    this.visible = visible;
+    this.renderValue = false;
+    this.valueFormatted = '';
+    this.valueUnit = '';
+    this.displayName = '';
+}
 PictureItCtrl.templateUrl = 'module.html';
