@@ -90,6 +90,10 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                 sensor.bgcolor = 'rgb(64, 64, 64)';
                 sensor.bordercolor = 'rgb(64, 64, 64)';
 
+                if(sensor.link_url != undefined) {
+                    sensor.link_url =ctrl.templateSrv.replace(sensor.link_url);
+                }
+
                 //We need to replace possible variables in the sensors name
                 var effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
@@ -203,5 +207,6 @@ function Sensor(metric,
     this.valueFormatted = '';
     this.valueUnit = '';
     this.displayName = '';
+    this.link_url = '';
 }
 PictureItCtrl.templateUrl = 'module.html';
