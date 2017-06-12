@@ -22,10 +22,12 @@ const panelDefaults = {
 export class PictureItCtrl extends MetricsPanelCtrl {
 
 
-    constructor($scope, $injector, templateSrv) {
+    constructor($scope, $injector, templateSrv,variableSrv) {
         super($scope, $injector);
         _.defaults(this.panel, panelDefaults);
         this.templateSrv = templateSrv;
+        this.variableSrv = variableSrv;
+        this.variables = this.variableSrv.variables;
         this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
         this.events.on('panel-initialized', this.render.bind(this));
         this.events.on('data-received', this.onDataReceived.bind(this));
