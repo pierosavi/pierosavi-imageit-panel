@@ -3,11 +3,13 @@ import {MetricsPanelCtrl} from "app/plugins/sdk";
 import "./sprintf.js";
 import "./angular-sprintf.js";
 
+
+const DEFAULT_BG_COLOR = 'rgb(64, 64, 64)';
+
 const panelDefaults = {
     colorMappings: [],
     colorMappingMap: [],
     valueMappings: [],
-    metricValues: [],
     seriesList: [],
     series: [],
     bgimage: '',
@@ -32,14 +34,15 @@ export class PictureItCtrl extends MetricsPanelCtrl {
 
     onDataReceived(dataList) {
         var dataListLength = dataList.length;
-        this.panel.metricValues = [];
+        this.metricValues = [];
+        this.metricValueMap = [];
         for (var series = 0; series < dataListLength; series++) {
-            this.panel.metricValues.push({
+            this.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
             });
         }
-
+        this.metricValueMap = _.keyBy(this.metricValues, value => value.name);
         this.render();
     }
 
@@ -50,12 +53,12 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     addSensor() {
         if (this.panel.sensors.length === 0) {
             this.panel.sensors.push(
-                new Sensor('Series Name', 200, 200, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 22, 'rgb(251, 4, 4)', true)
+                new Sensor('Series Name', 200, 200, '%.2f', 'rgba(0, 0, 0, 0.58)', 22, true)
             );
         } else {
             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
             this.panel.sensors.push(
-                new Sensor(lastSensor.metric, 200, 200, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true)
+                new Sensor(lastSensor.metric, 200, 200, lastSensor.format, lastSensor.color, lastSensor.size, true)
             );
         }
     }
@@ -79,41 +82,12 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             }
             let width = pixelStrToNum($panelContainer.css("width"));
             let height = pixelStrToNum($panelContainer.css("height"));
-            let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
-            let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.value);
 
             for (let sensor of ctrl.panel.sensors) {
                 sensor.visible = sensor.xlocation < width && sensor.ylocation < height;
                 sensor.ylocationStr = sensor.ylocation.toString() + "px";
                 sensor.xlocationStr = sensor.xlocation.toString() + "px";
                 sensor.sizeStr = sensor.size.toString() + "px";
-                sensor.bgcolor = 'rgb(64, 64, 64)';
-                sensor.bordercolor = 'rgb(64, 64, 64)';
-
-                if(sensor.link_url != undefined) {
-                    sensor.link_url =ctrl.templateSrv.replace(sensor.link_url);
-                }
-
-                //We need to replace possible variables in the sensors name
-                var effectiveName = ctrl.templateSrv.replace(sensor.metric);
-
-                var mValue = metricMap[effectiveName];
-                if (mValue === undefined) {
-                    mValue = {name: "dummy", value: 'null'};
-                }
-
-                var valueMapping = valueMappingsMap[mValue.value];
-
-                if (valueMapping !== undefined) {
-                    let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
-                    if (colorMapping !== undefined) {
-                        sensor.bgcolor = colorMapping.color;
-                        sensor.bordercolor = colorMapping.color;
-                    }
-                }
-
-                //finally format the value itself
-                sensor.valueFormatted = sprintf(sensor.format,mValue.value);
             }
         }
 
@@ -121,6 +95,34 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             render();
             ctrl.renderingCompleted();
         });
+    }
+
+    getBackgroundColor(sensor) {
+        const valueMappingsMap = _.keyBy(this.panel.valueMappings, mapping => mapping.value);
+        const effectiveName = this.templateSrv.replace(sensor.metric);
+
+        var mValue = this.metricValueMap[effectiveName];
+        if (mValue === undefined) {
+            mValue = {name: "dummy", value: 'null'};
+        }
+
+        var valueMapping = valueMappingsMap[mValue.value];
+
+        if (valueMapping !== undefined) {
+            const colorMapping = this.panel.colorMappingMap[valueMapping.colorName];
+            if (colorMapping !== undefined) {
+                return colorMapping.color;
+            }
+        }
+        return DEFAULT_BG_COLOR;
+    }
+
+    formatValue(sensor) {
+        return sprintf(sensor.format, this.metricValueMap[this.templateSrv.replace(sensor.metric)].value);
+    }
+
+    determineLinkUrl(sensor) {
+        return this.templateSrv.replace(sensor.link_url);
     }
 
 
@@ -188,23 +190,18 @@ function Sensor(metric,
                 xlocation,
                 ylocation,
                 format,
-                bgcolor,
                 fontColor,
                 size,
-                bordercolor,
                 visible) {
     'use strict';
     this.metric = metric;
     this.xlocation = xlocation;
     this.ylocation = ylocation;
     this.format = format;
-    this.bgcolor = bgcolor;
     this.fontColor = fontColor;
     this.size = size;
-    this.bordercolor = bordercolor;
     this.visible = visible;
     this.renderValue = false;
-    this.valueFormatted = '';
     this.valueUnit = '';
     this.displayName = '';
     this.link_url = '';

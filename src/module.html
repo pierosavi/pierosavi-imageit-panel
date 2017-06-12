@@ -3,13 +3,13 @@
         <div ng-if="sensor.visible">
             <div ng-style="{position: 'relative', left:sensor.xlocationStr, top:sensor.ylocationStr, 'font-size':sensor.sizeStr,'font-color':sensor.fontColor}">
 
-                <div ng-style="{ 'border-radius': '50%',position: 'absolute', top: 0, left: 0,'background-color': sensor.bgcolor,'border-style':'solid','border-color':sensor.bordercolor,'border-width':'1px',padding:'5px'}">
-                    <a href="{{sensor.link_url}}"
+                <div ng-style="{ 'border-radius': '10%',position: 'absolute', top: 0, left: 0,'background-color': ctrl.getBackgroundColor(sensor),'border-style':'solid','border-color':sensor.bordercolor,'border-width':'0px',padding:'5px'}">
+                    <a href="{{ctrl.determineLinkUrl(sensor)}}"
                        ng-style="{color:sensor.fontColor}"
                        bs-tooltip="sensor.link_hover">
                         {{sensor.displayName}}
                         <div ng-if="sensor.renderValue">
-                            {{sensor.valueFormatted}} {{sensor.valueUnit}}
+                            {{ctrl.formatValue(sensor)}} {{sensor.valueUnit}}
                         </div>
                     </a>
 
