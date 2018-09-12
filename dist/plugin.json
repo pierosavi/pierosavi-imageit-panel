@@ -1,0 +1,32 @@
+{
+  "type": "panel",
+  "name": "PictureIt",
+  "id": "bessler-pictureit-panel",
+
+  "info": {
+    "description": "Add Measurements to a Picture in Grafana",
+    "author": {
+      "name": "Vivian Bessler"
+    },
+    "keywords": ["pictureit","picture", "panel"],
+    "logos": {
+      "small": "img/pictureit_logo.png",
+      "large": "img/pictureit_logo.png"
+    },
+    "links": [
+      {"name": "Project site", "url": "https://github.com/vbessler/grafana-pictureit"},
+      {"name": "MIT License", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE"},
+      {"name": "3-clause BSD license", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE_additional"}
+    ],
+    "screenshots": [
+      {"name": "Showcase", "path": "img/bridge_strains.png"}
+    ],
+    "version": "1.0.0",
+    "updated": "2017-03-01"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "3.x.x",
+    "plugins": [ ]
+  }
+}

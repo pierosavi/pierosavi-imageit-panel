@@ -1,0 +1,27 @@
+<div class="editor-row">
+    <h5 class="page-heading">Color Mappings</h5>
+    <div class="gf-form-group">
+        <div class="gf-form" ng-repeat="mapping in ctrl.panel.colorMappings">
+      <span class="gf-form-label">
+        <i class="fa fa-remove pointer" ng-click="ctrl.removeColorMapping(map)"></i>
+      </span>
+            <input type="text" ng-model="mapping.name" placeholder="value" class="gf-form-input max-width-10"
+                   ng-blur="ctrl.render()">
+            <span class="gf-form-label">
+        <i class="fa fa-arrow-right"></i>
+      </span>
+            <input type="text" placeholder="text" ng-model="mapping.color" class="gf-form-input max-width-8"
+                   ng-blur="ctrl.refreshColorMappings()">
+            <span class="gf-form-label">
+        <spectrum-picker ng-model="mapping.color" ng-change="ctrl.refreshColorMappings()" options="{showInput: true, showAlpha: true, preferredFormat: 'hex'}"></spectrum-picker>
+      </span>
+        </div>
+
+        <div class="gf-form-button-row">
+            <button class="btn btn-inverse" ng-click="ctrl.addColorMapping();">
+                <i class="fa fa-plus"></i>
+                Add a Color mapping
+            </button>
+        </div>
+    </div>
+</div>
