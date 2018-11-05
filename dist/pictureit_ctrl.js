@@ -164,10 +164,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     key: "addSensor",
                     value: function addSensor() {
                         if (this.panel.sensors.length === 0) {
-                            this.panel.sensors.push(new Sensor('Series Name', 200, 200, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 22, 'rgb(251, 4, 4)', true));
+                            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 14, 'rgb(251, 4, 4)', true));
                         } else {
                             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
-                            this.panel.sensors.push(new Sensor(lastSensor.metric, 200, 200, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true));
+                            this.panel.sensors.push(new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true));
                         }
                     }
                 }, {
