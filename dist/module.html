@@ -4,7 +4,7 @@
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
                 <div style="text-align: center;" ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.fontColor}">
-                    <div ng-style="{ 'border-radius': sensor.borderRadius, position: 'absolute', top: 0, left: 0,'background-color': sensor.bgcolor,'border-style':'solid','border-color':sensor.bordercolor,'border-width':'1px',padding:'5px',width:sensor.panelWidth}">
+                    <div ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.bgcolor,'border-style':'solid','border-color':sensor.bordercolor,'border-width':'1px',padding:'5px'}">
                         <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.fontColor}" bs-tooltip="sensor.link_hover">
                             {{sensor.displayName}}
                             <div ng-if="sensor.renderValue">
