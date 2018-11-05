@@ -67,7 +67,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         this.displayName = '';
         this.link_url = '';
         this.resolvedLink = '';
-        this.rectangular = false;
+        this.rectangular = true;
         this.group = 'A';
     }
 

@@ -335,7 +335,7 @@ function Sensor(metric,
     this.displayName = '';
     this.link_url = '';
     this.resolvedLink = '';
-    this.rectangular = false;
+    this.rectangular = true;
     this.group = 'A';
 }
 
