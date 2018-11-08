@@ -254,6 +254,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                         }
 
                         function render() {
+
                             if (!ctrl.panel.sensors) {
                                 return;
                             }
@@ -277,7 +278,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
 
                                     dragEventSetup(sensor);
-                                    console.log(sensor.xlocation);
 
                                     var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                                     if (ctrl.panel.useLabelGroupings) {
@@ -420,8 +420,12 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                                     var xpercentage = x * 100 / imageWidth;
                                     var ypercentage = y * 100 / imageHeight;
 
+                                    // browsers dont render more than 4 decimals so better cut away the others
                                     var newX = parseInt(target.style.left) + xpercentage;
+                                    newX = Math.round(newX * 10000) / 10000;
+
                                     var newY = parseInt(target.style.top) + ypercentage;
+                                    newY = Math.round(newY * 10000) / 10000;
 
                                     target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
 

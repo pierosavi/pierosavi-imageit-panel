@@ -116,6 +116,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
         }
 
         function render() {
+
             if (!ctrl.panel.sensors) {
                 return;
             }
@@ -128,7 +129,6 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             for (let sensor of ctrl.panel.sensors) {
 
                 dragEventSetup(sensor);
-                console.log(sensor.xlocation)
 
                 var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                 if(ctrl.panel.useLabelGroupings){
@@ -240,8 +240,12 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                     let xpercentage = (x * 100) / imageWidth;
                     let ypercentage = (y * 100) / imageHeight;
 
-                    let newX = parseInt(target.style.left) + xpercentage
-                    let newY = parseInt(target.style.top) + ypercentage
+                    // browsers dont render more than 4 decimals so better cut away the others
+                    let newX = parseInt(target.style.left) + xpercentage;
+                    newX = Math.round(newX * 10000) / 10000
+
+                    let newY = parseInt(target.style.top) + ypercentage;
+                    newY = Math.round(newY * 10000) / 10000
 
                     target.style.webkitTransform =
                     target.style.transform =
