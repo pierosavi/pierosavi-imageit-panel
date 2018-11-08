@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js", "./libs/interact"], function (_export, _context) {
     "use strict";
 
-    var _, MetricsPanelCtrl, getWidth, _createClass, panelDefaults, PictureItCtrl;
+    var _, MetricsPanelCtrl, getWidth, interact, _createClass, panelDefaults, PictureItCtrl;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -88,6 +88,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
         }, function (_sprintfJs) {}, function (_angularSprintfJs) {}, function (_stringwidthStrwidthJs) {
             getWidth = _stringwidthStrwidthJs.default;
+        }, function (_libsInteract) {
+            interact = _libsInteract.default;
         }],
         execute: function () {
             _createClass = function () {
@@ -164,7 +166,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     key: "addSensor",
                     value: function addSensor() {
                         if (this.panel.sensors.length === 0) {
-                            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 14, 'rgb(251, 4, 4)', true));
+                            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#ffffff', 14, 'rgb(251, 4, 4)', true));
                         } else {
                             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
                             this.panel.sensors.push(new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true));
@@ -255,6 +257,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                             if (!ctrl.panel.sensors) {
                                 return;
                             }
+
                             var width = pixelStrToNum($panelContainer.css("width"));
                             var height = pixelStrToNum($panelContainer.css("height"));
                             var metricMap = _.keyBy(ctrl.panel.metricValues, function (value) {
@@ -271,6 +274,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                             try {
                                 for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                                     var sensor = _step2.value;
+
+
+                                    dragEventSetup(sensor);
+                                    console.log(sensor.xlocation);
 
                                     var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                                     if (ctrl.panel.useLabelGroupings) {
@@ -374,6 +381,63 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                                     }
                                 }
                             }
+                        }
+
+                        function dragEventSetup(sensor) {
+
+                            window.interact('#' + sensor.metric).draggable({
+                                inertia: true,
+                                restrict: {
+                                    restriction: "#draggableparent",
+                                    endOnly: true,
+                                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                                },
+                                autoScroll: true,
+                                onmove: function onmove(event) {
+                                    var target = event.target,
+
+                                    // keep the dragged position in the data-x/data-y attributes
+                                    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                                    // translate the element
+                                    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+                                    // update the position attributes
+                                    target.setAttribute('data-x', x);
+                                    target.setAttribute('data-y', y);
+                                },
+                                onend: function onend(event) {
+                                    var target = event.target;
+
+                                    var imageHeight = document.getElementById('pictureit-image').offsetHeight;
+                                    var imageWidth = document.getElementById('pictureit-image').offsetWidth;
+
+                                    var x = target.getAttribute('data-x');
+                                    var y = target.getAttribute('data-y');
+
+                                    // get percentage of relative distance from starting point 
+                                    var xpercentage = x * 100 / imageWidth;
+                                    var ypercentage = y * 100 / imageHeight;
+
+                                    var newX = parseInt(target.style.left) + xpercentage;
+                                    var newY = parseInt(target.style.top) + ypercentage;
+
+                                    target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)';
+
+                                    // manually set the new style so I don't need to render() again
+                                    target.style.left = newX + '%';
+                                    target.style.top = newY + '%';
+
+                                    // really update the sensor values
+                                    sensor.xlocation = newX;
+                                    sensor.ylocation = newY;
+
+                                    // reset the starting sensor points
+                                    target.setAttribute('data-x', 0);
+                                    target.setAttribute('data-y', 0);
+                                }
+                            });
                         }
 
                         function alignSensors() {

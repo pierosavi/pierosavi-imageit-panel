@@ -3,6 +3,7 @@ import {MetricsPanelCtrl} from "app/plugins/sdk";
 import "./sprintf.js";
 import "./angular-sprintf.js";
 import getWidth from './stringwidth/strwidth.js';
+import interact from './libs/interact';
 
 const panelDefaults = {
     colorMappings: [],
@@ -53,7 +54,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     addSensor() {
         if (this.panel.sensors.length === 0) {
             this.panel.sensors.push(
-                new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#000000', 14, 'rgb(251, 4, 4)', true)
+                new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#ffffff', 14, 'rgb(251, 4, 4)', true)
             );
         } else {
             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
@@ -118,14 +119,17 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             if (!ctrl.panel.sensors) {
                 return;
             }
+
             let width = pixelStrToNum($panelContainer.css("width"));
             let height = pixelStrToNum($panelContainer.css("height"));
             let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
             let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.value);
 
-
-
             for (let sensor of ctrl.panel.sensors) {
+
+                dragEventSetup(sensor);
+                console.log(sensor.xlocation)
+
                 var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                 if(ctrl.panel.useLabelGroupings){
                     var group = getGroup(sensor.group.name)
@@ -193,6 +197,69 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                 //finally format the value itself
                 sensor.valueFormatted = sprintf(sensor.format,mValue.value);
             }
+
+            
+        }
+
+        function dragEventSetup(sensor) {
+            
+            window.interact('#' + sensor.metric).draggable({
+                inertia: true,
+                restrict: {
+                restriction: "#draggableparent",
+                endOnly: true,
+                elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                },
+                autoScroll: true,
+                onmove: function (event) {
+                    var target = event.target,
+                    // keep the dragged position in the data-x/data-y attributes
+                    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                    // translate the element
+                    target.style.webkitTransform =
+                    target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)';
+
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+
+                },
+                onend: function (event) {
+                    var target = event.target;
+
+                    let imageHeight = document.getElementById('pictureit-image').offsetHeight;
+                    let imageWidth = document.getElementById('pictureit-image').offsetWidth;
+
+                    let x = target.getAttribute('data-x');
+                    let y = target.getAttribute('data-y')
+
+                    // get percentage of relative distance from starting point 
+                    let xpercentage = (x * 100) / imageWidth;
+                    let ypercentage = (y * 100) / imageHeight;
+
+                    let newX = parseInt(target.style.left) + xpercentage
+                    let newY = parseInt(target.style.top) + ypercentage
+
+                    target.style.webkitTransform =
+                    target.style.transform =
+                    'translate(0px, 0px)';
+                    
+                    // manually set the new style so I don't need to render() again
+                    target.style.left = newX + '%'
+                    target.style.top = newY + '%'
+
+                    // really update the sensor values
+                    sensor.xlocation = newX
+                    sensor.ylocation = newY
+
+                    // reset the starting sensor points
+                    target.setAttribute('data-x', 0);
+                    target.setAttribute('data-y', 0);
+                }
+            });
         }
 
         function alignSensors(){
@@ -339,7 +406,7 @@ function Sensor(metric,
     this.group = 'A';
 }
 
-function Group(name,alignment,x,y){
+function Group(name, alignment, x, y) {
     'use strict';
     this.name = name;
     this.alignment = alignment;

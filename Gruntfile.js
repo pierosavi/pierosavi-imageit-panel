@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 module.exports = (grunt) => {
   require('load-grunt-tasks')(grunt);
 
@@ -26,7 +27,7 @@ module.exports = (grunt) => {
       rebuild_all: {
         files: ['src/**/*'],
         tasks: ['default'],
-        options: {spawn: false,livereload: true}
+        options: {spawn: false, livereload: true}
       },
     },
 
