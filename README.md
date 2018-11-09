@@ -14,4 +14,4 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 * Sensors stay still, even when resizing the panel
 * Draggable sensors (Done, to clean the code a bit)
-* Resizing sensors when resizing the panel (Working on it!)
+* Resizing sensors when resizing the panel (Done! You can't edit the font size manually anymore)

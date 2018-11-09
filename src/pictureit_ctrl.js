@@ -130,6 +130,13 @@ export class PictureItCtrl extends MetricsPanelCtrl {
 
                 dragEventSetup(sensor);
 
+                let image = document.getElementById('pictureit-image');
+
+                if (image != null) {
+                    let imageWidth = document.getElementById('pictureit-image').offsetWidth;
+                    sensor.size = imageWidth * 20 / 1600
+                }
+
                 var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                 if(ctrl.panel.useLabelGroupings){
                     var group = getGroup(sensor.group.name)
