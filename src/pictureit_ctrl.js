@@ -18,7 +18,8 @@ const panelDefaults = {
     useLabelGroupings: false,
     height: '400px',
     width: '100px',
-    templateSrv: null
+    templateSrv: null,
+    sizecoefficient: 20
 };
 
 export class PictureItCtrl extends MetricsPanelCtrl {
@@ -134,7 +135,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
 
                 if (image != null) {
                     let imageWidth = document.getElementById('pictureit-image').offsetWidth;
-                    sensor.size = imageWidth * 20 / 1600
+                    sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600
                 }
 
                 var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;

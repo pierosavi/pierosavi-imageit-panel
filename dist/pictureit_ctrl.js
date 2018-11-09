@@ -123,7 +123,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 useLabelGroupings: false,
                 height: '400px',
                 width: '100px',
-                templateSrv: null
+                templateSrv: null,
+                sizecoefficient: 20
             };
 
             _export("PictureItCtrl", PictureItCtrl = function (_MetricsPanelCtrl) {
@@ -283,7 +284,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
                                     if (image != null) {
                                         var imageWidth = document.getElementById('pictureit-image').offsetWidth;
-                                        sensor.size = imageWidth * 20 / 1600;
+                                        sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                                     }
 
                                     var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;

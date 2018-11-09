@@ -14,6 +14,18 @@
         </div>
     </div>
 </div>
+<div class="editor-row">
+    <div class="section gf-form-group">
+        <div class="gf-form-inline">
+            <div class="gf-form">
+            <div class="gf-form">
+                <label class="gf-form-label width-8">Size Coefficient (Default: 20)</label>
+                <input type="number" class="input-small gf-form-input width-30" ng-model="ctrl.panel.sizecoefficient"
+                    ng-change="ctrl.render()" ng-model-onblur/>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h4 ng-if="ctrl.panel.useLabelGroupings">Sensor Groups</h4>
 <div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
@@ -128,6 +140,7 @@
                     <label class="gf-form-label width-8">Display Name</label>
                     <input type="text" class="input-small gf-form-input width-8" ng-model="sensor.displayName"
                            ng-change="ctrl.render()"/>
+                    <br/>
                     <label class="gf-form-label width-8">Font Color</label>
                     <span class="gf-form-label">
 						<spectrum-picker ng-model="sensor.fontColor" ng-change="ctrl.render()"></spectrum-picker>
