@@ -19,8 +19,12 @@ const panelDefaults = {
     height: '400px',
     width: '100px',
     templateSrv: null,
-    sizecoefficient: 20
+    sizecoefficient: 20,
+    //uncache is a random number added to the img url to refresh it
+    uncache: 0
 };
+
+let isTheFirstRender = true
 
 export class PictureItCtrl extends MetricsPanelCtrl {
 
@@ -45,7 +49,18 @@ export class PictureItCtrl extends MetricsPanelCtrl {
             });
         }
 
+        if(!isTheFirstRender) {
+            this.refreshImage()
+        } else {
+            isTheFirstRender = false
+        }
+        
+
         this.render();
+    }
+
+    refreshImage(){
+        this.panel.uncache = Math.random()
     }
 
     deleteSensor(index) {

@@ -3,7 +3,7 @@
 System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js", "./libs/interact"], function (_export, _context) {
     "use strict";
 
-    var _, MetricsPanelCtrl, getWidth, interact, _createClass, panelDefaults, PictureItCtrl;
+    var _, MetricsPanelCtrl, getWidth, interact, _createClass, panelDefaults, isTheFirstRender, PictureItCtrl;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -124,8 +124,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 height: '400px',
                 width: '100px',
                 templateSrv: null,
-                sizecoefficient: 20
+                sizecoefficient: 20,
+                //uncache is a random number added to the img url to refresh it
+                uncache: 0
             };
+            isTheFirstRender = true;
 
             _export("PictureItCtrl", PictureItCtrl = function (_MetricsPanelCtrl) {
                 _inherits(PictureItCtrl, _MetricsPanelCtrl);
@@ -156,7 +159,20 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                             });
                         }
 
+                        console.log(isTheFirstRender);
+
+                        if (!isTheFirstRender) {
+                            this.refreshImage();
+                        } else {
+                            isTheFirstRender = false;
+                        }
+
                         this.render();
+                    }
+                }, {
+                    key: "refreshImage",
+                    value: function refreshImage() {
+                        this.panel.uncache = Math.random();
                     }
                 }, {
                     key: "deleteSensor",
