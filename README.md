@@ -8,10 +8,13 @@ Allows a user to superimpose measurement displays ontop of picture.
 2. Set up some metrics (Influx and "fake data source" tested).
 3. Then add sensor displays ontop of the picture and tie them to the metrics.
 
-![PictureIt](https://raw.githubusercontent.com/vbessler/grafana-pictureit/master/src/img/bridge_strains.png?raw=true) 
-
-### New Features
+### Fork Features
 
 * Sensors stay still, even when resizing the panel
-* Draggable sensors (Done, to clean the code a bit)
-* Resizing sensors when resizing the panel (Done! You can't edit the font size manually anymore)
+* Draggable sensors
+* Resizing sensors when resizing the panel
+* Plugin compatibility with Grafana 5/6
+* Plugin canvas compatible with larger images
+* Links on sensors
+* Change sensors background color (even transparent)
+* Font Awesome Icons - Images mapping on sensor name
