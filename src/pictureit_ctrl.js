@@ -28,11 +28,11 @@ let isTheFirstRender = true
 
 export class PictureItCtrl extends MetricsPanelCtrl {
 
-
-    constructor($scope, $injector, templateSrv) {
+    constructor($scope, $injector, $sce, templateSrv) {
         super($scope, $injector);
         _.defaults(this.panel, panelDefaults);
         this.templateSrv = templateSrv;
+        this.$sce = $sce;
         this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
         this.events.on('panel-initialized', this.render.bind(this));
         this.events.on('data-received', this.onDataReceived.bind(this));
@@ -377,6 +377,31 @@ export class PictureItCtrl extends MetricsPanelCtrl {
         this.render();
     }
 
+    replaceTokens(value) {
+
+        if (!value) { return value; }
+        value = value + "";
+        value = value.split(" ").map(a => {
+            if (a.startsWith("_fa-") && a.endsWith("_")) {
+                let icon = a.replace(/\_/g, "").split(",")[0];
+                let color = a.indexOf(",") > -1 ? ` style="color:${normalizeColor(a.replace(/\_/g, "").split(",")[1])}" ` : "";     
+                let repeatCount = a.split(",").length > 2 ? +(a.replace(/\_/g, "").split(",")[2]) : 1;
+                a = `<i class="fa ${icon}" ${color}></i> `.repeat(repeatCount);
+                
+            } else if (a.startsWith("_img-") && a.endsWith("_")) {
+                a = a.slice(0, -1);
+                let imgUrl = a.replace("_img-", "").split(",")[0];
+                let imgWidth = a.split(",").length > 1 ? a.replace("_img-", "").split(",")[1] : "20px";
+                let imgHeight = a.split(",").length > 2 ? a.replace("_img-", "").split(",")[2] : "20px";
+                let repeatCount = a.split(",").length > 3 ? +(a.replace("_img-", "").split(",")[3]) : 1;
+                a = `<img width="${imgWidth}" height="${imgHeight}" src="${imgUrl}"/>`.repeat(repeatCount);
+            }
+            return a;
+        }).join(" ");
+
+        return this.$sce.trustAsHtml(value);
+    }
+
     /* addRangeMappingMap() {
      this.panel.rangeMappingMap.push({from: '', to: '', text: ''});
      }
@@ -438,4 +463,16 @@ function Group(name, alignment, x, y) {
     this.sameSize = false;
     this.width = 100;
 }
+
+function normalizeColor(color) {
+    
+    if (color.toLowerCase() === "green") {
+        return "rgba(50, 172, 45, 0.97)";
+    } else if (color.toLowerCase() === "orange") {
+        return "rgba(237, 129, 40, 0.89)";
+    } else if (color.toLowerCase() === "red") {
+        return "rgba(245, 54, 54, 0.9)";
+    } else { return color.toLowerCase(); }
+};
+
 PictureItCtrl.templateUrl = 'module.html';

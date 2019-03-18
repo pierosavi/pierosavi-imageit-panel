@@ -80,7 +80,19 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         this.sameSize = false;
         this.width = 100;
     }
-    return {
+
+    function normalizeColor(color) {
+
+        if (color.toLowerCase() === "green") {
+            return "rgba(50, 172, 45, 0.97)";
+        } else if (color.toLowerCase() === "orange") {
+            return "rgba(237, 129, 40, 0.89)";
+        } else if (color.toLowerCase() === "red") {
+            return "rgba(245, 54, 54, 0.9)";
+        } else {
+            return color.toLowerCase();
+        }
+    }return {
         setters: [function (_lodash) {
             _ = _lodash.default;
         }, function (_appPluginsSdk) {
@@ -132,13 +144,14 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             _export("PictureItCtrl", PictureItCtrl = function (_MetricsPanelCtrl) {
                 _inherits(PictureItCtrl, _MetricsPanelCtrl);
 
-                function PictureItCtrl($scope, $injector, templateSrv) {
+                function PictureItCtrl($scope, $injector, $sce, templateSrv) {
                     _classCallCheck(this, PictureItCtrl);
 
                     var _this = _possibleConstructorReturn(this, (PictureItCtrl.__proto__ || Object.getPrototypeOf(PictureItCtrl)).call(this, $scope, $injector));
 
                     _.defaults(_this.panel, panelDefaults);
                     _this.templateSrv = templateSrv;
+                    _this.$sce = $sce;
                     _this.events.on('init-edit-mode', _this.onInitEditMode.bind(_this));
                     _this.events.on('panel-initialized', _this.render.bind(_this));
                     _this.events.on('data-received', _this.onDataReceived.bind(_this));
@@ -593,12 +606,41 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                         this.panel.valueMappings.splice(index, 1);
                         this.render();
                     }
+                }, {
+                    key: "replaceTokens",
+                    value: function replaceTokens(value) {
+
+                        if (!value) {
+                            return value;
+                        }
+                        value = value + "";
+                        value = value.split(" ").map(function (a) {
+                            if (a.startsWith("_fa-") && a.endsWith("_")) {
+                                var icon = a.replace(/\_/g, "").split(",")[0];
+                                var color = a.indexOf(",") > -1 ? " style=\"color:" + normalizeColor(a.replace(/\_/g, "").split(",")[1]) + "\" " : "";
+                                var repeatCount = a.split(",").length > 2 ? +a.replace(/\_/g, "").split(",")[2] : 1;
+                                a = ("<i class=\"fa " + icon + "\" " + color + "></i> ").repeat(repeatCount);
+                            } else if (a.startsWith("_img-") && a.endsWith("_")) {
+                                a = a.slice(0, -1);
+                                var imgUrl = a.replace("_img-", "").split(",")[0];
+                                var imgWidth = a.split(",").length > 1 ? a.replace("_img-", "").split(",")[1] : "20px";
+                                var imgHeight = a.split(",").length > 2 ? a.replace("_img-", "").split(",")[2] : "20px";
+                                var _repeatCount = a.split(",").length > 3 ? +a.replace("_img-", "").split(",")[3] : 1;
+                                a = ("<img width=\"" + imgWidth + "\" height=\"" + imgHeight + "\" src=\"" + imgUrl + "\"/>").repeat(_repeatCount);
+                            }
+                            return a;
+                        }).join(" ");
+
+                        return this.$sce.trustAsHtml(value);
+                    }
                 }]);
 
                 return PictureItCtrl;
             }(MetricsPanelCtrl));
 
             _export("PictureItCtrl", PictureItCtrl);
+
+            ;
 
             PictureItCtrl.templateUrl = 'module.html';
         }
