@@ -70,12 +70,12 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     addSensor() {
         if (this.panel.sensors.length === 0) {
             this.panel.sensors.push(
-                new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#ffffff', 14, 'rgb(251, 4, 4)', true)
+                new Sensor('A', 50, 25, '%.2f', 'rgb(64, 64, 64)', '#ffffff', 14, true)
             );
         } else {
             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
             this.panel.sensors.push(
-                new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true)
+                new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgColor, lastSensor.color, lastSensor.size, true)
             );
         }
     }
@@ -186,8 +186,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                     alignSensors();
                 }
                 sensor.sizeStr = sensor.size.toString() + "px";
-                sensor.bgcolor = 'rgb(64, 64, 64)';
-                sensor.bordercolor = 'rgb(64, 64, 64)';
+                // sensor.bgColor = 'rgb(64, 64, 64)';
                 
                 if(sensor.rectangular){
                     sensor.borderRadius = '5%'
@@ -212,8 +211,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                 if (valueMapping !== undefined) {
                     let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
                     if (colorMapping !== undefined) {
-                        sensor.bgcolor = colorMapping.color;
-                        sensor.bordercolor = colorMapping.color;
+                        sensor.bgColor = colorMapping.color;
                     }
                 }
 
@@ -408,20 +406,18 @@ function Sensor(metric,
                 xlocation,
                 ylocation,
                 format,
-                bgcolor,
+                bgColor,
                 fontColor,
                 size,
-                bordercolor,
                 visible) {
     'use strict';
     this.metric = metric;
     this.xlocation = xlocation;
     this.ylocation = ylocation;
     this.format = format;
-    this.bgcolor = bgcolor;
+    this.bgColor = bgColor;
     this.fontColor = fontColor;
     this.size = size;
-    this.bordercolor = bordercolor;
     this.visible = visible;
     this.renderValue = false;
     this.valueFormatted = '';

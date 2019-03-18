@@ -49,17 +49,16 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         this.color = color;
     }
 
-    function Sensor(metric, xlocation, ylocation, format, bgcolor, fontColor, size, bordercolor, visible) {
+    function Sensor(metric, xlocation, ylocation, format, bgColor, fontColor, size, visible) {
         'use strict';
 
         this.metric = metric;
         this.xlocation = xlocation;
         this.ylocation = ylocation;
         this.format = format;
-        this.bgcolor = bgcolor;
+        this.bgColor = bgColor;
         this.fontColor = fontColor;
         this.size = size;
-        this.bordercolor = bordercolor;
         this.visible = visible;
         this.renderValue = false;
         this.valueFormatted = '';
@@ -159,8 +158,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                             });
                         }
 
-                        console.log(isTheFirstRender);
-
                         if (!isTheFirstRender) {
                             this.refreshImage();
                         } else {
@@ -183,10 +180,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     key: "addSensor",
                     value: function addSensor() {
                         if (this.panel.sensors.length === 0) {
-                            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgba(0, 0, 0, 0.58)', '#ffffff', 14, 'rgb(251, 4, 4)', true));
+                            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgb(64, 64, 64)', '#ffffff', 14, true));
                         } else {
                             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
-                            this.panel.sensors.push(new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgcolor, lastSensor.color, lastSensor.size, lastSensor.bordercolor, true));
+                            this.panel.sensors.push(new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgColor, lastSensor.color, lastSensor.size, true));
                         }
                     }
                 }, {
@@ -357,8 +354,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                                         alignSensors();
                                     }
                                     _sensor.sizeStr = _sensor.size.toString() + "px";
-                                    _sensor.bgcolor = 'rgb(64, 64, 64)';
-                                    _sensor.bordercolor = 'rgb(64, 64, 64)';
+                                    // sensor.bgColor = 'rgb(64, 64, 64)';
 
                                     if (_sensor.rectangular) {
                                         _sensor.borderRadius = '5%';
@@ -383,8 +379,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                                     if (valueMapping !== undefined) {
                                         var colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
                                         if (colorMapping !== undefined) {
-                                            _sensor.bgcolor = colorMapping.color;
-                                            _sensor.bordercolor = colorMapping.color;
+                                            _sensor.bgColor = colorMapping.color;
                                         }
                                     }
 
