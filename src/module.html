@@ -1,6 +1,6 @@
 <div ng-style="{height:ctrl.panel.height,width:'100%','background-repeat':'no-repeat', 'background-size': 'contain'}">
     <div style="position: relative;" id="draggableparent">
-        <img id="pictureit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%" />
+        <img id="imageit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%" />
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
                 <div id="{{sensor.metric}}" style="text-align: center;" ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.fontColor}">

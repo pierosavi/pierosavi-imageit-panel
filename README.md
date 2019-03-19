@@ -1,10 +1,10 @@
-## PictureIt Panel Plugin for Grafana
+## ImageIt Panel Plugin for Grafana
 
 Allows a user to superimpose measurement displays ontop of picture.
 
-![PictureIt](https://raw.githubusercontent.com/pierosavi/grafana-pictureit/master/src/img/pictureit_example.png?raw=true) 
+![ImageIt](https://raw.githubusercontent.com/pierosavi/grafana-imageit/master/src/img/imageit_example.png?raw=true) 
 
-### PictureIt  
+### ImageIt
 
 1. Enter a URL for your background image.
 2. Set up some metrics (Influx and "fake data source" tested).
@@ -20,3 +20,9 @@ Allows a user to superimpose measurement displays ontop of picture.
 * Links on sensors
 * Change sensors background color (even transparent)
 * Font Awesome Icons - Images mapping on sensor name
+
+### Coming from picture it?
+
+This was once a [PictureIt](https://github.com/vbessler/grafana-pictureit) fork. The original repo was abandoned long ago so I changed name and id to publish it.
+
+If you have old pictureit panels you can migrate each one by going on: "More... -> Panel JSON" on the panel menu and change "bessler-pictureit-panel" on "type" to "pierosavi-imageit-panel"

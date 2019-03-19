@@ -26,7 +26,7 @@ const panelDefaults = {
 
 let isTheFirstRender = true
 
-export class PictureItCtrl extends MetricsPanelCtrl {
+export class ImageItCtrl extends MetricsPanelCtrl {
 
     constructor($scope, $injector, $sce, templateSrv) {
         super($scope, $injector);
@@ -103,9 +103,9 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     }
 
     onInitEditMode() {
-        this.addEditorTab('Sensor', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
-        this.addEditorTab('Color Mapping', 'public/plugins/bessler-pictureit-panel/colors.html', 3);
-        this.addEditorTab('Value Color Mapping', 'public/plugins/bessler-pictureit-panel/mappings.html', 4);
+        this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
+        this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-imageit-panel/colors.html', 3);
+        this.addEditorTab('Value Color Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
     }
 
     link(scope, elem, attrs, ctrl) {
@@ -139,10 +139,10 @@ export class PictureItCtrl extends MetricsPanelCtrl {
 
                 dragEventSetup(sensor);
 
-                let image = document.getElementById('pictureit-image');
+                let image = document.getElementById('imageit-image');
 
                 if (image != null) {
-                    let imageWidth = document.getElementById('pictureit-image').offsetWidth;
+                    let imageWidth = document.getElementById('imageit-image').offsetWidth;
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600
                 }
 
@@ -179,7 +179,6 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                     alignSensors();
                 }
                 sensor.sizeStr = sensor.size.toString() + "px";
-                // sensor.bgColor = 'rgb(64, 64, 64)';
                 
                 if(sensor.rectangular){
                     sensor.borderRadius = '5%'
@@ -244,8 +243,8 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                 onend: function (event) {
                     var target = event.target;
 
-                    let imageHeight = document.getElementById('pictureit-image').offsetHeight;
-                    let imageWidth = document.getElementById('pictureit-image').offsetWidth;
+                    let imageHeight = document.getElementById('imageit-image').offsetHeight;
+                    let imageWidth = document.getElementById('imageit-image').offsetWidth;
 
                     let x = target.getAttribute('data-x');
                     let y = target.getAttribute('data-y')
@@ -468,4 +467,4 @@ function normalizeColor(color) {
     } else { return color.toLowerCase(); }
 };
 
-PictureItCtrl.templateUrl = 'module.html';
+ImageItCtrl.templateUrl = 'module.html';

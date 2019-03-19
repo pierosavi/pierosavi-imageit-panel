@@ -1,5 +1,5 @@
-import {PictureItCtrl} from './pictureit_ctrl';
+import {ImageItCtrl} from './imageit_ctrl';
 
 export {
-  PictureItCtrl as PanelCtrl
+  ImageItCtrl as PanelCtrl
 };

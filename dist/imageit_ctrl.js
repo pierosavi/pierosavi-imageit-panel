@@ -3,7 +3,7 @@
 System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js", "./libs/interact"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, interact, panelDefaults, isTheFirstRender, PictureItCtrl;
+  var _, MetricsPanelCtrl, getWidth, interact, panelDefaults, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -112,17 +112,17 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
       };
       isTheFirstRender = true;
 
-      _export("PictureItCtrl", PictureItCtrl =
+      _export("ImageItCtrl", ImageItCtrl =
       /*#__PURE__*/
       function (_MetricsPanelCtrl) {
-        _inherits(PictureItCtrl, _MetricsPanelCtrl);
+        _inherits(ImageItCtrl, _MetricsPanelCtrl);
 
-        function PictureItCtrl($scope, $injector, $sce, templateSrv) {
+        function ImageItCtrl($scope, $injector, $sce, templateSrv) {
           var _this;
 
-          _classCallCheck(this, PictureItCtrl);
+          _classCallCheck(this, ImageItCtrl);
 
-          _this = _possibleConstructorReturn(this, _getPrototypeOf(PictureItCtrl).call(this, $scope, $injector));
+          _this = _possibleConstructorReturn(this, _getPrototypeOf(ImageItCtrl).call(this, $scope, $injector));
 
           _.defaults(_this.panel, panelDefaults);
 
@@ -140,7 +140,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
           return _this;
         }
 
-        _createClass(PictureItCtrl, [{
+        _createClass(ImageItCtrl, [{
           key: "onDataReceived",
           value: function onDataReceived(dataList) {
             var dataListLength = dataList.length;
@@ -212,9 +212,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         }, {
           key: "onInitEditMode",
           value: function onInitEditMode() {
-            this.addEditorTab('Sensor', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
-            this.addEditorTab('Color Mapping', 'public/plugins/bessler-pictureit-panel/colors.html', 3);
-            this.addEditorTab('Value Color Mapping', 'public/plugins/bessler-pictureit-panel/mappings.html', 4);
+            this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
+            this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-imageit-panel/colors.html', 3);
+            this.addEditorTab('Value Color Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
           }
         }, {
           key: "link",
@@ -280,10 +280,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                   var sensor = _step2.value;
                   dragEventSetup(sensor);
-                  var image = document.getElementById('pictureit-image');
+                  var image = document.getElementById('imageit-image');
 
                   if (image != null) {
-                    var imageWidth = document.getElementById('pictureit-image').offsetWidth;
+                    var imageWidth = document.getElementById('imageit-image').offsetWidth;
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                   }
 
@@ -347,7 +347,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     alignSensors();
                   }
 
-                  _sensor.sizeStr = _sensor.size.toString() + "px"; // sensor.bgColor = 'rgb(64, 64, 64)';
+                  _sensor.sizeStr = _sensor.size.toString() + "px";
 
                   if (_sensor.rectangular) {
                     _sensor.borderRadius = '5%';
@@ -426,8 +426,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 },
                 onend: function onend(event) {
                   var target = event.target;
-                  var imageHeight = document.getElementById('pictureit-image').offsetHeight;
-                  var imageWidth = document.getElementById('pictureit-image').offsetWidth;
+                  var imageHeight = document.getElementById('imageit-image').offsetHeight;
+                  var imageWidth = document.getElementById('imageit-image').offsetWidth;
                   var x = target.getAttribute('data-x');
                   var y = target.getAttribute('data-y'); // get percentage of relative distance from starting point 
 
@@ -637,12 +637,12 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
         }]);
 
-        return PictureItCtrl;
+        return ImageItCtrl;
       }(MetricsPanelCtrl));
 
       ;
-      PictureItCtrl.templateUrl = 'module.html';
+      ImageItCtrl.templateUrl = 'module.html';
     }
   };
 });
-//# sourceMappingURL=pictureit_ctrl.js.map
+//# sourceMappingURL=imageit_ctrl.js.map

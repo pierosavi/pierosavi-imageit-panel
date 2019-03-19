@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/module.js"],"names":["PictureItCtrl"],"mappings":";;;;;;;;AAAQA,MAAAA,a,mBAAAA,a;;;2BAGNA,a","sourcesContent":["import {PictureItCtrl} from './pictureit_ctrl';\n\nexport {\n  PictureItCtrl as PanelCtrl\n};\n"],"file":"module.js"}
+{"version":3,"sources":["../src/module.js"],"names":["ImageItCtrl"],"mappings":";;;;;;;;AAAQA,MAAAA,W,iBAAAA,W;;;2BAGNA,W","sourcesContent":["import {ImageItCtrl} from './imageit_ctrl';\n\nexport {\n  ImageItCtrl as PanelCtrl\n};\n"],"file":"module.js"}
