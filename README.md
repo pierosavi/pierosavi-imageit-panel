@@ -2,6 +2,8 @@
 
 Allows a user to superimpose measurement displays ontop of picture.
 
+![PictureIt](https://raw.githubusercontent.com/pierosavi/grafana-pictureit/master/src/img/pictureit_example.png?raw=true) 
+
 ### PictureIt  
 
 1. Enter a URL for your background image.

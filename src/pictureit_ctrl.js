@@ -68,16 +68,9 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     }
 
     addSensor() {
-        if (this.panel.sensors.length === 0) {
-            this.panel.sensors.push(
-                new Sensor('A', 50, 25, '%.2f', 'rgba(64,64,64,1.000)', 'rgba(255,255,255,1.000)', 14, true)
-            );
-        } else {
-            var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
-            this.panel.sensors.push(
-                new Sensor(lastSensor.metric, 50, 25, lastSensor.format, lastSensor.bgColor, lastSensor.color, lastSensor.size, true)
-            );
-        }
+        this.panel.sensors.push(
+            new Sensor('A', 50, 25, '%.2f', 'rgba(64,64,64,1.000)', 'rgba(255,255,255,1.000)', 14, true)
+        );
     }
 
     moveSensorUp(index) {
