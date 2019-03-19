@@ -1,10 +1,9 @@
-'use strict';
+"use strict";
 
-System.register(['./deburrLetter.js'], function (_export, _context) {
+System.register(["./deburrLetter.js"], function (_export, _context) {
   "use strict";
 
   var deburrLetter, reLatin, rsComboMarksRange, reComboHalfMarksRange, rsComboSymbolsRange, rsComboRange, rsCombo, reComboMark;
-
 
   /**
    * Deburrs `string` by converting
@@ -31,15 +30,25 @@ System.register(['./deburrLetter.js'], function (_export, _context) {
       deburrLetter = _deburrLetterJs.default;
     }],
     execute: function () {
+      /** Used to match Latin Unicode letters (excluding mathematical operators). */
       reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
-      rsComboMarksRange = '\\u0300-\\u036f';
-      reComboHalfMarksRange = '\\ufe20-\\ufe2f';
-      rsComboSymbolsRange = '\\u20d0-\\u20ff';
+      /** Used to compose unicode character classes. */
+
+      rsComboMarksRange = "\\u0300-\\u036f";
+      reComboHalfMarksRange = "\\ufe20-\\ufe2f";
+      rsComboSymbolsRange = "\\u20d0-\\u20ff";
       rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange;
-      rsCombo = '[' + rsComboRange + ']';
+      /** Used to compose unicode capture groups. */
+
+      rsCombo = "[".concat(rsComboRange, "]");
+      /**
+       * Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) and
+       * [combining diacritical marks for symbols](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks_for_Symbols).
+       */
+
       reComboMark = RegExp(rsCombo, 'g');
 
-      _export('default', deburr);
+      _export("default", deburr);
     }
   };
 });

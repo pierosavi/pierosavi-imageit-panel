@@ -4,6 +4,7 @@ module.exports = (grunt) => {
 
   grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-babel');
 
   grunt.initConfig({
 
@@ -34,8 +35,12 @@ module.exports = (grunt) => {
     babel: {
       options: {
         sourceMap: true,
-        presets: ['es2015'],
-        plugins: ['transform-es2015-modules-systemjs', 'transform-es2015-for-of'],
+        plugins: [
+          "@babel/plugin-transform-modules-systemjs",
+        ],
+        presets: [
+          ["@babel/preset-env"]
+        ]
       },
       dist: {
         files: [{

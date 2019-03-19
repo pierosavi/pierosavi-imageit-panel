@@ -70,7 +70,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     addSensor() {
         if (this.panel.sensors.length === 0) {
             this.panel.sensors.push(
-                new Sensor('A', 50, 25, '%.2f', 'rgb(64, 64, 64)', '#ffffff', 14, true)
+                new Sensor('A', 50, 25, '%.2f', 'rgba(64,64,64,1.000)', 'rgba(255,255,255,1.000)', 14, true)
             );
         } else {
             var lastSensor = this.panel.sensors[this.panel.sensors.length - 1];
@@ -110,9 +110,9 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     }
 
     onInitEditMode() {
-        this.addEditorTab('Sensor', 'public/plugins/pierosavi-pictureit-panel/editor.html', 2);
-        this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-pictureit-panel/colors.html', 3);
-        this.addEditorTab('Value Color Mapping', 'public/plugins/pierosavi-pictureit-panel/mappings.html', 4);
+        this.addEditorTab('Sensor', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
+        this.addEditorTab('Color Mapping', 'public/plugins/bessler-pictureit-panel/colors.html', 3);
+        this.addEditorTab('Value Color Mapping', 'public/plugins/bessler-pictureit-panel/mappings.html', 4);
     }
 
     link(scope, elem, attrs, ctrl) {
@@ -178,7 +178,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
                         sensor.width = group.width;
                     }
                 }
-                sensor.visible = sensor.xlocation < width && sensor.ylocation < height;
+
                 if(!ctrl.panel.useLabelGroupings){
                     sensor.ylocationStr = sensor.ylocation.toString() + "px";
                     sensor.xlocationStr = sensor.xlocation.toString() + "px";

@@ -7,6 +7,7 @@ System.register([], function (_export, _context) {
   return {
     setters: [],
     execute: function () {
+      /* eslint quotes: off, comma-dangle: off, quote-props: off */
       widthsMap = {
         "andale mono": {
           "0": [60, 60, 60, 60],
