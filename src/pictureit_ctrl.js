@@ -98,7 +98,7 @@ export class PictureItCtrl extends MetricsPanelCtrl {
 
     addGroup() {
         this.panel.groups.push(
-            new Group('A', "left", 200, 200)
+            new Group('A', "left", 50, 50)
         );
     }
 
@@ -110,9 +110,9 @@ export class PictureItCtrl extends MetricsPanelCtrl {
     }
 
     onInitEditMode() {
-        this.addEditorTab('Sensor', 'public/plugins/bessler-pictureit-panel/editor.html', 2);
-        this.addEditorTab('Color Mapping', 'public/plugins/bessler-pictureit-panel/colors.html', 3);
-        this.addEditorTab('Value Color Mapping', 'public/plugins/bessler-pictureit-panel/mappings.html', 4);
+        this.addEditorTab('Sensor', 'public/plugins/pierosavi-pictureit-panel/editor.html', 2);
+        this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-pictureit-panel/colors.html', 3);
+        this.addEditorTab('Value Color Mapping', 'public/plugins/pierosavi-pictureit-panel/mappings.html', 4);
     }
 
     link(scope, elem, attrs, ctrl) {

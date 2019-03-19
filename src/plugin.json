@@ -1,12 +1,19 @@
 {
-  "type": "panel",
+  "id": "pierosavi-pictureit-panel",
   "name": "PictureIt",
-  "id": "bessler-pictureit-panel",
-
+  "type": "panel",
+  "url": "https://github.com/pierosavi/grafana-pictureit",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "commit": "",
+      "url": "https://github.com/pierosavi/grafana-pictureit"
+    }
+  ],
   "info": {
     "description": "Add Measurements to a Picture in Grafana",
     "author": {
-      "name": "Vivian Bessler"
+      "name": "Piero Savi"
     },
     "keywords": ["pictureit","picture", "panel"],
     "logos": {
@@ -14,15 +21,12 @@
       "large": "img/pictureit_logo.png"
     },
     "links": [
-      {"name": "Project site", "url": "https://github.com/vbessler/grafana-pictureit"},
-      {"name": "MIT License", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE"},
-      {"name": "3-clause BSD license", "url": "https://github.com/vbessler/grafana-pictureit/blob/master/LICENSE_additional"}
-    ],
-    "screenshots": [
-      {"name": "Showcase", "path": "img/bridge_strains.png"}
+      {"name": "Project site", "url": "https://github.com/pierosavi/grafana-pictureit"},
+      {"name": "MIT License", "url": "https://github.com/pierosavi/grafana-pictureit/blob/master/LICENSE"},
+      {"name": "3-clause BSD license", "url": "https://github.com/pierosavi/grafana-pictureit/blob/master/LICENSE_additional"}
     ],
     "version": "1.0.0",
-    "updated": "2017-03-01"
+    "updated": "2019-03-19"
   },
 
   "dependencies": {
