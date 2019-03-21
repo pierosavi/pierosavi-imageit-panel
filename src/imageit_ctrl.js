@@ -109,7 +109,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     link(scope, elem, attrs, ctrl) {
-        const $panelContainer = elem.find('.panel-container');
+        const $panelContainer = elem.find('.pierosavi-imageit-panel');
 
         function pixelStrToNum(str) {
             return parseInt(str.substr(0, str.length - 2));

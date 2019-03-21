@@ -219,7 +219,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         }, {
           key: "link",
           value: function link(scope, elem, attrs, ctrl) {
-            var $panelContainer = elem.find('.panel-container');
+            var $panelContainer = elem.find('.pierosavi-imageit-panel');
 
             function pixelStrToNum(str) {
               return parseInt(str.substr(0, str.length - 2));
