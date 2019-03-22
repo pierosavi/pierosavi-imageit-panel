@@ -7,8 +7,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -153,7 +151,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             var dataListLength = dataList.length;
             this.panel.metricValues = [];
 
-            for (var series = 0; series < dataListLength; _readOnlyError("series"), series++) {
+            for (var series = 0; series < dataListLength; series++) {
               this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]

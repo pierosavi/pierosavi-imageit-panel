@@ -42,7 +42,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     onDataReceived(dataList) {
         const dataListLength = dataList.length;
         this.panel.metricValues = [];
-        for (const series = 0; series < dataListLength; series++) {
+        for (let series = 0; series < dataListLength; series++) {
             this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
