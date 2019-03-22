@@ -40,9 +40,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     onDataReceived(dataList) {
-        var dataListLength = dataList.length;
+        const dataListLength = dataList.length;
         this.panel.metricValues = [];
-        for (var series = 0; series < dataListLength; series++) {
+        for (const series = 0; series < dataListLength; series++) {
             this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
@@ -74,13 +74,13 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     moveSensorUp(index) {
-        var sensor = this.panel.sensors[index]
+        const sensor = this.panel.sensors[index]
         this.panel.sensors.splice(index, 1)
         this.panel.sensors.splice(index-1,0,sensor);
     }
 
     moveSensorDown(index) {
-        var sensor = this.panel.sensors[index]
+        const sensor = this.panel.sensors[index]
         this.panel.sensors.splice(index, 1)
         this.panel.sensors.splice(index+1,0,sensor);
     }
@@ -97,7 +97,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     getAvailableGroups() {
 
-        var result = ctrl.panel.groups.map(g => g.name);
+        const result = ctrl.panel.groups.map(g => g.name);
         alert("RESULT: " + JSON.stringify(result))
         return result;
     }
@@ -109,11 +109,8 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     link(scope, elem, attrs, ctrl) {
-        const $panelContainer = elem.find('.pierosavi-imageit-panel');
-
-        function pixelStrToNum(str) {
-            return parseInt(str.substr(0, str.length - 2));
-        }
+        const panelContainer = (elem.find('.pierosavi-imageit-panel')[0]);
+        const image = (panelContainer.querySelector('#imageit-image'))
 
         function getGroup(name) {
             for (let group of ctrl.panel.groups) {
@@ -130,27 +127,25 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 return;
             }
 
-            let width = pixelStrToNum($panelContainer.css("width"));
-            let height = pixelStrToNum($panelContainer.css("height"));
             let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
             let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.value);
 
             for (let sensor of ctrl.panel.sensors) {
 
-                dragEventSetup(sensor);
-
-                let image = document.getElementById('imageit-image');
+                if(!sensor.hasOwnProperty('id')){
+                    sensor.id = getRandomId()
+                }
 
                 if (image != null) {
-                    let imageWidth = document.getElementById('imageit-image').offsetWidth;
+                    let imageWidth = image.offsetWidth;
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600
                 }
 
-                var sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
+                const sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
                 if(ctrl.panel.useLabelGroupings){
-                    var group = getGroup(sensor.group.name)
+                    const group = getGroup(sensor.group.name)
                     if(group != null && group.sameSize){
-                        var newValue = Math.max(group.width, sensorWidth);
+                        const newValue = Math.max(group.width, sensorWidth);
                         group.width = newValue;
                         sensor.width = newValue;
                     }else{
@@ -165,7 +160,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
             for (let sensor of ctrl.panel.sensors) {
                 if(ctrl.panel.useLabelGroupings && group.sameSize){
-                    var group = getGroup(sensor.group.name)
+                    const group = getGroup(sensor.group.name)
                     if(group != null){
                         sensor.panelWidth = group.width + "px";  
                         sensor.width = group.width;
@@ -191,14 +186,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 }
 
                 //We need to replace possible variables in the sensors name
-                var effectiveName = ctrl.templateSrv.replace(sensor.metric);
+                const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                var mValue = metricMap[effectiveName];
+                let mValue = metricMap[effectiveName];
                 if (mValue === undefined) {
                     mValue = {name: "dummy", value: 'null'};
                 }
 
-                var valueMapping = valueMappingsMap[mValue.value];
+                let valueMapping = valueMappingsMap[mValue.value];
 
                 if (valueMapping !== undefined) {
                     let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
@@ -211,21 +206,22 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 sensor.valueFormatted = sprintf(sensor.format,mValue.value);
             }
 
+            dragEventSetup();
             
         }
 
-        function dragEventSetup(sensor) {
-            
-            window.interact('#' + sensor.metric).draggable({
-                inertia: true,
+        function dragEventSetup() {
+            window.interact('#imageit_panel' + ctrl.panel.id + '_sensor').draggable({
+                // I dont like it personally but this could be configurable in the future
+                inertia: false,
                 restrict: {
-                restriction: "#draggableparent",
-                endOnly: true,
-                elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                    restriction: "#draggableparent",
+                    endOnly: true,
+                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                 },
                 autoScroll: true,
                 onmove: function (event) {
-                    var target = event.target,
+                    const target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
                     x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                     y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
@@ -241,10 +237,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                 },
                 onend: function (event) {
-                    var target = event.target;
+                    const target = event.target;
 
-                    let imageHeight = document.getElementById('imageit-image').offsetHeight;
-                    let imageWidth = document.getElementById('imageit-image').offsetWidth;
+                    let imageHeight = image.offsetHeight;
+                    let imageWidth = image.offsetWidth;
 
                     let x = target.getAttribute('data-x');
                     let y = target.getAttribute('data-y')
@@ -269,6 +265,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     target.style.top = newY + '%'
 
                     // really update the sensor values
+
+                    //find sensor with the id from the refId attribute on html
+                    let sensor = _.find(ctrl.panel.sensors, {'id': (event.target).getAttribute('refId')})
+
                     sensor.xlocation = newX
                     sensor.ylocation = newY
 
@@ -285,9 +285,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 group.nextX = undefined;
             }
             for (let sensor of ctrl.panel.sensors) {
-                var sensorHeight = sensor.size + 30;
-                var sensorWidth = sensor.width + 10;
-                var group = getGroup(sensor.group.name)
+                const sensorHeight = sensor.size + 30;
+                const sensorWidth = sensor.width + 10;
+                let group = getGroup(sensor.group.name)
                 if(group.alignment == "left"){
                     if(group.nextTop === undefined){
                         group.nextTop = group.y;
@@ -344,7 +344,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     removeColorMapping(map) {
-        var index = _.indexOf(this.panel.colorMappings, map);
+        const index = _.indexOf(this.panel.colorMappings, map);
         this.panel.colorMappings.splice(index, 1);
         this.refreshColorMappings();
     }
@@ -364,7 +364,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     removeValueMappingMap(toRemove) {
-        var index = _.indexOf(this.panel.valueMappings, toRemove);
+        const index = _.indexOf(this.panel.valueMappings, toRemove);
         this.panel.valueMappings.splice(index, 1);
         this.render();
     }
@@ -405,6 +405,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
      };*/
 }
 
+function getRandomId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
+
 function ValueColorMapping(value,
                            colorName) {
     'use strict';
@@ -444,6 +448,7 @@ function Sensor(metric,
     this.resolvedLink = '';
     this.rectangular = true;
     this.group = 'A';
+    this.id = getRandomId()
 }
 
 function Group(name, alignment, x, y) {

@@ -3,7 +3,7 @@
         <img id="imageit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%" />
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
-                <div id="{{sensor.metric}}" style="text-align: center;" ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.fontColor}">
+                <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;" ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.fontColor}" refId="{{sensor.id}}">
                     <div ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.bgColor,'border-style':'solid','border-color':sensor.bgColor,'border-width':'1px',padding:'5px'}">
                         <!-- handle --><div><br/></div>
                         <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.fontColor}" bs-tooltip="sensor.link_hover">

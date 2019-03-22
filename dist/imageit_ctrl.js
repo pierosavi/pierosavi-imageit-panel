@@ -7,6 +7,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+  function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
+
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -22,6 +24,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
   function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
   function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+  function getRandomId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }
 
   function ValueColorMapping(value, colorName) {
     'use strict';
@@ -56,6 +62,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
     this.resolvedLink = '';
     this.rectangular = true;
     this.group = 'A';
+    this.id = getRandomId();
   }
 
   function Group(name, alignment, x, y) {
@@ -146,7 +153,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             var dataListLength = dataList.length;
             this.panel.metricValues = [];
 
-            for (var series = 0; series < dataListLength; series++) {
+            for (var series = 0; series < dataListLength; _readOnlyError("series"), series++) {
               this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
@@ -219,11 +226,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         }, {
           key: "link",
           value: function link(scope, elem, attrs, ctrl) {
-            var $panelContainer = elem.find('.pierosavi-imageit-panel');
-
-            function pixelStrToNum(str) {
-              return parseInt(str.substr(0, str.length - 2));
-            }
+            var panelContainer = elem.find('.pierosavi-imageit-panel')[0];
+            var image = panelContainer.querySelector('#imageit-image');
 
             function getGroup(name) {
               var _iteratorNormalCompletion = true;
@@ -232,10 +236,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
               try {
                 for (var _iterator = ctrl.panel.groups[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  var group = _step.value;
+                  var _group = _step.value;
 
-                  if (group.name == name) {
-                    return group;
+                  if (_group.name == name) {
+                    return _group;
                   }
                 }
               } catch (err) {
@@ -261,9 +265,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 return;
               }
 
-              var width = pixelStrToNum($panelContainer.css("width"));
-              var height = pixelStrToNum($panelContainer.css("height"));
-
               var metricMap = _.keyBy(ctrl.panel.metricValues, function (value) {
                 return value.name;
               });
@@ -279,11 +280,13 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
               try {
                 for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                   var sensor = _step2.value;
-                  dragEventSetup(sensor);
-                  var image = document.getElementById('imageit-image');
+
+                  if (!sensor.hasOwnProperty('id')) {
+                    sensor.id = getRandomId();
+                  }
 
                   if (image != null) {
-                    var imageWidth = document.getElementById('imageit-image').offsetWidth;
+                    var imageWidth = image.offsetWidth;
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                   }
 
@@ -293,11 +296,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   }) + 20;
 
                   if (ctrl.panel.useLabelGroupings) {
-                    var group = getGroup(sensor.group.name);
+                    var _group2 = getGroup(sensor.group.name);
 
-                    if (group != null && group.sameSize) {
-                      var newValue = Math.max(group.width, sensorWidth);
-                      group.width = newValue;
+                    if (_group2 != null && _group2.sameSize) {
+                      var newValue = Math.max(_group2.width, sensorWidth);
+                      _group2.width = newValue;
                       sensor.width = newValue;
                     } else {
                       sensor.panelWidth = sensorWidth + "px";
@@ -332,11 +335,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   var _sensor = _step3.value;
 
                   if (ctrl.panel.useLabelGroupings && group.sameSize) {
-                    var group = getGroup(_sensor.group.name);
+                    var _group3 = getGroup(_sensor.group.name);
 
-                    if (group != null) {
-                      _sensor.panelWidth = group.width + "px";
-                      _sensor.width = group.width;
+                    if (_group3 != null) {
+                      _sensor.panelWidth = _group3.width + "px";
+                      _sensor.width = _group3.width;
                     }
                   }
 
@@ -397,11 +400,14 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   }
                 }
               }
+
+              dragEventSetup();
             }
 
-            function dragEventSetup(sensor) {
-              window.interact('#' + sensor.metric).draggable({
-                inertia: true,
+            function dragEventSetup() {
+              window.interact('#imageit_panel' + ctrl.panel.id + '_sensor').draggable({
+                // I dont like it personally but this could be configurable in the future
+                inertia: false,
                 restrict: {
                   restriction: "#draggableparent",
                   endOnly: true,
@@ -426,8 +432,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 },
                 onend: function onend(event) {
                   var target = event.target;
-                  var imageHeight = document.getElementById('imageit-image').offsetHeight;
-                  var imageWidth = document.getElementById('imageit-image').offsetWidth;
+                  var imageHeight = image.offsetHeight;
+                  var imageWidth = image.offsetWidth;
                   var x = target.getAttribute('data-x');
                   var y = target.getAttribute('data-y'); // get percentage of relative distance from starting point 
 
@@ -442,6 +448,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
                   target.style.left = newX + '%';
                   target.style.top = newY + '%'; // really update the sensor values
+                  //find sensor with the id from the refId attribute on html
+
+                  var sensor = _.find(ctrl.panel.sensors, {
+                    'id': event.target.getAttribute('refId')
+                  });
 
                   sensor.xlocation = newX;
                   sensor.ylocation = newY; // reset the starting sensor points
@@ -459,9 +470,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
               try {
                 for (var _iterator4 = ctrl.panel.groups[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                  var _group = _step4.value;
-                  _group.nextTop = undefined;
-                  _group.nextX = undefined;
+                  var _group4 = _step4.value;
+                  _group4.nextTop = undefined;
+                  _group4.nextX = undefined;
                 }
               } catch (err) {
                 _didIteratorError4 = true;
@@ -487,52 +498,53 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   var sensor = _step5.value;
                   var sensorHeight = sensor.size + 30;
                   var sensorWidth = sensor.width + 10;
-                  var group = getGroup(sensor.group.name);
 
-                  if (group.alignment == "left") {
-                    if (group.nextTop === undefined) {
-                      group.nextTop = group.y;
+                  var _group5 = getGroup(sensor.group.name);
+
+                  if (_group5.alignment == "left") {
+                    if (_group5.nextTop === undefined) {
+                      _group5.nextTop = _group5.y;
                     }
 
-                    sensor.ylocationStr = group.nextTop + "px";
-                    sensor.xlocationStr = group.x + "px";
-                    group.nextTop = group.nextTop + sensorHeight;
-                  } else if (group.alignment == "middle") {
-                    if (group.nextTop === undefined) {
-                      group.nextTop = group.y;
+                    sensor.ylocationStr = _group5.nextTop + "px";
+                    sensor.xlocationStr = _group5.x + "px";
+                    _group5.nextTop = _group5.nextTop + sensorHeight;
+                  } else if (_group5.alignment == "middle") {
+                    if (_group5.nextTop === undefined) {
+                      _group5.nextTop = _group5.y;
                     }
 
-                    sensor.ylocationStr = group.nextTop + "px";
+                    sensor.ylocationStr = _group5.nextTop + "px";
 
-                    if (group.sameSize) {
-                      sensor.xlocationStr = group.x - group.width / 2 + "px";
+                    if (_group5.sameSize) {
+                      sensor.xlocationStr = _group5.x - _group5.width / 2 + "px";
                     } else {
-                      sensor.xlocationStr = group.x - sensor.width / 2 + "px";
+                      sensor.xlocationStr = _group5.x - sensor.width / 2 + "px";
                     }
 
-                    group.nextTop = group.nextTop + sensorHeight;
-                  } else if (group.alignment == "right") {
-                    if (group.nextTop === undefined) {
-                      group.nextTop = group.y;
+                    _group5.nextTop = _group5.nextTop + sensorHeight;
+                  } else if (_group5.alignment == "right") {
+                    if (_group5.nextTop === undefined) {
+                      _group5.nextTop = _group5.y;
                     }
 
-                    sensor.ylocationStr = group.nextTop + "px";
+                    sensor.ylocationStr = _group5.nextTop + "px";
 
-                    if (group.sameSize) {
-                      sensor.xlocationStr = group.x - group.width + "px";
+                    if (_group5.sameSize) {
+                      sensor.xlocationStr = _group5.x - _group5.width + "px";
                     } else {
-                      sensor.xlocationStr = group.x - sensor.width + "px";
+                      sensor.xlocationStr = _group5.x - sensor.width + "px";
                     }
 
-                    group.nextTop = group.nextTop + sensorHeight;
-                  } else if (group.alignment == "top") {
-                    if (group.nextX === undefined) {
-                      group.nextX = group.x;
+                    _group5.nextTop = _group5.nextTop + sensorHeight;
+                  } else if (_group5.alignment == "top") {
+                    if (_group5.nextX === undefined) {
+                      _group5.nextX = _group5.x;
                     }
 
-                    sensor.xlocationStr = group.nextX + "px";
-                    sensor.ylocationStr = group.y + "px";
-                    group.nextX = group.nextX + sensorWidth;
+                    sensor.xlocationStr = _group5.nextX + "px";
+                    sensor.ylocationStr = _group5.y + "px";
+                    _group5.nextX = _group5.nextX + sensorWidth;
                   }
                 }
               } catch (err) {
@@ -640,6 +652,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         return ImageItCtrl;
       }(MetricsPanelCtrl));
 
+      ;
       ;
       ImageItCtrl.templateUrl = 'module.html';
     }
