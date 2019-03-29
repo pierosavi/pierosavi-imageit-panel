@@ -2,7 +2,7 @@
 
 Allows a user to superimpose measurement displays ontop of picture.
 
-![ImageIt](https://raw.githubusercontent.com/pierosavi/grafana-imageit/master/src/img/imageit_example.png?raw=true) 
+![ImageIt](https://raw.githubusercontent.com/pierosavi/pierosavi-imageit-panel/master/src/img/imageit_example.png?raw=true) 
 
 ### ImageIt
 

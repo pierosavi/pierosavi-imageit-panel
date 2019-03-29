@@ -1,6 +1,6 @@
 {
   "name": "pierosavi-imageit-panel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add Measurements to a Picture in Grafana",
   "main": "src/module.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "pierosavi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pierosavi/grafana-imageit"
+    "url": "https://github.com/pierosavi/pierosavi-imageit-panel"
   },
   "license": "MIT",
   "devDependencies": {
