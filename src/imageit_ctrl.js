@@ -105,7 +105,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     onInitEditMode() {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
         this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-imageit-panel/colors.html', 3);
-        this.addEditorTab('Value Color Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
+        this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
     }
 
     link(scope, elem, attrs, ctrl) {
