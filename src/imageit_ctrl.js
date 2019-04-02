@@ -192,14 +192,18 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 if (mValue === undefined) {
                     mValue = {name: "dummy", value: 'null'};
                 }
-
+                
                 let valueMapping = valueMappingsMap[mValue.value];
 
                 if (valueMapping !== undefined) {
                     let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
                     if (colorMapping !== undefined) {
-                        sensor.bgColor = colorMapping.color;
+                        sensor.realBgColor = colorMapping.color;
                     }
+                } else {
+                    // new sensor property so it doesn't lose the original one 
+                    // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+                    sensor.realBgColor = sensor.bgColor
                 }
 
                 //finally format the value itself

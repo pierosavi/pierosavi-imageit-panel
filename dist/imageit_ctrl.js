@@ -377,8 +377,12 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     var colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
 
                     if (colorMapping !== undefined) {
-                      _sensor.bgColor = colorMapping.color;
+                      _sensor.realBgColor = colorMapping.color;
                     }
+                  } else {
+                    // new sensor property so it doesn't lose the original one 
+                    // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+                    _sensor.realBgColor = _sensor.bgColor;
                   } //finally format the value itself
 
 
