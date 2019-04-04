@@ -24,6 +24,14 @@ const panelDefaults = {
     uncache: 0
 };
 
+const mappingOperators = [{
+    name: 'equal', operator: '=', fn: isEqualTo
+},{
+    name: 'greaterThan', operator: '>', fn: isGreaterThan
+}, {
+    name: 'lessThan', operator: '<', fn: isLessThan
+}]
+
 let isTheFirstRender = true
 
 export class ImageItCtrl extends MetricsPanelCtrl {
@@ -104,8 +112,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     onInitEditMode() {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
-        this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-imageit-panel/colors.html', 3);
-        this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
+        this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
     }
 
     link(scope, elem, attrs, ctrl) {
@@ -128,8 +135,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             }
 
             let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
-            let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.value);
-
+            let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.id);
+            let mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
+            
             for (let sensor of ctrl.panel.sensors) {
 
                 if(!sensor.hasOwnProperty('id')){
@@ -182,7 +190,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 }
 
                 if(sensor.link_url != undefined) {
-                    sensor.resolvedLink =ctrl.templateSrv.replace(sensor.link_url);
+                    sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
                 }
 
                 //We need to replace possible variables in the sensors name
@@ -193,18 +201,50 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     mValue = {name: "dummy", value: 'null'};
                 }
                 
-                let valueMapping = valueMappingsMap[mValue.value];
-
-                if (valueMapping !== undefined) {
-                    let colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
-                    if (colorMapping !== undefined) {
-                        sensor.realBgColor = colorMapping.color;
+                // update existing valueMappings
+                for (let valueMapping of ctrl.panel.valueMappings) {
+                    if (valueMapping.mappingOperatorName == null) {
+                        valueMapping.mappingOperatorName = mappingOperators[0].name
                     }
-                } else {
-                    // new sensor property so it doesn't lose the original one 
-                    // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
-                    sensor.realBgColor = sensor.bgColor
+
+                    if(valueMapping.id == null) {
+                        valueMapping.id = getRandomId()
+                    }
+                    
                 }
+
+                sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : ''
+
+                for (const mappingId of sensor.valueMappingIds) {
+                    const valueMapping = valueMappingsMap[mappingId]
+
+                    const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
+
+                    if(mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+
+                        sensor.realFontColor = valueMapping.fontColor
+                        sensor.realBbColor = valueMapping.bgColor
+
+                        valueMapping.fontBlink ? sensor.fontBlink : null
+                        valueMapping.bgBlink ? sensor.bgBlink : null
+
+                        sensor.isBold = valueMapping.isSensorFontBold
+
+                        break
+                    } else {
+                        // new sensor property so it doesn't lose the original one 
+                        // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+                        sensor.realBgColor = sensor.bgColor
+                        sensor.realFontColor = sensor.fontColor
+
+                        sensor.fontBlink = false
+                        sensor.bgBlink = false
+
+                        sensor.isBold = false
+                    }
+
+                }
+
 
                 //finally format the value itself
                 sensor.valueFormatted = sprintf(sensor.format,mValue.value);
@@ -347,8 +387,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.refreshColorMappings();
     }
 
-    removeColorMapping(map) {
-        const index = _.indexOf(this.panel.colorMappings, map);
+    removeColorMapping(index) {
         this.panel.colorMappings.splice(index, 1);
         this.refreshColorMappings();
     }
@@ -364,11 +403,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     //------------------
 
     addValueMappingMap() {
-        this.panel.valueMappings.push(new ValueColorMapping('value', ''));
+        this.panel.valueMappings.push(new ValueColorMapping());
     }
 
-    removeValueMappingMap(toRemove) {
-        const index = _.indexOf(this.panel.valueMappings, toRemove);
+    removeValueMappingMap(index) {
         this.panel.valueMappings.splice(index, 1);
         this.render();
     }
@@ -398,33 +436,44 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         return this.$sce.trustAsHtml(value);
     }
 
-    /* addRangeMappingMap() {
-     this.panel.rangeMappingMap.push({from: '', to: '', text: ''});
-     }
+    getMappingOperators() {
+        return getMappingOperators()
+    }
 
-     removeRangeMappingMap(rangeMap) {
-     var index = _.indexOf(this.panel.rangeMaps, rangeMap);
-     this.panel.rangeMappingMap.splice(index, 1);
-     this.render();
-     };*/
+}
+
+function isEqualTo(a, b) {
+    return (a !== undefined && b !== undefined) ? a == b : false
+}
+
+function isGreaterThan(a, b) {
+    return (a !== undefined && b !== undefined) ? a > b : false
+}
+
+function isLessThan(a, b) {
+    return (a !== undefined && b !== undefined) ? a < b : false
+}
+
+function getMappingOperators() {
+    return mappingOperators
 }
 
 function getRandomId() {
     return '_' + Math.random().toString(36).substr(2, 9);
 };
 
-function ValueColorMapping(value,
-                           colorName) {
+function ValueColorMapping() {
     'use strict';
-    this.value = value;
-    this.colorName = colorName;
-}
-
-
-function ColorMapping(name, color) {
-    'use strict';
-    this.name = name;
-    this.color = color;
+    // TODO: check if it doesnt exist yet
+    this.id = getRandomId()
+    this.name = undefined
+    this.operatorName = mappingOperators[0].name
+    this.compareTo = undefined
+    this.isSensorFontBold = false
+    this.fontColor = undefined
+    this.bgColor = undefined
+    this.fontBlink = false
+    this.bgBlink = false
 }
 
 function Sensor(metric,
@@ -452,6 +501,8 @@ function Sensor(metric,
     this.resolvedLink = '';
     this.rectangular = true;
     this.group = 'A';
+    this.valueMappingIds = []
+    this.isBold = false
     this.id = getRandomId()
 }
 

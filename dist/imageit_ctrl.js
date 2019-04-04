@@ -3,7 +3,7 @@
 System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js", "./libs/interact"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, interact, panelDefaults, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getWidth, interact, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -23,22 +23,38 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
   function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+  function isEqualTo(a, b) {
+    return a !== undefined && b !== undefined ? a == b : false;
+  }
+
+  function isGreaterThan(a, b) {
+    return a !== undefined && b !== undefined ? a > b : false;
+  }
+
+  function isLessThan(a, b) {
+    return a !== undefined && b !== undefined ? a < b : false;
+  }
+
+  function _getMappingOperators() {
+    return mappingOperators;
+  }
+
   function getRandomId() {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
 
-  function ValueColorMapping(value, colorName) {
-    'use strict';
+  function ValueColorMapping() {
+    'use strict'; // TODO: check if it doesnt exist yet
 
-    this.value = value;
-    this.colorName = colorName;
-  }
-
-  function ColorMapping(name, color) {
-    'use strict';
-
-    this.name = name;
-    this.color = color;
+    this.id = getRandomId();
+    this.name = undefined;
+    this.operatorName = mappingOperators[0].name;
+    this.compareTo = undefined;
+    this.isSensorFontBold = false;
+    this.fontColor = undefined;
+    this.bgColor = undefined;
+    this.fontBlink = false;
+    this.bgBlink = false;
   }
 
   function Sensor(metric, xlocation, ylocation, format, bgColor, fontColor, size, visible) {
@@ -60,6 +76,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
     this.resolvedLink = '';
     this.rectangular = true;
     this.group = 'A';
+    this.valueMappingIds = [];
+    this.isBold = false;
     this.id = getRandomId();
   }
 
@@ -115,6 +133,19 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         //uncache is a random number added to the img url to refresh it
         uncache: 0
       };
+      mappingOperators = [{
+        name: 'equal',
+        operator: '=',
+        fn: isEqualTo
+      }, {
+        name: 'greaterThan',
+        operator: '>',
+        fn: isGreaterThan
+      }, {
+        name: 'lessThan',
+        operator: '<',
+        fn: isLessThan
+      }];
       isTheFirstRender = true;
 
       _export("ImageItCtrl", ImageItCtrl =
@@ -218,8 +249,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
           key: "onInitEditMode",
           value: function onInitEditMode() {
             this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
-            this.addEditorTab('Color Mapping', 'public/plugins/pierosavi-imageit-panel/colors.html', 3);
-            this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 4);
+            this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
           }
         }, {
           key: "link",
@@ -268,7 +298,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
               });
 
               var valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, function (mapping) {
-                return mapping.value;
+                return mapping.id;
+              });
+
+              var mappingOperatorsMap = _.keyBy(mappingOperators, function (operator) {
+                return operator.name;
               });
 
               var _iteratorNormalCompletion2 = true;
@@ -369,22 +403,83 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                       name: "dummy",
                       value: 'null'
                     };
+                  } // update existing valueMappings
+
+
+                  var _iteratorNormalCompletion4 = true;
+                  var _didIteratorError4 = false;
+                  var _iteratorError4 = undefined;
+
+                  try {
+                    for (var _iterator4 = ctrl.panel.valueMappings[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                      var valueMapping = _step4.value;
+
+                      if (valueMapping.mappingOperatorName == null) {
+                        valueMapping.mappingOperatorName = mappingOperators[0].name;
+                      }
+
+                      if (valueMapping.id == null) {
+                        valueMapping.id = getRandomId();
+                      }
+                    }
+                  } catch (err) {
+                    _didIteratorError4 = true;
+                    _iteratorError4 = err;
+                  } finally {
+                    try {
+                      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+                        _iterator4.return();
+                      }
+                    } finally {
+                      if (_didIteratorError4) {
+                        throw _iteratorError4;
+                      }
+                    }
                   }
 
-                  var valueMapping = valueMappingsMap[mValue.value];
+                  _sensor.valueMappingIds == undefined ? _sensor.valueMappingIds = [] : '';
+                  var _iteratorNormalCompletion5 = true;
+                  var _didIteratorError5 = false;
+                  var _iteratorError5 = undefined;
 
-                  if (valueMapping !== undefined) {
-                    var colorMapping = ctrl.panel.colorMappingMap[valueMapping.colorName];
+                  try {
+                    for (var _iterator5 = _sensor.valueMappingIds[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                      var mappingId = _step5.value;
+                      var _valueMapping = valueMappingsMap[mappingId];
+                      var mappingOperator = mappingOperatorsMap[_valueMapping.mappingOperatorName];
 
-                    if (colorMapping !== undefined) {
-                      _sensor.realBgColor = colorMapping.color;
+                      if (mappingOperator.fn(mValue.value, _valueMapping.compareTo)) {
+                        _sensor.realFontColor = _valueMapping.fontColor;
+                        _sensor.realBbColor = _valueMapping.bgColor;
+                        _valueMapping.fontBlink ? _sensor.fontBlink : null;
+                        _valueMapping.bgBlink ? _sensor.bgBlink : null;
+                        _sensor.isBold = _valueMapping.isSensorFontBold;
+                        break;
+                      } else {
+                        // new sensor property so it doesn't lose the original one 
+                        // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+                        _sensor.realBgColor = _sensor.bgColor;
+                        _sensor.realFontColor = _sensor.fontColor;
+                        _sensor.fontBlink = false;
+                        _sensor.bgBlink = false;
+                        _sensor.isBold = false;
+                      }
+                    } //finally format the value itself
+
+                  } catch (err) {
+                    _didIteratorError5 = true;
+                    _iteratorError5 = err;
+                  } finally {
+                    try {
+                      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+                        _iterator5.return();
+                      }
+                    } finally {
+                      if (_didIteratorError5) {
+                        throw _iteratorError5;
+                      }
                     }
-                  } else {
-                    // new sensor property so it doesn't lose the original one 
-                    // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
-                    _sensor.realBgColor = _sensor.bgColor;
-                  } //finally format the value itself
-
+                  }
 
                   _sensor.valueFormatted = sprintf(_sensor.format, mValue.value);
                 }
@@ -466,38 +561,38 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             }
 
             function alignSensors() {
-              var _iteratorNormalCompletion4 = true;
-              var _didIteratorError4 = false;
-              var _iteratorError4 = undefined;
+              var _iteratorNormalCompletion6 = true;
+              var _didIteratorError6 = false;
+              var _iteratorError6 = undefined;
 
               try {
-                for (var _iterator4 = ctrl.panel.groups[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                  var _group4 = _step4.value;
+                for (var _iterator6 = ctrl.panel.groups[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                  var _group4 = _step6.value;
                   _group4.nextTop = undefined;
                   _group4.nextX = undefined;
                 }
               } catch (err) {
-                _didIteratorError4 = true;
-                _iteratorError4 = err;
+                _didIteratorError6 = true;
+                _iteratorError6 = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                    _iterator4.return();
+                  if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+                    _iterator6.return();
                   }
                 } finally {
-                  if (_didIteratorError4) {
-                    throw _iteratorError4;
+                  if (_didIteratorError6) {
+                    throw _iteratorError6;
                   }
                 }
               }
 
-              var _iteratorNormalCompletion5 = true;
-              var _didIteratorError5 = false;
-              var _iteratorError5 = undefined;
+              var _iteratorNormalCompletion7 = true;
+              var _didIteratorError7 = false;
+              var _iteratorError7 = undefined;
 
               try {
-                for (var _iterator5 = ctrl.panel.sensors[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                  var sensor = _step5.value;
+                for (var _iterator7 = ctrl.panel.sensors[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                  var sensor = _step7.value;
                   var sensorHeight = sensor.size + 30;
                   var sensorWidth = sensor.width + 10;
 
@@ -550,16 +645,16 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   }
                 }
               } catch (err) {
-                _didIteratorError5 = true;
-                _iteratorError5 = err;
+                _didIteratorError7 = true;
+                _iteratorError7 = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-                    _iterator5.return();
+                  if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
+                    _iterator7.return();
                   }
                 } finally {
-                  if (_didIteratorError5) {
-                    throw _iteratorError5;
+                  if (_didIteratorError7) {
+                    throw _iteratorError7;
                   }
                 }
               }
@@ -581,9 +676,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
           }
         }, {
           key: "removeColorMapping",
-          value: function removeColorMapping(map) {
-            var index = _.indexOf(this.panel.colorMappings, map);
-
+          value: function removeColorMapping(index) {
             this.panel.colorMappings.splice(index, 1);
             this.refreshColorMappings();
           }
@@ -601,13 +694,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         }, {
           key: "addValueMappingMap",
           value: function addValueMappingMap() {
-            this.panel.valueMappings.push(new ValueColorMapping('value', ''));
+            this.panel.valueMappings.push(new ValueColorMapping());
           }
         }, {
           key: "removeValueMappingMap",
-          value: function removeValueMappingMap(toRemove) {
-            var index = _.indexOf(this.panel.valueMappings, toRemove);
-
+          value: function removeValueMappingMap(index) {
             this.panel.valueMappings.splice(index, 1);
             this.render();
           }
@@ -640,15 +731,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             }).join(" ");
             return this.$sce.trustAsHtml(value);
           }
-          /* addRangeMappingMap() {
-           this.panel.rangeMappingMap.push({from: '', to: '', text: ''});
-           }
-             removeRangeMappingMap(rangeMap) {
-           var index = _.indexOf(this.panel.rangeMaps, rangeMap);
-           this.panel.rangeMappingMap.splice(index, 1);
-           this.render();
-           };*/
-
+        }, {
+          key: "getMappingOperators",
+          value: function getMappingOperators() {
+            return _getMappingOperators();
+          }
         }]);
 
         return ImageItCtrl;

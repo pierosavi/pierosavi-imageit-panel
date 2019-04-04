@@ -1,57 +1,109 @@
+<h4>Value Color Mappings</h4>
+
 <div class="editor-row">
-    <h5 class="page-heading">Value Color Mappings</h5>
-    <div class="gf-form-group">
-        <div class="gf-form" ng-repeat="mapping in ctrl.panel.valueMappings">
-      <span class="gf-form-label">
-        <i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap(mapping)"></i>
-      </span>
-            <input type="text" ng-model="mapping.value" placeholder="metric value" class="gf-form-input max-width-6"
-                   ng-blur="ctrl.render()">
+    <div ng-repeat="mapping in ctrl.panel.valueMappings">
+        <div class="section gf-form-group">
+            <h5 class="section-heading">&nbsp</h5>
             <span class="gf-form-label">
-        <i class="fa fa-arrow-right"></i>
-      </span>
-            <!--<input type="text" placeholder="color name" ng-model="mapping.colorName" class="gf-form-input max-width-8"
-                   ng-blur="ctrl.render()">-->
-            <select name="repeatSelect"
-                    id="repeatSelect"
-                    class="gf-form-input max-width-8"
-                    ng-blur="ctrl.render()"
-                    ng-model="mapping.colorName">
-                <option ng-repeat="color in ctrl.panel.colorMappings" value="{{color.name}}">{{color.name}}</option>
-            </select>
-
+				<i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap($index)"></i>
+			</span>
+        </div>
+        <div class="section gf-form-group">
+            <h5 class="section-heading">Values</h5>
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">Name</label>
+                    <input type="text" class="input-small gf-form-input width-10" placeholder="Name" ng-model="mapping.name"
+                           ng-change="ctrl.render()" ng-model-onblur/>
+                </div>
+            </div>
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">Operator</label>
+                    <select class="gf-form-input width-10" ng-blur="ctrl.render()" ng-model="mapping.mappingOperatorName">
+                        <option ng-repeat="mappingOperator in ctrl.getMappingOperators()" value="{{mappingOperator.name}}">
+                            {{mappingOperator.operator}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">Compare To</label>
+                    <input type="text" ng-model="mapping.compareTo" placeholder="Value to compare to" class="gf-form-input width-10"
+                        ng-blur="ctrl.render()">
+                </div>
+            </div>
         </div>
 
-        <div class="gf-form-button-row">
-            <button class="btn btn-inverse" ng-click="ctrl.addValueMappingMap();">
-                <i class="fa fa-plus"></i>
-                Add a value mapping
-            </button>
+        <div class="section gf-form-group">
+            <h5 class="section-heading">Appearance</h5>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Font Color</label>
+                    <span class="gf-form-label width-4">
+						<spectrum-picker ng-model="mapping.fontColor" ng-change="ctrl.render()"></spectrum-picker>
+                    </span>
+                </div>
+            </div>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Background Color</label>
+                    <span class="gf-form-label width-4">
+						<spectrum-picker ng-model="mapping.bgColor" ng-change="ctrl.render()"></spectrum-picker>
+                    </span>
+                </div>
+            </div>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Font Bold</label>
+                    <span class="gf-form-label width-4">
+                        <input type="checkbox" ng-model="mapping.isSensorFontBold">
+                    </span>
+                </div>
+            </div>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Font Blink</label>
+                    <span class="gf-form-label width-4">
+                        <input type="checkbox" ng-model="mapping.fontBlink">
+                    </span>
+                </div>
+            </div>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Background Blink</label>
+                    <span class="gf-form-label width-4">
+                        <input type="checkbox" ng-model="mapping.bgBlink">
+                    </span>
+                </div>
+            </div>
         </div>
+
+        <div class="section gf-form-group">
+            <h5 class="section-heading">Appearance</h5>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-9">Font Color</label>
+                    <span class="gf-form-label width-4">
+						<spectrum-picker ng-model="mapping.fontColor" ng-change="ctrl.render()"></spectrum-picker>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>
 
-<!--
 <div class="editor-row">
-    <h5 class="page-heading">Range Color Mappings</h5>
-    <div class="gf-form-group">
-        <div class="gf-form" ng-repeat="rangeMap in ctrl.panel.rangeMappingMap">
-        <span class="gf-form-label">
-          <i class="fa fa-remove pointer" ng-click="ctrl.removeRangeMappingMap(rangeMap)"></i>
-        </span>
-            <span class="gf-form-label">From</span>
-            <input type="text" ng-model="rangeMap.from" class="gf-form-input max-width-6" ng-blur="ctrl.render()">
-            <span class="gf-form-label">To</span>
-            <input type="text" ng-model="rangeMap.to" class="gf-form-input max-width-6" ng-blur="ctrl.render()">
-            <span class="gf-form-label">Text</span>
-            <input type="text" ng-model="rangeMap.text" class="gf-form-input max-width-8" ng-blur="ctrl.render()">
-        </div>
-
-        <div class="gf-form-button-row">
-            <button class="btn btn-inverse" ng-click="ctrl.addRangeMappingMap()">
-                <i class="fa fa-plus"></i>
-                Add a range mapping
-            </button>
-        </div>
+    <div class="gf-form-button">
+        <button class="btn btn-inverse" ng-click="ctrl.addValueMappingMap();">
+            <i class="fa fa-plus"></i>Add a value mapping
+        </button>
     </div>
-</div>-->
+</div>

@@ -5,10 +5,11 @@
             <div class="gf-form">
                 <label class="gf-form-label width-8">Image URL</label>
                 <input type="text" class="input-small gf-form-input width-30" ng-model="ctrl.panel.bgimage"
-                    ng-change="ctrl.render()" ng-model-onblur/>
+                    ng-change="ctrl.render()" ng-model-onblur />
                 <label class="gf-form-label width-12">Use Label Groupings</label>
                 <span class="gf-form-label">
-                    <input type="checkbox" name="labelGroupings" ng-model="ctrl.panel.useLabelGroupings" ng-change="ctrl.render()"/>
+                    <input type="checkbox" name="labelGroupings" ng-model="ctrl.panel.useLabelGroupings"
+                        ng-change="ctrl.render()" />
                 </span>
             </div>
         </div>
@@ -19,188 +20,229 @@
     <div class="section gf-form-group">
         <div class="gf-form-inline">
             <div class="gf-form">
-            <div class="gf-form">
-                <label class="gf-form-label width-8">Size Coefficient</label>
-                <input type="number" class="input-small gf-form-input width-30" ng-model="ctrl.panel.sizecoefficient"
-                    ng-change="ctrl.render()" ng-model-onblur/>
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">Size Coefficient</label>
+                    <input type="number" class="input-small gf-form-input width-30"
+                        ng-model="ctrl.panel.sizecoefficient" ng-change="ctrl.render()" ng-model-onblur />
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<h4 ng-if="ctrl.panel.useLabelGroupings">Sensor Groups</h4>
-<div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
-    <div ng-repeat="group in ctrl.panel.groups">
-        <div class="gf-form-inline">
-            <div class="gf-form">
-                <label class="gf-form-label width-8">Name</label>
-                <input type="text" class="input-small gf-form-input width-8" ng-model="group.name"
-                        ng-change="ctrl.render()" ng-model-onblur/>
-                <label class="gf-form-label width-8">Alignment</label>
-                <select class="input-small gf-form-input width-8" ng-model="group.alignment" ng-options="t for t in ['left', 'middle', 'right', 'top']" ng-change="ctrl.render()"></select>
-                <label class="gf-form-label width-8">X Location</label>
-                <input type="number" class="input-small gf-form-input width-8" ng-model="group.x"
-                        ng-change="ctrl.render()"/>
-                <label class="gf-form-label width-8">Y Location</label>
-                <input type="number" class="input-small gf-form-input width-8" ng-model="group.y"
-                        ng-change="ctrl.render()"/>
-                <label class="gf-form-label width-8">Same Size</label>
-                <span class="gf-form-label">
-                    <input type="checkbox" name="renderValue" ng-model="group.sameSize" ng-change="ctrl.render()"/>
-                </span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
-    <div class="gf-form-button">
-        <button class="btn btn-inverse" ng-click="ctrl.addGroup();ctrl.render()">
-            <i class="fa fa-plus"></i>&nbsp;Add Group
-        </button>
-    </div>
-</div>
-  
-
-<h4>Sensors</h4>
-<div class="editor-row">
-    <div ng-repeat="sensor in ctrl.panel.sensors">
-        <div class="section gf-form-group">
-            <h5 class="section-heading">&nbsp</h5>
-            <span class="gf-form-label">
-				<i class="fa fa-remove pointer" ng-click="ctrl.deleteSensor($index)"></i>
-			</span>
-        </div>
-        <div class="section gf-form-group">
-            <h5 class="section-heading">Metric</h5>
+    <h4 ng-if="ctrl.panel.useLabelGroupings">Sensor Groups</h4>
+    <div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
+        <div ng-repeat="group in ctrl.panel.groups">
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Name</label>
-                    <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.metric"
-                           ng-change="ctrl.render()" ng-model-onblur/>
-                </div>
-            </div>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Unit</label>
-                    <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.valueUnit"
-                           ng-change="ctrl.render()" ng-model-onblur/>
-                </div>
-            </div>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Display Name</label>
-                    <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.displayName"
-                            ng-change="ctrl.render()"/>
-                </div>
-            </div>
-        </div>
-        <div ng-if="!ctrl.panel.useLabelGroupings" class="section gf-form-group">
-            <h5 class="section-heading">Position</h5>
-            <div class="gf-form-inline">
-                <div class="gf-form">
+                    <input type="text" class="input-small gf-form-input width-8" ng-model="group.name"
+                        ng-change="ctrl.render()" ng-model-onblur />
+                    <label class="gf-form-label width-8">Alignment</label>
+                    <select class="input-small gf-form-input width-8" ng-model="group.alignment"
+                        ng-options="t for t in ['left', 'middle', 'right', 'top']" ng-change="ctrl.render()"></select>
                     <label class="gf-form-label width-8">X Location</label>
-                    <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.xlocation"
-                           ng-change="ctrl.render()"/>
-                </div>
-            </div>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-
+                    <input type="number" class="input-small gf-form-input width-8" ng-model="group.x"
+                        ng-change="ctrl.render()" />
                     <label class="gf-form-label width-8">Y Location</label>
-                    <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation"
-                           ng-change="ctrl.render()"/>
-                </div>
-            </div>
-        </div>
-        <div ng-if="ctrl.panel.useLabelGroupings" class="section gf-form-group">
-            <h5 class="section-heading">Group Settings</h5>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label ng-if="ctrl.panel.useLabelGroupings" class="gf-form-label width-8">Group</label>
-                    <select class="input-small gf-form-input width-8" ng-model="sensor.group" ng-options="g as g.name for g in ctrl.panel.groups track by g.name" ng-change="ctrl.render()"></select>
-                </div>
-            </div>
-        </div>
-
-        <div class="section gf-form-group">
-            <h5 class="section-heading">Link</h5>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Url (absolute)</label>
-                    <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.link_url"
-                           ng-change="ctrl.render()" ng-model-onblur/>
-                </div>
-            </div>
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Hover text</label>
-                    <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.link_hover"
-                           ng-change="ctrl.render()" ng-model-onblur/>
-                </div>
-            </div>
-        </div>
-
-        <div class="section gf-form-group">
-            <h5 class="section-heading">Appearance</h5>
-
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Font Color</label>
-                    <span class="gf-form-label width-8">
-						<spectrum-picker ng-model="sensor.fontColor" ng-change="ctrl.render()"></spectrum-picker>
-                    </span>
-                </div>
-            </div>
-
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Rectangular</label>
-                    <span class="gf-form-label width-8">
-                        <input type="checkbox" name="ellipse" ng-model="sensor.rectangular" ng-change="ctrl.render()">
-                    </span>
-                </div>
-            </div>
-
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Background</label>
-                    <span class="gf-form-label width-8">
-						<spectrum-picker ng-model="sensor.bgColor" ng-change="ctrl.render()"></spectrum-picker>
-					</span>
-                </div>
-            </div>
-
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Render Value</label>
-                    <span class="gf-form-label width-8">
-                        <input type="checkbox" name="renderValue" ng-model="sensor.renderValue">
+                    <input type="number" class="input-small gf-form-input width-8" ng-model="group.y"
+                        ng-change="ctrl.render()" />
+                    <label class="gf-form-label width-8">Same Size</label>
+                    <span class="gf-form-label">
+                        <input type="checkbox" name="renderValue" ng-model="group.sameSize" ng-change="ctrl.render()" />
                     </span>
                 </div>
             </div>
         </div>
-        <div class="section gf-form-group">
-            <h5 class="section-heading" style="visibility: hidden;">_</h5>
-            <div ng-if="$index > 0" class="gf-form-button">
-                <button class="btn btn-inverse" ng-click="ctrl.moveSensorUp($index);ctrl.render()">
-                    <i class="fa fa-angle-up"></i>&nbsp;Move Up
-                </button>
-            </div>
-            <div ng-if="$index < (ctrl.panel.sensors.length - 1)" class="gf-form-button">
-                <button class="btn btn-inverse" ng-click="ctrl.moveSensorDown($index);ctrl.render()">
-                    <i class="fa fa-angle-down"></i>&nbsp;Move Down
-                </button>
-            </div>
-        </div>
-        
     </div>
-</div>
 
-<div class="editor-row">
-    <div class="gf-form-button">
-        <button class="btn btn-inverse" ng-click="ctrl.addSensor();ctrl.render()">
-            <i class="fa fa-plus"></i>&nbsp;Add Sensor
-        </button>
+    <div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
+        <div class="gf-form-button">
+            <button class="btn btn-inverse" ng-click="ctrl.addGroup();ctrl.render()">
+                <i class="fa fa-plus"></i>&nbsp;Add Group
+            </button>
+        </div>
     </div>
-</div>
+
+
+    <h4>Sensors</h4>
+    <div class="editor-row">
+        <div ng-repeat="sensor in ctrl.panel.sensors">
+            <div class="section gf-form-group">
+                <h5 class="section-heading">&nbsp</h5>
+                <span class="gf-form-label">
+                    <i class="fa fa-remove pointer" ng-click="ctrl.deleteSensor($index)"></i>
+                </span>
+            </div>
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Metric</h5>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Name</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.metric"
+                            ng-change="ctrl.render()" ng-model-onblur />
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Unit</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.valueUnit"
+                            ng-change="ctrl.render()" ng-model-onblur />
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Display Name</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.displayName"
+                            ng-change="ctrl.render()" />
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!ctrl.panel.useLabelGroupings" class="section gf-form-group">
+                <h5 class="section-heading">Position</h5>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">X Location</label>
+                        <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.xlocation"
+                            ng-change="ctrl.render()" />
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+
+                        <label class="gf-form-label width-8">Y Location</label>
+                        <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation"
+                            ng-change="ctrl.render()" />
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ctrl.panel.useLabelGroupings" class="section gf-form-group">
+                <h5 class="section-heading">Group Settings</h5>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label ng-if="ctrl.panel.useLabelGroupings" class="gf-form-label width-8">Group</label>
+                        <select class="input-small gf-form-input width-8" ng-model="sensor.group"
+                            ng-options="g as g.name for g in ctrl.panel.groups track by g.name"
+                            ng-change="ctrl.render()"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Link</h5>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Url (absolute)</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.link_url"
+                            ng-change="ctrl.render()" ng-model-onblur />
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Hover text</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.link_hover"
+                            ng-change="ctrl.render()" ng-model-onblur />
+                    </div>
+                </div>
+            </div>
+
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Appearance</h5>
+
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Font Color</label>
+                        <span class="gf-form-label width-8">
+                            <spectrum-picker ng-model="sensor.fontColor" ng-change="ctrl.render()"></spectrum-picker>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Rectangular</label>
+                        <span class="gf-form-label width-8">
+                            <input type="checkbox" name="ellipse" ng-model="sensor.rectangular"
+                                ng-change="ctrl.render()">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Background</label>
+                        <span class="gf-form-label width-8">
+                            <spectrum-picker ng-model="sensor.bgColor" ng-change="ctrl.render()"></spectrum-picker>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Render Value</label>
+                        <span class="gf-form-label width-8">
+                            <input type="checkbox" name="renderValue" ng-model="sensor.renderValue">
+                        </span>
+                    </div>
+                </div>
+
+                <!-- <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Value Mapping</label>
+                        <select class="gf-form-input width-8" ng-blur="ctrl.render()" ng-model="sensor.valueMappingId">
+                            <option ng-repeat="mapping in ctrl.panel.valueMappings" value="{{mapping.id}}">
+                                {{mapping.name}}</option>
+                        </select>
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Value Mappings</h5>
+
+                <div ng-repeat="mappingId in sensor.valueMappingIds track by $index">
+
+                    <div class="gf-form-inline">
+                        <div class="gf-form">
+                            <span class="gf-form-label">
+                                <i class="fa fa-remove pointer" ng-click="sensor.valueMappingIds.splice($index, 1)"></i>
+                            </span>
+
+                            <select class="gf-form-input width-8" ng-blur="sensor.valueMappingIds[$index] = mappingId;ctrl.render()" ng-model="mappingId">
+                                <option ng-repeat="mapping in ctrl.panel.valueMappings" value="{{mapping.id}}">
+                                    {{mapping.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gf-form-button">
+                    <button class="btn btn-inverse" ng-click="sensor.valueMappingIds.push(ctrl.panel.valueMappings[0].id)">
+                        <i class="fa fa-plus"></i>Add Color Mapping
+                    </button>
+                </div>
+            </div>
+
+            <div class="section gf-form-group">
+                <h5 class="section-heading" style="visibility: hidden;">_</h5>
+                <div ng-if="$index > 0" class="gf-form-button">
+                    <button class="btn btn-inverse" ng-click="ctrl.moveSensorUp($index);ctrl.render()">
+                        <i class="fa fa-angle-up"></i>&nbsp;Move Up
+                    </button>
+                </div>
+                <div ng-if="$index < (ctrl.panel.sensors.length - 1)" class="gf-form-button">
+                    <button class="btn btn-inverse" ng-click="ctrl.moveSensorDown($index);ctrl.render()">
+                        <i class="fa fa-angle-down"></i>&nbsp;Move Down
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="editor-row">
+        <div class="gf-form-button">
+            <button class="btn btn-inverse" ng-click="ctrl.addSensor();ctrl.render()">
+                <i class="fa fa-plus"></i>&nbsp;Add Sensor
+            </button>
+        </div>
+    </div>
