@@ -137,10 +137,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 sensor.panelWidth = sensorWidth + "px";
                 sensor.width = sensorWidth;
 
-            }
-
-            for (let sensor of ctrl.panel.sensors) {
-
                 sensor.ylocationStr = sensor.ylocation.toString() + "px";
                 sensor.xlocationStr = sensor.xlocation.toString() + "px";
 
@@ -181,41 +177,39 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                 sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : ''
 
-                for (const mappingId of sensor.valueMappingIds) {
-                    const valueMapping = valueMappingsMap[mappingId]
+                if(sensor.valueMappingIds.length > 0) {
+                    for (const mappingId of sensor.valueMappingIds) {
+                        const valueMapping = valueMappingsMap[mappingId]
+    
+                        if (valueMapping === undefined) {
+                            break
+                        }
+    
+                        const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
+    
+                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+    
+                            sensor.realFontColor = valueMapping.fontColor
+                            sensor.realBgColor = valueMapping.bgColor
+    
+                            sensor.nameBlink = valueMapping.nameBlink
+                            sensor.valueBlink = valueMapping.valueBlink
+                            sensor.bgBlink = valueMapping.bgBlink
+    
+                            sensor.isBold = valueMapping.isSensorFontBold
+    
+                            break
+                        } else {
+                            normalizeSensor(sensor)
 
-                    if (valueMapping === undefined) {
-                        break
+                        }
+    
                     }
-
-                    const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
-
-                    if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
-
-                        sensor.realFontColor = valueMapping.fontColor
-                        sensor.realBgColor = valueMapping.bgColor
-
-                        sensor.nameBlink = valueMapping.nameBlink
-                        sensor.valueBlink = valueMapping.valueBlink
-                        sensor.bgBlink = valueMapping.bgBlink
-
-                        sensor.isBold = valueMapping.isSensorFontBold
-
-                        break
-                    } else {
-                        // new sensor property so it doesn't lose the original one 
-                        // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
-                        sensor.realBgColor = sensor.bgColor
-                        sensor.realFontColor = sensor.fontColor
-
-                        sensor.nameBlink = false
-                        sensor.valueBlink = false
-                        sensor.bgBlink = false
-
-                        sensor.isBold = false
-                    }
+                } else {
+                    normalizeSensor(sensor)
 
                 }
+
 
                 //finally format the value itself
                 sensor.valueFormatted = sprintf(sensor.format, mValue.value);
@@ -223,6 +217,19 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
             dragEventSetup();
 
+        }
+
+        function normalizeSensor(sensor) {
+            // new sensor property so it doesn't lose the original one 
+            // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+            sensor.realBgColor = sensor.bgColor
+            sensor.realFontColor = sensor.fontColor
+
+            sensor.nameBlink = false
+            sensor.valueBlink = false
+            sensor.bgBlink = false
+
+            sensor.isBold = false
         }
 
         function dragEventSetup() {

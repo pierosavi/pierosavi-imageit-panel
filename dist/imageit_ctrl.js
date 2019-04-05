@@ -265,6 +265,113 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   }) + 20;
                   sensor.panelWidth = sensorWidth + "px";
                   sensor.width = sensorWidth;
+                  sensor.ylocationStr = sensor.ylocation.toString() + "px";
+                  sensor.xlocationStr = sensor.xlocation.toString() + "px";
+                  sensor.sizeStr = sensor.size.toString() + "px";
+
+                  if (sensor.rectangular) {
+                    sensor.borderRadius = '5%';
+                  } else {
+                    sensor.borderRadius = '50%';
+                  }
+
+                  if (sensor.link_url != undefined) {
+                    sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
+                  } //We need to replace possible variables in the sensors name
+
+
+                  var effectiveName = ctrl.templateSrv.replace(sensor.metric);
+                  var mValue = metricMap[effectiveName];
+
+                  if (mValue === undefined) {
+                    mValue = {
+                      name: "dummy",
+                      value: 'null'
+                    };
+                  } // update existing valueMappings
+
+
+                  var _iteratorNormalCompletion2 = true;
+                  var _didIteratorError2 = false;
+                  var _iteratorError2 = undefined;
+
+                  try {
+                    for (var _iterator2 = ctrl.panel.valueMappings[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                      var _valueMapping = _step2.value;
+
+                      if (_valueMapping.mappingOperatorName == null) {
+                        _valueMapping.mappingOperatorName = mappingOperators[0].name;
+                      }
+
+                      if (_valueMapping.id == null) {
+                        _valueMapping.id = getRandomId();
+                      }
+                    }
+                  } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                  } finally {
+                    try {
+                      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+                        _iterator2.return();
+                      }
+                    } finally {
+                      if (_didIteratorError2) {
+                        throw _iteratorError2;
+                      }
+                    }
+                  }
+
+                  sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : '';
+
+                  if (sensor.valueMappingIds.length > 0) {
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+
+                    try {
+                      for (var _iterator3 = sensor.valueMappingIds[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                        var mappingId = _step3.value;
+                        var valueMapping = valueMappingsMap[mappingId];
+
+                        if (valueMapping === undefined) {
+                          break;
+                        }
+
+                        var mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
+
+                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                          sensor.realFontColor = valueMapping.fontColor;
+                          sensor.realBgColor = valueMapping.bgColor;
+                          sensor.nameBlink = valueMapping.nameBlink;
+                          sensor.valueBlink = valueMapping.valueBlink;
+                          sensor.bgBlink = valueMapping.bgBlink;
+                          sensor.isBold = valueMapping.isSensorFontBold;
+                          break;
+                        } else {
+                          normalizeSensor(sensor);
+                        }
+                      }
+                    } catch (err) {
+                      _didIteratorError3 = true;
+                      _iteratorError3 = err;
+                    } finally {
+                      try {
+                        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+                          _iterator3.return();
+                        }
+                      } finally {
+                        if (_didIteratorError3) {
+                          throw _iteratorError3;
+                        }
+                      }
+                    }
+                  } else {
+                    normalizeSensor(sensor);
+                  } //finally format the value itself
+
+
+                  sensor.valueFormatted = sprintf(sensor.format, mValue.value);
                 }
               } catch (err) {
                 _didIteratorError = true;
@@ -281,139 +388,18 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 }
               }
 
-              var _iteratorNormalCompletion2 = true;
-              var _didIteratorError2 = false;
-              var _iteratorError2 = undefined;
-
-              try {
-                for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                  var _sensor = _step2.value;
-                  _sensor.ylocationStr = _sensor.ylocation.toString() + "px";
-                  _sensor.xlocationStr = _sensor.xlocation.toString() + "px";
-                  _sensor.sizeStr = _sensor.size.toString() + "px";
-
-                  if (_sensor.rectangular) {
-                    _sensor.borderRadius = '5%';
-                  } else {
-                    _sensor.borderRadius = '50%';
-                  }
-
-                  if (_sensor.link_url != undefined) {
-                    _sensor.resolvedLink = ctrl.templateSrv.replace(_sensor.link_url);
-                  } //We need to replace possible variables in the sensors name
-
-
-                  var effectiveName = ctrl.templateSrv.replace(_sensor.metric);
-                  var mValue = metricMap[effectiveName];
-
-                  if (mValue === undefined) {
-                    mValue = {
-                      name: "dummy",
-                      value: 'null'
-                    };
-                  } // update existing valueMappings
-
-
-                  var _iteratorNormalCompletion3 = true;
-                  var _didIteratorError3 = false;
-                  var _iteratorError3 = undefined;
-
-                  try {
-                    for (var _iterator3 = ctrl.panel.valueMappings[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                      var valueMapping = _step3.value;
-
-                      if (valueMapping.mappingOperatorName == null) {
-                        valueMapping.mappingOperatorName = mappingOperators[0].name;
-                      }
-
-                      if (valueMapping.id == null) {
-                        valueMapping.id = getRandomId();
-                      }
-                    }
-                  } catch (err) {
-                    _didIteratorError3 = true;
-                    _iteratorError3 = err;
-                  } finally {
-                    try {
-                      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                        _iterator3.return();
-                      }
-                    } finally {
-                      if (_didIteratorError3) {
-                        throw _iteratorError3;
-                      }
-                    }
-                  }
-
-                  _sensor.valueMappingIds == undefined ? _sensor.valueMappingIds = [] : '';
-                  var _iteratorNormalCompletion4 = true;
-                  var _didIteratorError4 = false;
-                  var _iteratorError4 = undefined;
-
-                  try {
-                    for (var _iterator4 = _sensor.valueMappingIds[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                      var mappingId = _step4.value;
-                      var _valueMapping = valueMappingsMap[mappingId];
-
-                      if (_valueMapping === undefined) {
-                        break;
-                      }
-
-                      var mappingOperator = mappingOperatorsMap[_valueMapping.mappingOperatorName];
-
-                      if (mappingOperator.fn(mValue.value, _valueMapping.compareTo)) {
-                        _sensor.realFontColor = _valueMapping.fontColor;
-                        _sensor.realBgColor = _valueMapping.bgColor;
-                        _sensor.nameBlink = _valueMapping.nameBlink;
-                        _sensor.valueBlink = _valueMapping.valueBlink;
-                        _sensor.bgBlink = _valueMapping.bgBlink;
-                        _sensor.isBold = _valueMapping.isSensorFontBold;
-                        break;
-                      } else {
-                        // new sensor property so it doesn't lose the original one 
-                        // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
-                        _sensor.realBgColor = _sensor.bgColor;
-                        _sensor.realFontColor = _sensor.fontColor;
-                        _sensor.nameBlink = false;
-                        _sensor.valueBlink = false;
-                        _sensor.bgBlink = false;
-                        _sensor.isBold = false;
-                      }
-                    } //finally format the value itself
-
-                  } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
-                  } finally {
-                    try {
-                      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                        _iterator4.return();
-                      }
-                    } finally {
-                      if (_didIteratorError4) {
-                        throw _iteratorError4;
-                      }
-                    }
-                  }
-
-                  _sensor.valueFormatted = sprintf(_sensor.format, mValue.value);
-                }
-              } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                    _iterator2.return();
-                  }
-                } finally {
-                  if (_didIteratorError2) {
-                    throw _iteratorError2;
-                  }
-                }
-              }
-
               dragEventSetup();
+            }
+
+            function normalizeSensor(sensor) {
+              // new sensor property so it doesn't lose the original one 
+              // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
+              sensor.realBgColor = sensor.bgColor;
+              sensor.realFontColor = sensor.fontColor;
+              sensor.nameBlink = false;
+              sensor.valueBlink = false;
+              sensor.bgBlink = false;
+              sensor.isBold = false;
             }
 
             function dragEventSetup() {
