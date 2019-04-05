@@ -6,11 +6,6 @@
                 <label class="gf-form-label width-8">Image URL</label>
                 <input type="text" class="input-small gf-form-input width-30" ng-model="ctrl.panel.bgimage"
                     ng-change="ctrl.render()" ng-model-onblur />
-                <label class="gf-form-label width-12">Use Label Groupings</label>
-                <span class="gf-form-label">
-                    <input type="checkbox" name="labelGroupings" ng-model="ctrl.panel.useLabelGroupings"
-                        ng-change="ctrl.render()" />
-                </span>
             </div>
         </div>
     </div>
@@ -28,41 +23,6 @@
             </div>
         </div>
     </div>
-
-    <h4 ng-if="ctrl.panel.useLabelGroupings">Sensor Groups</h4>
-    <div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
-        <div ng-repeat="group in ctrl.panel.groups">
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-8">Name</label>
-                    <input type="text" class="input-small gf-form-input width-8" ng-model="group.name"
-                        ng-change="ctrl.render()" ng-model-onblur />
-                    <label class="gf-form-label width-8">Alignment</label>
-                    <select class="input-small gf-form-input width-8" ng-model="group.alignment"
-                        ng-options="t for t in ['left', 'middle', 'right', 'top']" ng-change="ctrl.render()"></select>
-                    <label class="gf-form-label width-8">X Location</label>
-                    <input type="number" class="input-small gf-form-input width-8" ng-model="group.x"
-                        ng-change="ctrl.render()" />
-                    <label class="gf-form-label width-8">Y Location</label>
-                    <input type="number" class="input-small gf-form-input width-8" ng-model="group.y"
-                        ng-change="ctrl.render()" />
-                    <label class="gf-form-label width-8">Same Size</label>
-                    <span class="gf-form-label">
-                        <input type="checkbox" name="renderValue" ng-model="group.sameSize" ng-change="ctrl.render()" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div ng-if="ctrl.panel.useLabelGroupings" class="editor-row">
-        <div class="gf-form-button">
-            <button class="btn btn-inverse" ng-click="ctrl.addGroup();ctrl.render()">
-                <i class="fa fa-plus"></i>&nbsp;Add Group
-            </button>
-        </div>
-    </div>
-
 
     <h4>Sensors</h4>
     <div class="editor-row">
@@ -97,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="!ctrl.panel.useLabelGroupings" class="section gf-form-group">
+            <div class="section gf-form-group">
                 <h5 class="section-heading">Position</h5>
                 <div class="gf-form-inline">
                     <div class="gf-form">
@@ -112,17 +72,6 @@
                         <label class="gf-form-label width-8">Y Location</label>
                         <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation"
                             ng-change="ctrl.render()" />
-                    </div>
-                </div>
-            </div>
-            <div ng-if="ctrl.panel.useLabelGroupings" class="section gf-form-group">
-                <h5 class="section-heading">Group Settings</h5>
-                <div class="gf-form-inline">
-                    <div class="gf-form">
-                        <label ng-if="ctrl.panel.useLabelGroupings" class="gf-form-label width-8">Group</label>
-                        <select class="input-small gf-form-input width-8" ng-model="sensor.group"
-                            ng-options="g as g.name for g in ctrl.panel.groups track by g.name"
-                            ng-change="ctrl.render()"></select>
                     </div>
                 </div>
             </div>

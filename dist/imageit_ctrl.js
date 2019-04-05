@@ -76,21 +76,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
     this.link_url = '';
     this.resolvedLink = '';
     this.rectangular = true;
-    this.group = 'A';
     this.valueMappingIds = [];
     this.isBold = false;
     this.id = getRandomId();
-  }
-
-  function Group(name, alignment, x, y) {
-    'use strict';
-
-    this.name = name;
-    this.alignment = alignment;
-    this.x = x;
-    this.y = y;
-    this.sameSize = false;
-    this.width = 100;
   }
 
   function normalizeColor(color) {
@@ -125,8 +113,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         series: [],
         bgimage: '',
         sensors: [],
-        groups: [],
-        useLabelGroupings: false,
         height: '400px',
         width: '100px',
         templateSrv: null,
@@ -228,25 +214,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             this.panel.sensors.splice(index + 1, 0, sensor);
           }
         }, {
-          key: "deleteGroup",
-          value: function deleteGroup(index) {
-            this.panel.groups.splice(index, 1);
-          }
-        }, {
-          key: "addGroup",
-          value: function addGroup() {
-            this.panel.groups.push(new Group('A', "left", 50, 50));
-          }
-        }, {
-          key: "getAvailableGroups",
-          value: function getAvailableGroups() {
-            var result = ctrl.panel.groups.map(function (g) {
-              return g.name;
-            });
-            alert("RESULT: " + JSON.stringify(result));
-            return result;
-          }
-        }, {
           key: "onInitEditMode",
           value: function onInitEditMode() {
             this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
@@ -257,37 +224,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
           value: function link(scope, elem, attrs, ctrl) {
             var panelContainer = elem.find('.pierosavi-imageit-panel')[0];
             var image = panelContainer.querySelector('#imageit-image');
-
-            function getGroup(name) {
-              var _iteratorNormalCompletion = true;
-              var _didIteratorError = false;
-              var _iteratorError = undefined;
-
-              try {
-                for (var _iterator = ctrl.panel.groups[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  var _group = _step.value;
-
-                  if (_group.name == name) {
-                    return _group;
-                  }
-                }
-              } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
-                  }
-                } finally {
-                  if (_didIteratorError) {
-                    throw _iteratorError;
-                  }
-                }
-              }
-
-              return null;
-            }
 
             function render() {
               if (!ctrl.panel.sensors) {
@@ -306,13 +242,13 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 return operator.name;
               });
 
-              var _iteratorNormalCompletion2 = true;
-              var _didIteratorError2 = false;
-              var _iteratorError2 = undefined;
+              var _iteratorNormalCompletion = true;
+              var _didIteratorError = false;
+              var _iteratorError = undefined;
 
               try {
-                for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                  var sensor = _step2.value;
+                for (var _iterator = ctrl.panel.sensors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  var sensor = _step.value;
 
                   if (!sensor.hasOwnProperty('id')) {
                     sensor.id = getRandomId();
@@ -327,62 +263,33 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     font: 'Arial',
                     size: sensor.size
                   }) + 20;
-
-                  if (ctrl.panel.useLabelGroupings) {
-                    var _group2 = getGroup(sensor.group.name);
-
-                    if (_group2 != null && _group2.sameSize) {
-                      var newValue = Math.max(_group2.width, sensorWidth);
-                      _group2.width = newValue;
-                      sensor.width = newValue;
-                    } else {
-                      sensor.panelWidth = sensorWidth + "px";
-                      sensor.width = sensorWidth;
-                    }
-                  } else {
-                    sensor.panelWidth = sensorWidth + "px";
-                    sensor.width = sensorWidth;
-                  }
+                  sensor.panelWidth = sensorWidth + "px";
+                  sensor.width = sensorWidth;
                 }
               } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
+                _didIteratorError = true;
+                _iteratorError = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                    _iterator2.return();
+                  if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
                   }
                 } finally {
-                  if (_didIteratorError2) {
-                    throw _iteratorError2;
+                  if (_didIteratorError) {
+                    throw _iteratorError;
                   }
                 }
               }
 
-              var _iteratorNormalCompletion3 = true;
-              var _didIteratorError3 = false;
-              var _iteratorError3 = undefined;
+              var _iteratorNormalCompletion2 = true;
+              var _didIteratorError2 = false;
+              var _iteratorError2 = undefined;
 
               try {
-                for (var _iterator3 = ctrl.panel.sensors[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                  var _sensor = _step3.value;
-
-                  if (ctrl.panel.useLabelGroupings && group.sameSize) {
-                    var _group3 = getGroup(_sensor.group.name);
-
-                    if (_group3 != null) {
-                      _sensor.panelWidth = _group3.width + "px";
-                      _sensor.width = _group3.width;
-                    }
-                  }
-
-                  if (!ctrl.panel.useLabelGroupings) {
-                    _sensor.ylocationStr = _sensor.ylocation.toString() + "px";
-                    _sensor.xlocationStr = _sensor.xlocation.toString() + "px";
-                  } else {
-                    alignSensors();
-                  }
-
+                for (var _iterator2 = ctrl.panel.sensors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                  var _sensor = _step2.value;
+                  _sensor.ylocationStr = _sensor.ylocation.toString() + "px";
+                  _sensor.xlocationStr = _sensor.xlocation.toString() + "px";
                   _sensor.sizeStr = _sensor.size.toString() + "px";
 
                   if (_sensor.rectangular) {
@@ -407,13 +314,13 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   } // update existing valueMappings
 
 
-                  var _iteratorNormalCompletion4 = true;
-                  var _didIteratorError4 = false;
-                  var _iteratorError4 = undefined;
+                  var _iteratorNormalCompletion3 = true;
+                  var _didIteratorError3 = false;
+                  var _iteratorError3 = undefined;
 
                   try {
-                    for (var _iterator4 = ctrl.panel.valueMappings[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                      var valueMapping = _step4.value;
+                    for (var _iterator3 = ctrl.panel.valueMappings[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                      var valueMapping = _step3.value;
 
                       if (valueMapping.mappingOperatorName == null) {
                         valueMapping.mappingOperatorName = mappingOperators[0].name;
@@ -424,28 +331,28 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                       }
                     }
                   } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
+                    _didIteratorError3 = true;
+                    _iteratorError3 = err;
                   } finally {
                     try {
-                      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                        _iterator4.return();
+                      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+                        _iterator3.return();
                       }
                     } finally {
-                      if (_didIteratorError4) {
-                        throw _iteratorError4;
+                      if (_didIteratorError3) {
+                        throw _iteratorError3;
                       }
                     }
                   }
 
                   _sensor.valueMappingIds == undefined ? _sensor.valueMappingIds = [] : '';
-                  var _iteratorNormalCompletion5 = true;
-                  var _didIteratorError5 = false;
-                  var _iteratorError5 = undefined;
+                  var _iteratorNormalCompletion4 = true;
+                  var _didIteratorError4 = false;
+                  var _iteratorError4 = undefined;
 
                   try {
-                    for (var _iterator5 = _sensor.valueMappingIds[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                      var mappingId = _step5.value;
+                    for (var _iterator4 = _sensor.valueMappingIds[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                      var mappingId = _step4.value;
                       var _valueMapping = valueMappingsMap[mappingId];
 
                       if (_valueMapping === undefined) {
@@ -475,16 +382,16 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     } //finally format the value itself
 
                   } catch (err) {
-                    _didIteratorError5 = true;
-                    _iteratorError5 = err;
+                    _didIteratorError4 = true;
+                    _iteratorError4 = err;
                   } finally {
                     try {
-                      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-                        _iterator5.return();
+                      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+                        _iterator4.return();
                       }
                     } finally {
-                      if (_didIteratorError5) {
-                        throw _iteratorError5;
+                      if (_didIteratorError4) {
+                        throw _iteratorError4;
                       }
                     }
                   }
@@ -492,16 +399,16 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   _sensor.valueFormatted = sprintf(_sensor.format, mValue.value);
                 }
               } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                    _iterator3.return();
+                  if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+                    _iterator2.return();
                   }
                 } finally {
-                  if (_didIteratorError3) {
-                    throw _iteratorError3;
+                  if (_didIteratorError2) {
+                    throw _iteratorError2;
                   }
                 }
               }
@@ -566,106 +473,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                   target.setAttribute('data-y', 0);
                 }
               });
-            }
-
-            function alignSensors() {
-              var _iteratorNormalCompletion6 = true;
-              var _didIteratorError6 = false;
-              var _iteratorError6 = undefined;
-
-              try {
-                for (var _iterator6 = ctrl.panel.groups[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                  var _group4 = _step6.value;
-                  _group4.nextTop = undefined;
-                  _group4.nextX = undefined;
-                }
-              } catch (err) {
-                _didIteratorError6 = true;
-                _iteratorError6 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
-                    _iterator6.return();
-                  }
-                } finally {
-                  if (_didIteratorError6) {
-                    throw _iteratorError6;
-                  }
-                }
-              }
-
-              var _iteratorNormalCompletion7 = true;
-              var _didIteratorError7 = false;
-              var _iteratorError7 = undefined;
-
-              try {
-                for (var _iterator7 = ctrl.panel.sensors[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                  var sensor = _step7.value;
-                  var sensorHeight = sensor.size + 30;
-                  var sensorWidth = sensor.width + 10;
-
-                  var _group5 = getGroup(sensor.group.name);
-
-                  if (_group5.alignment == "left") {
-                    if (_group5.nextTop === undefined) {
-                      _group5.nextTop = _group5.y;
-                    }
-
-                    sensor.ylocationStr = _group5.nextTop + "px";
-                    sensor.xlocationStr = _group5.x + "px";
-                    _group5.nextTop = _group5.nextTop + sensorHeight;
-                  } else if (_group5.alignment == "middle") {
-                    if (_group5.nextTop === undefined) {
-                      _group5.nextTop = _group5.y;
-                    }
-
-                    sensor.ylocationStr = _group5.nextTop + "px";
-
-                    if (_group5.sameSize) {
-                      sensor.xlocationStr = _group5.x - _group5.width / 2 + "px";
-                    } else {
-                      sensor.xlocationStr = _group5.x - sensor.width / 2 + "px";
-                    }
-
-                    _group5.nextTop = _group5.nextTop + sensorHeight;
-                  } else if (_group5.alignment == "right") {
-                    if (_group5.nextTop === undefined) {
-                      _group5.nextTop = _group5.y;
-                    }
-
-                    sensor.ylocationStr = _group5.nextTop + "px";
-
-                    if (_group5.sameSize) {
-                      sensor.xlocationStr = _group5.x - _group5.width + "px";
-                    } else {
-                      sensor.xlocationStr = _group5.x - sensor.width + "px";
-                    }
-
-                    _group5.nextTop = _group5.nextTop + sensorHeight;
-                  } else if (_group5.alignment == "top") {
-                    if (_group5.nextX === undefined) {
-                      _group5.nextX = _group5.x;
-                    }
-
-                    sensor.xlocationStr = _group5.nextX + "px";
-                    sensor.ylocationStr = _group5.y + "px";
-                    _group5.nextX = _group5.nextX + sensorWidth;
-                  }
-                }
-              } catch (err) {
-                _didIteratorError7 = true;
-                _iteratorError7 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
-                    _iterator7.return();
-                  }
-                } finally {
-                  if (_didIteratorError7) {
-                    throw _iteratorError7;
-                  }
-                }
-              }
             }
 
             this.events.on('render', function () {

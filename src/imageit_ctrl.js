@@ -14,8 +14,6 @@ const panelDefaults = {
     series: [],
     bgimage: '',
     sensors: [],
-    groups: [],
-    useLabelGroupings: false,
     height: '400px',
     width: '100px',
     templateSrv: null,
@@ -93,23 +91,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.panel.sensors.splice(index+1,0,sensor);
     }
 
-    deleteGroup(index) {
-        this.panel.groups.splice(index, 1);
-    }
-
-    addGroup() {
-        this.panel.groups.push(
-            new Group('A', "left", 50, 50)
-        );
-    }
-
-    getAvailableGroups() {
-
-        const result = ctrl.panel.groups.map(g => g.name);
-        alert("RESULT: " + JSON.stringify(result))
-        return result;
-    }
-
     onInitEditMode() {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
         this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
@@ -118,15 +99,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     link(scope, elem, attrs, ctrl) {
         const panelContainer = (elem.find('.pierosavi-imageit-panel')[0]);
         const image = (panelContainer.querySelector('#imageit-image'))
-
-        function getGroup(name) {
-            for (let group of ctrl.panel.groups) {
-                if(group.name == name){
-                    return group;
-                }
-            }
-            return null;
-        }
 
         function render() {
 
@@ -150,37 +122,17 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 }
 
                 const sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
-                if(ctrl.panel.useLabelGroupings){
-                    const group = getGroup(sensor.group.name)
-                    if(group != null && group.sameSize){
-                        const newValue = Math.max(group.width, sensorWidth);
-                        group.width = newValue;
-                        sensor.width = newValue;
-                    }else{
-                        sensor.panelWidth = sensorWidth + "px";  
-                        sensor.width = sensorWidth;
-                    }
-                }else{
-                    sensor.panelWidth = sensorWidth + "px";  
-                    sensor.width = sensorWidth;
-                }
+                
+                sensor.panelWidth = sensorWidth + "px";  
+                sensor.width = sensorWidth;
+                
             }
 
             for (let sensor of ctrl.panel.sensors) {
-                if(ctrl.panel.useLabelGroupings && group.sameSize){
-                    const group = getGroup(sensor.group.name)
-                    if(group != null){
-                        sensor.panelWidth = group.width + "px";  
-                        sensor.width = group.width;
-                    }
-                }
 
-                if(!ctrl.panel.useLabelGroupings){
-                    sensor.ylocationStr = sensor.ylocation.toString() + "px";
-                    sensor.xlocationStr = sensor.xlocation.toString() + "px";
-                }else{
-                    alignSensors();
-                }
+                sensor.ylocationStr = sensor.ylocation.toString() + "px";
+                sensor.xlocationStr = sensor.xlocation.toString() + "px";
+
                 sensor.sizeStr = sensor.size.toString() + "px";
                 
                 if(sensor.rectangular){
@@ -328,55 +280,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             });
         }
 
-        function alignSensors(){
-            for (let group of ctrl.panel.groups) {
-                group.nextTop = undefined;
-                group.nextX = undefined;
-            }
-            for (let sensor of ctrl.panel.sensors) {
-                const sensorHeight = sensor.size + 30;
-                const sensorWidth = sensor.width + 10;
-                let group = getGroup(sensor.group.name)
-                if(group.alignment == "left"){
-                    if(group.nextTop === undefined){
-                        group.nextTop = group.y;
-                    }
-                    sensor.ylocationStr = group.nextTop + "px";
-                    sensor.xlocationStr = group.x + "px";
-                    group.nextTop = group.nextTop + sensorHeight;
-                } else if(group.alignment == "middle"){
-                    if(group.nextTop === undefined){
-                        group.nextTop = group.y;
-                    }
-                    sensor.ylocationStr = group.nextTop + "px";
-                    if(group.sameSize){
-                        sensor.xlocationStr = (group.x - (group.width/2)) + "px";
-                    }else{
-                        sensor.xlocationStr = (group.x - (sensor.width/2))+ "px";
-                    }
-                    group.nextTop = group.nextTop + sensorHeight;
-                } else if(group.alignment == "right"){
-                    if(group.nextTop === undefined){
-                        group.nextTop = group.y;
-                    }
-                    sensor.ylocationStr = group.nextTop + "px";
-                    if(group.sameSize){
-                        sensor.xlocationStr = (group.x - group.width) + "px";
-                    }else{
-                        sensor.xlocationStr = (group.x - sensor.width)+ "px";
-                    }
-                    group.nextTop = group.nextTop + sensorHeight;
-                } else if(group.alignment == "top"){
-                    if(group.nextX === undefined){
-                        group.nextX = group.x;
-                    }
-                    sensor.xlocationStr = group.nextX + "px";
-                    sensor.ylocationStr = group.y + "px";
-                    group.nextX = group.nextX + sensorWidth;
-                }    
-            }
-        }
-
         this.events.on('render', function () {
             render();
             ctrl.renderingCompleted();
@@ -506,20 +409,9 @@ function Sensor(metric,
     this.link_url = '';
     this.resolvedLink = '';
     this.rectangular = true;
-    this.group = 'A';
     this.valueMappingIds = []
     this.isBold = false
     this.id = getRandomId()
-}
-
-function Group(name, alignment, x, y) {
-    'use strict';
-    this.name = name;
-    this.alignment = alignment;
-    this.x = x;
-    this.y = y;
-    this.sameSize = false;
-    this.width = 100;
 }
 
 function normalizeColor(color) {
