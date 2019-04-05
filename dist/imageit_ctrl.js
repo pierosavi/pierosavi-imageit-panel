@@ -51,9 +51,10 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
     this.operatorName = mappingOperators[0].name;
     this.compareTo = undefined;
     this.isSensorFontBold = false;
-    this.fontColor = undefined;
-    this.bgColor = undefined;
-    this.fontBlink = false;
+    this.fontColor = '#000';
+    this.bgColor = '#fff';
+    this.nameBlink = false;
+    this.valueBlink = false;
     this.bgBlink = false;
   }
 
@@ -446,13 +447,19 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     for (var _iterator5 = _sensor.valueMappingIds[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
                       var mappingId = _step5.value;
                       var _valueMapping = valueMappingsMap[mappingId];
+
+                      if (_valueMapping === undefined) {
+                        break;
+                      }
+
                       var mappingOperator = mappingOperatorsMap[_valueMapping.mappingOperatorName];
 
                       if (mappingOperator.fn(mValue.value, _valueMapping.compareTo)) {
                         _sensor.realFontColor = _valueMapping.fontColor;
-                        _sensor.realBbColor = _valueMapping.bgColor;
-                        _valueMapping.fontBlink ? _sensor.fontBlink : null;
-                        _valueMapping.bgBlink ? _sensor.bgBlink : null;
+                        _sensor.realBgColor = _valueMapping.bgColor;
+                        _sensor.nameBlink = _valueMapping.nameBlink;
+                        _sensor.valueBlink = _valueMapping.valueBlink;
+                        _sensor.bgBlink = _valueMapping.bgBlink;
                         _sensor.isBold = _valueMapping.isSensorFontBold;
                         break;
                       } else {
@@ -460,7 +467,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                         // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
                         _sensor.realBgColor = _sensor.bgColor;
                         _sensor.realFontColor = _sensor.fontColor;
-                        _sensor.fontBlink = false;
+                        _sensor.nameBlink = false;
+                        _sensor.valueBlink = false;
                         _sensor.bgBlink = false;
                         _sensor.isBold = false;
                       }

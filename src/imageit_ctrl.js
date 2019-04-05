@@ -218,18 +218,23 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 for (const mappingId of sensor.valueMappingIds) {
                     const valueMapping = valueMappingsMap[mappingId]
 
+                    if(valueMapping === undefined) {
+                        break
+                    }
+
                     const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
 
                     if(mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
 
                         sensor.realFontColor = valueMapping.fontColor
-                        sensor.realBbColor = valueMapping.bgColor
+                        sensor.realBgColor = valueMapping.bgColor
 
-                        valueMapping.fontBlink ? sensor.fontBlink : null
-                        valueMapping.bgBlink ? sensor.bgBlink : null
+                        sensor.nameBlink = valueMapping.nameBlink
+                        sensor.valueBlink = valueMapping.valueBlink
+                        sensor.bgBlink = valueMapping.bgBlink
 
                         sensor.isBold = valueMapping.isSensorFontBold
-
+                        
                         break
                     } else {
                         // new sensor property so it doesn't lose the original one 
@@ -237,14 +242,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                         sensor.realBgColor = sensor.bgColor
                         sensor.realFontColor = sensor.fontColor
 
-                        sensor.fontBlink = false
+                        sensor.nameBlink = false
+                        sensor.valueBlink = false
                         sensor.bgBlink = false
 
                         sensor.isBold = false
                     }
 
                 }
-
 
                 //finally format the value itself
                 sensor.valueFormatted = sprintf(sensor.format,mValue.value);
@@ -470,9 +475,10 @@ function ValueColorMapping() {
     this.operatorName = mappingOperators[0].name
     this.compareTo = undefined
     this.isSensorFontBold = false
-    this.fontColor = undefined
-    this.bgColor = undefined
-    this.fontBlink = false
+    this.fontColor = '#000'
+    this.bgColor = '#fff'
+    this.nameBlink = false
+    this.valueBlink = false
     this.bgBlink = false
 }
 

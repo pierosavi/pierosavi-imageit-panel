@@ -159,19 +159,19 @@
 
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <label class="gf-form-label width-8">Rectangular</label>
+                        <label class="gf-form-label width-8">Background Color</label>
                         <span class="gf-form-label width-8">
-                            <input type="checkbox" name="ellipse" ng-model="sensor.rectangular"
-                                ng-change="ctrl.render()">
+                            <spectrum-picker ng-model="sensor.bgColor" ng-change="ctrl.render()"></spectrum-picker>
                         </span>
                     </div>
                 </div>
 
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <label class="gf-form-label width-8">Background</label>
+                        <label class="gf-form-label width-8">Rectangular</label>
                         <span class="gf-form-label width-8">
-                            <spectrum-picker ng-model="sensor.bgColor" ng-change="ctrl.render()"></spectrum-picker>
+                            <input type="checkbox" name="ellipse" ng-model="sensor.rectangular"
+                                ng-change="ctrl.render()">
                         </span>
                     </div>
                 </div>
