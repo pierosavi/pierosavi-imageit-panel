@@ -1,13 +1,19 @@
-<div ng-style="{height:ctrl.panel.height,width:'100%','background-repeat':'no-repeat', 'background-size': 'contain'}" class="pierosavi-imageit-panel">
+<div ng-style="{height:ctrl.panel.height,width:'100%','background-repeat':'no-repeat', 'background-size': 'contain'}"
+    class="pierosavi-imageit-panel">
     <div style="position: relative;" id="draggableparent">
         <img id="imageit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%" />
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
-                <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;" ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.realFontColor}" refId="{{sensor.id}}" ng-class="{'blink': sensor.bgBlink}">
-                    <div ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor,'border-style':'solid','border-color':sensor.realBgColor,'border-width':'1px',padding:'5px'}">
+                <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;"
+                    ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.realFontColor}"
+                    refId="{{sensor.id}}" ng-class="{'blink': sensor.bgBlink}">
+                    <div
+                        ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor,'border-style':'solid','border-color':sensor.realBgColor,'border-width':'1px',padding:'5px'}">
                         <!-- handle<div><br/></div> -->
-                        <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}" bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
-                            <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)" ng-class="{'blink': sensor.nameBlink}"/>
+                        <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}"
+                            bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
+                            <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
+                                ng-class="{'blink': sensor.nameBlink}" />
                             <div ng-if="sensor.renderValue" ng-class="{'blink': sensor.valueBlink}">
                                 {{sensor.valueFormatted}} {{sensor.valueUnit}}
                             </div>
@@ -20,17 +26,17 @@
 </div>
 
 <style>
-.bold-text {
-    font-weight: bold;
-}
-
-.blink {
-    animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
+    .bold-text {
+        font-weight: bold;
     }
-}
+
+    .blink {
+        animation: blinker 1s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
 </style>

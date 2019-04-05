@@ -1,5 +1,7 @@
 import _ from "lodash";
-import {MetricsPanelCtrl} from "app/plugins/sdk";
+import {
+    MetricsPanelCtrl
+} from "app/plugins/sdk";
 import "./sprintf.js";
 import "./angular-sprintf.js";
 import getWidth from './stringwidth/strwidth.js';
@@ -23,11 +25,17 @@ const panelDefaults = {
 };
 
 const mappingOperators = [{
-    name: 'equal', operator: '=', fn: isEqualTo
-},{
-    name: 'greaterThan', operator: '>', fn: isGreaterThan
+    name: 'equal',
+    operator: '=',
+    fn: isEqualTo
 }, {
-    name: 'lessThan', operator: '<', fn: isLessThan
+    name: 'greaterThan',
+    operator: '>',
+    fn: isGreaterThan
+}, {
+    name: 'lessThan',
+    operator: '<',
+    fn: isLessThan
 }]
 
 let isTheFirstRender = true
@@ -55,17 +63,17 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             });
         }
 
-        if(!isTheFirstRender) {
+        if (!isTheFirstRender) {
             this.refreshImage()
         } else {
             isTheFirstRender = false
         }
-        
+
 
         this.render();
     }
 
-    refreshImage(){
+    refreshImage() {
         this.panel.uncache = Math.random()
     }
 
@@ -82,13 +90,13 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     moveSensorUp(index) {
         const sensor = this.panel.sensors[index]
         this.panel.sensors.splice(index, 1)
-        this.panel.sensors.splice(index-1,0,sensor);
+        this.panel.sensors.splice(index - 1, 0, sensor);
     }
 
     moveSensorDown(index) {
         const sensor = this.panel.sensors[index]
         this.panel.sensors.splice(index, 1)
-        this.panel.sensors.splice(index+1,0,sensor);
+        this.panel.sensors.splice(index + 1, 0, sensor);
     }
 
     onInitEditMode() {
@@ -109,10 +117,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
             let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.id);
             let mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
-            
+
             for (let sensor of ctrl.panel.sensors) {
 
-                if(!sensor.hasOwnProperty('id')){
+                if (!sensor.hasOwnProperty('id')) {
                     sensor.id = getRandomId()
                 }
 
@@ -121,11 +129,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600
                 }
 
-                const sensorWidth = getWidth(sensor.displayName, { font: 'Arial', size: sensor.size }) + 20;
-                
-                sensor.panelWidth = sensorWidth + "px";  
+                const sensorWidth = getWidth(sensor.displayName, {
+                    font: 'Arial',
+                    size: sensor.size
+                }) + 20;
+
+                sensor.panelWidth = sensorWidth + "px";
                 sensor.width = sensorWidth;
-                
+
             }
 
             for (let sensor of ctrl.panel.sensors) {
@@ -134,14 +145,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 sensor.xlocationStr = sensor.xlocation.toString() + "px";
 
                 sensor.sizeStr = sensor.size.toString() + "px";
-                
-                if(sensor.rectangular){
+
+                if (sensor.rectangular) {
                     sensor.borderRadius = '5%'
-                }else{
+                } else {
                     sensor.borderRadius = '50%'
                 }
 
-                if(sensor.link_url != undefined) {
+                if (sensor.link_url != undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
                 }
 
@@ -150,19 +161,22 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                 let mValue = metricMap[effectiveName];
                 if (mValue === undefined) {
-                    mValue = {name: "dummy", value: 'null'};
+                    mValue = {
+                        name: "dummy",
+                        value: 'null'
+                    };
                 }
-                
+
                 // update existing valueMappings
                 for (let valueMapping of ctrl.panel.valueMappings) {
                     if (valueMapping.mappingOperatorName == null) {
                         valueMapping.mappingOperatorName = mappingOperators[0].name
                     }
 
-                    if(valueMapping.id == null) {
+                    if (valueMapping.id == null) {
                         valueMapping.id = getRandomId()
                     }
-                    
+
                 }
 
                 sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : ''
@@ -170,13 +184,13 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 for (const mappingId of sensor.valueMappingIds) {
                     const valueMapping = valueMappingsMap[mappingId]
 
-                    if(valueMapping === undefined) {
+                    if (valueMapping === undefined) {
                         break
                     }
 
                     const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
 
-                    if(mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                    if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
 
                         sensor.realFontColor = valueMapping.fontColor
                         sensor.realBgColor = valueMapping.bgColor
@@ -186,7 +200,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                         sensor.bgBlink = valueMapping.bgBlink
 
                         sensor.isBold = valueMapping.isSensorFontBold
-                        
+
                         break
                     } else {
                         // new sensor property so it doesn't lose the original one 
@@ -204,11 +218,11 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 }
 
                 //finally format the value itself
-                sensor.valueFormatted = sprintf(sensor.format,mValue.value);
+                sensor.valueFormatted = sprintf(sensor.format, mValue.value);
             }
 
             dragEventSetup();
-            
+
         }
 
         function dragEventSetup() {
@@ -218,19 +232,24 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 restrict: {
                     restriction: "#draggableparent",
                     endOnly: true,
-                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                    elementRect: {
+                        top: 0,
+                        left: 0,
+                        bottom: 1,
+                        right: 1
+                    }
                 },
                 autoScroll: true,
                 onmove: function (event) {
                     const target = event.target,
-                    // keep the dragged position in the data-x/data-y attributes
-                    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                        // keep the dragged position in the data-x/data-y attributes
+                        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
                     // translate the element
                     target.style.webkitTransform =
-                    target.style.transform =
-                    'translate(' + x + 'px, ' + y + 'px)';
+                        target.style.transform =
+                        'translate(' + x + 'px, ' + y + 'px)';
 
                     // update the position attributes
                     target.setAttribute('data-x', x);
@@ -258,9 +277,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     newY = Math.round(newY * 10000) / 10000
 
                     target.style.webkitTransform =
-                    target.style.transform =
-                    'translate(0px, 0px)';
-                    
+                        target.style.transform =
+                        'translate(0px, 0px)';
+
                     // manually set the new style so I don't need to render() again
                     target.style.left = newX + '%'
                     target.style.top = newY + '%'
@@ -268,7 +287,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     // really update the sensor values
 
                     //find sensor with the id from the refId attribute on html
-                    let sensor = _.find(ctrl.panel.sensors, {'id': (event.target).getAttribute('refId')})
+                    let sensor = _.find(ctrl.panel.sensors, {
+                        'id': (event.target).getAttribute('refId')
+                    })
 
                     sensor.xlocation = newX
                     sensor.ylocation = newY
@@ -321,15 +342,17 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     replaceTokens(value) {
 
-        if (!value) { return value; }
+        if (!value) {
+            return value;
+        }
         value = value + "";
         value = value.split(" ").map(a => {
             if (a.startsWith("_fa-") && a.endsWith("_")) {
                 let icon = a.replace(/\_/g, "").split(",")[0];
-                let color = a.indexOf(",") > -1 ? ` style="color:${normalizeColor(a.replace(/\_/g, "").split(",")[1])}" ` : "";     
+                let color = a.indexOf(",") > -1 ? ` style="color:${normalizeColor(a.replace(/\_/g, "").split(",")[1])}" ` : "";
                 let repeatCount = a.split(",").length > 2 ? +(a.replace(/\_/g, "").split(",")[2]) : 1;
                 a = `<i class="fa ${icon}" ${color}></i> `.repeat(repeatCount);
-                
+
             } else if (a.startsWith("_img-") && a.endsWith("_")) {
                 a = a.slice(0, -1);
                 let imgUrl = a.replace("_img-", "").split(",")[0];
@@ -386,13 +409,13 @@ function ValueColorMapping() {
 }
 
 function Sensor(metric,
-                xlocation,
-                ylocation,
-                format,
-                bgColor,
-                fontColor,
-                size,
-                visible) {
+    xlocation,
+    ylocation,
+    format,
+    bgColor,
+    fontColor,
+    size,
+    visible) {
     'use strict';
     this.metric = metric;
     this.xlocation = xlocation;
@@ -415,14 +438,16 @@ function Sensor(metric,
 }
 
 function normalizeColor(color) {
-    
+
     if (color.toLowerCase() === "green") {
         return "rgba(50, 172, 45, 0.97)";
     } else if (color.toLowerCase() === "orange") {
         return "rgba(237, 129, 40, 0.89)";
     } else if (color.toLowerCase() === "red") {
         return "rgba(245, 54, 54, 0.9)";
-    } else { return color.toLowerCase(); }
+    } else {
+        return color.toLowerCase();
+    }
 };
 
 ImageItCtrl.templateUrl = 'module.html';

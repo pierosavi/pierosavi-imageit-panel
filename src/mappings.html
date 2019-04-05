@@ -5,23 +5,25 @@
         <div class="section gf-form-group">
             <h5 class="section-heading">&nbsp</h5>
             <span class="gf-form-label">
-				<i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap($index)"></i>
-			</span>
+                <i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap($index)"></i>
+            </span>
         </div>
         <div class="section gf-form-group">
             <h5 class="section-heading">Values</h5>
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Name</label>
-                    <input type="text" class="input-small gf-form-input width-10" placeholder="Name" ng-model="mapping.name"
-                           ng-change="ctrl.render()" ng-model-onblur/>
+                    <input type="text" class="input-small gf-form-input width-10" placeholder="Name"
+                        ng-model="mapping.name" ng-change="ctrl.render()" ng-model-onblur />
                 </div>
             </div>
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Operator</label>
-                    <select class="gf-form-input width-10" ng-blur="ctrl.render()" ng-model="mapping.mappingOperatorName">
-                        <option ng-repeat="mappingOperator in ctrl.getMappingOperators()" value="{{mappingOperator.name}}">
+                    <select class="gf-form-input width-10" ng-blur="ctrl.render()"
+                        ng-model="mapping.mappingOperatorName">
+                        <option ng-repeat="mappingOperator in ctrl.getMappingOperators()"
+                            value="{{mappingOperator.name}}">
                             {{mappingOperator.operator}}</option>
                     </select>
                 </div>
@@ -29,8 +31,8 @@
             <div class="gf-form-inline">
                 <div class="gf-form">
                     <label class="gf-form-label width-8">Compare To</label>
-                    <input type="text" ng-model="mapping.compareTo" placeholder="Value to compare to" class="gf-form-input width-10"
-                        ng-blur="ctrl.render()">
+                    <input type="text" ng-model="mapping.compareTo" placeholder="Value to compare to"
+                        class="gf-form-input width-10" ng-blur="ctrl.render()">
                 </div>
             </div>
         </div>
@@ -42,7 +44,7 @@
                 <div class="gf-form">
                     <label class="gf-form-label width-9">Font Color</label>
                     <span class="gf-form-label width-4">
-						<spectrum-picker ng-model="mapping.fontColor" ng-change="ctrl.render()"></spectrum-picker>
+                        <spectrum-picker ng-model="mapping.fontColor" ng-change="ctrl.render()"></spectrum-picker>
                     </span>
                 </div>
             </div>
@@ -51,7 +53,7 @@
                 <div class="gf-form">
                     <label class="gf-form-label width-9">Background Color</label>
                     <span class="gf-form-label width-4">
-						<spectrum-picker ng-model="mapping.bgColor" ng-change="ctrl.render()"></spectrum-picker>
+                        <spectrum-picker ng-model="mapping.bgColor" ng-change="ctrl.render()"></spectrum-picker>
                     </span>
                 </div>
             </div>
@@ -92,7 +94,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
