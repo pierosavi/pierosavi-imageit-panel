@@ -8,7 +8,7 @@
                     ng-style="{'position': 'absolute',left:sensor.xlocation + '%', 'top':sensor.ylocation + '%', 'font-size':sensor.sizeStr,'font-color':sensor.realFontColor}"
                     refId="{{sensor.id}}">
                     <div
-                        ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor,'border-style':'solid','border-color':sensor.realBgColor,'border-width':'1px',padding:'5px'}"
+                        ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor, padding:'5px'}"
                         ng-class="{'blink-background': sensor.bgBlink}">
                         <!-- handle<div><br/></div> -->
                         <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}"
@@ -48,7 +48,6 @@
     @keyframes blinker-background {
         50% {
             background-color: rgba(0, 0, 0, 0);
-            border-color: rgba(0, 0, 0, 0);
         }
     }
 </style>
