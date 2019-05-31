@@ -20,6 +20,7 @@ Allows a user to superimpose measurement displays ontop of picture.
 * Links on sensors
 * Change sensors background color (even transparent)
 * Font Awesome Icons - Images mapping on sensor name
+* New value mapping system
 
 ### Coming from picture it?
 

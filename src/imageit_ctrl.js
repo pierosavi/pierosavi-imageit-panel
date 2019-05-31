@@ -432,7 +432,7 @@ function Sensor(metric,
     this.fontColor = fontColor;
     this.size = size;
     this.visible = visible;
-    this.renderValue = false;
+    this.renderValue = true;
     this.valueFormatted = '';
     this.valueUnit = '';
     this.displayName = '';
