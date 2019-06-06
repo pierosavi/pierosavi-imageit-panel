@@ -4,15 +4,16 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 ![ImageIt](https://raw.githubusercontent.com/pierosavi/pierosavi-imageit-panel/master/src/img/imageit_example.png?raw=true) 
 
-### ImageIt
+### Setup
 
-1. Enter a URL for your background image.
-2. Set up some metrics (Influx and "fake data source" tested).
-3. Then add sensor displays ontop of the picture and tie them to the metrics.
+1. Install the last stable version with `grafana-cli plugins install pierosavi-imageit-panel` or build it from source with `grunt`
+2. Enter a URL for your background image.
+3. Set up a metric and give it an unique alias.
+4. Add a Sensor and give it the same name as the alias.
 
-### Fork Features
+### Features
 
-* Sensors stay still, even when resizing the panel
+* Sensors stay in the same position, even when resizing the panel
 * Draggable sensors
 * Resizing sensors when resizing the panel
 * Plugin compatibility with Grafana 5/6
@@ -20,7 +21,7 @@ Allows a user to superimpose measurement displays ontop of picture.
 * Links on sensors
 * Change sensors background color (even transparent)
 * Font Awesome Icons - Images mapping on sensor name
-* New value mapping system
+* Value mapping system
 
 ### Coming from picture it?
 
