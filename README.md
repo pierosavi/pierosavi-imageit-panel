@@ -22,9 +22,3 @@ Allows a user to superimpose measurement displays ontop of picture.
 * Change sensors background color (even transparent)
 * Font Awesome Icons - Images mapping on sensor name
 * Value mapping system
-
-### Coming from picture it?
-
-This was once a [PictureIt](https://github.com/vbessler/grafana-pictureit) fork. The original repo was abandoned long ago so I changed name and id to publish it.
-
-If you have old pictureit panels you can migrate each one by going on: "More... -> Panel JSON" on the panel menu and change "bessler-pictureit-panel" on "type" to "pierosavi-imageit-panel"
