@@ -190,7 +190,7 @@ System.register([], function (_export, _context) {
 
             var defaults = require('./defaultOptions');
 
-            var signals = require('./utils/Signals').new();
+            var signals = require('./utils/Signals')["new"]();
 
             var InteractEvent = function () {
               /** */
@@ -370,7 +370,7 @@ System.register([], function (_export, _context) {
 
             var defaults = require('./defaultOptions');
 
-            var signals = require('./utils/Signals').new();
+            var signals = require('./utils/Signals')["new"]();
 
             var _require = require('./utils/domUtils'),
                 getElementRect = _require.getElementRect,
@@ -415,19 +415,19 @@ System.register([], function (_export, _context) {
               Interactable.prototype.setOnEvents = function setOnEvents(action, phases) {
                 var onAction = 'on' + action;
 
-                if (is.function(phases.onstart)) {
+                if (is["function"](phases.onstart)) {
                   this.events[onAction + 'start'] = phases.onstart;
                 }
 
-                if (is.function(phases.onmove)) {
+                if (is["function"](phases.onmove)) {
                   this.events[onAction + 'move'] = phases.onmove;
                 }
 
-                if (is.function(phases.onend)) {
+                if (is["function"](phases.onend)) {
                   this.events[onAction + 'end'] = phases.onend;
                 }
 
-                if (is.function(phases.oninertiastart)) {
+                if (is["function"](phases.oninertiastart)) {
                   this.events[onAction + 'inertiastart'] = phases.oninertiastart;
                 }
 
@@ -486,7 +486,7 @@ System.register([], function (_export, _context) {
 
 
               Interactable.prototype.rectChecker = function rectChecker(checker) {
-                if (is.function(checker)) {
+                if (is["function"](checker)) {
                   this.getRect = checker;
                   return this;
                 }
@@ -847,7 +847,7 @@ System.register([], function (_export, _context) {
 
             var finder = require('./utils/interactionFinder');
 
-            var signals = require('./utils/Signals').new();
+            var signals = require('./utils/Signals')["new"]();
 
             var listeners = {};
             var methodNames = ['pointerDown', 'pointerMove', 'pointerUp', 'updatePointer', 'removePointer']; // for ignoring browser's simulated mouse events
@@ -1982,27 +1982,27 @@ System.register([], function (_export, _context) {
               if (utils.is.object(options)) {
                 this.options.drop.enabled = options.enabled === false ? false : true;
 
-                if (utils.is.function(options.ondrop)) {
+                if (utils.is["function"](options.ondrop)) {
                   this.events.ondrop = options.ondrop;
                 }
 
-                if (utils.is.function(options.ondropactivate)) {
+                if (utils.is["function"](options.ondropactivate)) {
                   this.events.ondropactivate = options.ondropactivate;
                 }
 
-                if (utils.is.function(options.ondropdeactivate)) {
+                if (utils.is["function"](options.ondropdeactivate)) {
                   this.events.ondropdeactivate = options.ondropdeactivate;
                 }
 
-                if (utils.is.function(options.ondragenter)) {
+                if (utils.is["function"](options.ondragenter)) {
                   this.events.ondragenter = options.ondragenter;
                 }
 
-                if (utils.is.function(options.ondragleave)) {
+                if (utils.is["function"](options.ondragleave)) {
                   this.events.ondragleave = options.ondragleave;
                 }
 
-                if (utils.is.function(options.ondropmove)) {
+                if (utils.is["function"](options.ondropmove)) {
                   this.events.ondropmove = options.ondropmove;
                 }
 
@@ -3067,7 +3067,7 @@ System.register([], function (_export, _context) {
 
 
             Interactable.prototype.actionChecker = function (checker) {
-              if (is.function(checker)) {
+              if (is["function"](checker)) {
                 this.options.actionChecker = checker;
                 return this;
               }
@@ -3153,7 +3153,7 @@ System.register([], function (_export, _context) {
 
             var utils = require('../utils');
 
-            var signals = require('../utils/Signals').new();
+            var signals = require('../utils/Signals')["new"]();
 
             require('./InteractableMethods');
 
@@ -4626,7 +4626,7 @@ System.register([], function (_export, _context) {
             };
 
             function getRestrictionRect(value, interaction, page) {
-              if (utils.is.function(value)) {
+              if (utils.is["function"](value)) {
                 return utils.resolveRectLike(value, interaction.target, interaction.element, [page.x, page.y, interaction]);
               } else {
                 return utils.resolveRectLike(value, interaction.target, interaction.element);
@@ -4992,7 +4992,7 @@ System.register([], function (_export, _context) {
                     _ref7 = (options.targets || [])[_i3];
                     var snapTarget = _ref7;
 
-                    if (utils.is.function(snapTarget)) {
+                    if (utils.is["function"](snapTarget)) {
                       target = snapTarget(relativeX, relativeY, interaction);
                     } else {
                       target = snapTarget;
@@ -5198,7 +5198,7 @@ System.register([], function (_export, _context) {
                   var snapTarget = _ref;
                   var target = void 0;
 
-                  if (utils.is.function(snapTarget)) {
+                  if (utils.is["function"](snapTarget)) {
                     target = snapTarget(relativeX, relativeY, interaction);
                   } else {
                     target = snapTarget;
@@ -5273,7 +5273,7 @@ System.register([], function (_export, _context) {
                   var pointerIndex = interaction.getPointerIndex(pointer);
                   this.dt = this.timeStamp - interaction.downTimes[pointerIndex];
                   var interval = this.timeStamp - interaction.tapTime;
-                  this.double = !!(interaction.prevTap && interaction.prevTap.type !== 'doubletap' && interaction.prevTap.target === this.target && interval < 500);
+                  this["double"] = !!(interaction.prevTap && interaction.prevTap.type !== 'doubletap' && interaction.prevTap.target === this.target && interval < 500);
                 } else if (type === 'doubletap') {
                   this.dt = pointer.timeStamp - interaction.tapTime;
                 }
@@ -5333,7 +5333,7 @@ System.register([], function (_export, _context) {
 
             var defaults = require('../defaultOptions');
 
-            var signals = require('../utils/Signals').new();
+            var signals = require('../utils/Signals')["new"]();
 
             var simpleSignals = ['down', 'up', 'cancel'];
             var simpleEvents = ['down', 'up', 'cancel'];
@@ -5399,7 +5399,7 @@ System.register([], function (_export, _context) {
               if (type === 'tap') {
                 // if pointerEvent should make a double tap, create and fire a doubletap
                 // PointerEvent and use that as the prevTap
-                var prevTap = pointerEvent.double ? fire({
+                var prevTap = pointerEvent["double"] ? fire({
                   interaction: interaction,
                   pointer: pointer,
                   event: event,
@@ -5775,7 +5775,7 @@ System.register([], function (_export, _context) {
 
             var events = require('./utils/events');
 
-            var signals = require('./utils/Signals').new();
+            var signals = require('./utils/Signals')["new"]();
 
             var _require = require('./utils/window'),
                 getWindow = _require.getWindow;
@@ -5891,7 +5891,7 @@ System.register([], function (_export, _context) {
               return Signals;
             }();
 
-            Signals.new = function () {
+            Signals["new"] = function () {
               return new Signals();
             };
 
@@ -5935,7 +5935,7 @@ System.register([], function (_export, _context) {
             var navigator = window.navigator;
             var browser = {
               // Does the browser support touch input?
-              supportsTouch: !!('ontouchstart' in window || is.function(window.DocumentTouch) && domObjects.document instanceof window.DocumentTouch),
+              supportsTouch: !!('ontouchstart' in window || is["function"](window.DocumentTouch) && domObjects.document instanceof window.DocumentTouch),
               // Does the browser support PointerEvents
               supportsPointerEvent: !!domObjects.PointerEvent,
               isIOS: /iP(hone|od|ad)/.test(navigator.platform),
@@ -6810,7 +6810,7 @@ System.register([], function (_export, _context) {
               object: function object(thing) {
                 return !!thing && (typeof thing === 'undefined' ? 'undefined' : _typeof(thing)) === 'object';
               },
-              function: function _function(thing) {
+              "function": function _function(thing) {
                 return typeof thing === 'function';
               },
               number: function number(thing) {
@@ -6838,7 +6838,7 @@ System.register([], function (_export, _context) {
             };
 
             is.array = function (thing) {
-              return is.object(thing) && typeof thing.length !== 'undefined' && is.function(thing.splice);
+              return is.object(thing) && typeof thing.length !== 'undefined' && is["function"](thing.splice);
             };
 
             module.exports = is;
@@ -7068,7 +7068,7 @@ System.register([], function (_export, _context) {
               },
               // [ event.target, event.currentTarget ]
               getEventTargets: function getEventTargets(event) {
-                var path = is.function(event.composedPath) ? event.composedPath() : event.path;
+                var path = is["function"](event.composedPath) ? event.composedPath() : event.path;
                 return [domUtils.getActualElement(path ? path[0] : event.target), domUtils.getActualElement(event.currentTarget)];
               }
             };
@@ -7153,7 +7153,7 @@ System.register([], function (_export, _context) {
               resolveRectLike: function resolveRectLike(value, interactable, element, functionArgs) {
                 value = rectUtils.getStringOptionResult(value, interactable, element) || value;
 
-                if (is.function(value)) {
+                if (is["function"](value)) {
                   value = value.apply(null, functionArgs);
                 }
 

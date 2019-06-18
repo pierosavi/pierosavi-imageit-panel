@@ -1,11 +1,15 @@
-import _ from "lodash";
+/* eslint-disable class-methods-use-this */
+/* eslint-disable func-names */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable import/prefer-default-export */
+import _ from 'lodash';
 import {
     MetricsPanelCtrl
-} from "app/plugins/sdk";
-import "./sprintf.js";
-import "./angular-sprintf.js";
-import getWidth from './stringwidth/strwidth.js';
-import interact from './libs/interact';
+} from 'app/plugins/sdk';
+import './sprintf';
+import './angular-sprintf';
+import getWidth from './stringwidth/strwidth';
+import './libs/interact';
 
 const panelDefaults = {
     colorMappings: [],
@@ -20,7 +24,7 @@ const panelDefaults = {
     width: '100px',
     templateSrv: null,
     sizecoefficient: 20,
-    //uncache is a random number added to the img url to refresh it
+    // uncache is a random number added to the img url to refresh it
     uncache: 0
 };
 
@@ -36,12 +40,11 @@ const mappingOperators = [{
     name: 'lessThan',
     operator: '<',
     fn: isLessThan
-}]
+}];
 
-let isTheFirstRender = true
+let isTheFirstRender = true;
 
 export class ImageItCtrl extends MetricsPanelCtrl {
-
     constructor($scope, $injector, $sce, templateSrv) {
         super($scope, $injector);
         _.defaults(this.panel, panelDefaults);
@@ -56,7 +59,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     onDataReceived(dataList) {
         const dataListLength = dataList.length;
         this.panel.metricValues = [];
-        for (let series = 0; series < dataListLength; series++) {
+        for (let series = 0; series < dataListLength; series += 1) {
             this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
@@ -64,9 +67,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         }
 
         if (!isTheFirstRender) {
-            this.refreshImage()
+            this.refreshImage();
         } else {
-            isTheFirstRender = false
+            isTheFirstRender = false;
         }
 
 
@@ -74,7 +77,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     refreshImage() {
-        this.panel.uncache = Math.random()
+        this.panel.uncache = Math.random();
     }
 
     deleteSensor(index) {
@@ -88,14 +91,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     moveSensorUp(index) {
-        const sensor = this.panel.sensors[index]
-        this.panel.sensors.splice(index, 1)
+        const sensor = this.panel.sensors[index];
+        this.panel.sensors.splice(index, 1);
         this.panel.sensors.splice(index - 1, 0, sensor);
     }
 
     moveSensorDown(index) {
-        const sensor = this.panel.sensors[index]
-        this.panel.sensors.splice(index, 1)
+        const sensor = this.panel.sensors[index];
+        this.panel.sensors.splice(index, 1);
         this.panel.sensors.splice(index + 1, 0, sensor);
     }
 
@@ -106,27 +109,25 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     link(scope, elem, attrs, ctrl) {
         const panelContainer = (elem.find('.pierosavi-imageit-panel')[0]);
-        const image = (panelContainer.querySelector('#imageit-image'))
+        const image = (panelContainer.querySelector('#imageit-image'));
 
         function render() {
-
             if (!ctrl.panel.sensors) {
                 return;
             }
 
-            let metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
-            let valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.id);
-            let mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
+            const metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
+            const valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.id);
+            const mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
 
-            for (let sensor of ctrl.panel.sensors) {
-
-                if (!sensor.hasOwnProperty('id')) {
-                    sensor.id = getRandomId()
+            for (const sensor of ctrl.panel.sensors) {
+                if (!Object.prototype.hasOwnProperty.call(sensor, 'id')) {
+                    sensor.id = getRandomId();
                 }
 
                 if (image != null) {
-                    let imageWidth = image.offsetWidth;
-                    sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600
+                    const imageWidth = image.offsetWidth;
+                    sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                 }
 
                 const sensorWidth = getWidth(sensor.displayName, {
@@ -134,102 +135,100 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     size: sensor.size
                 }) + 20;
 
-                sensor.panelWidth = sensorWidth + "px";
+                sensor.panelWidth = sensorWidth + 'px';
                 sensor.width = sensorWidth;
 
-                sensor.ylocationStr = sensor.ylocation.toString() + "px";
-                sensor.xlocationStr = sensor.xlocation.toString() + "px";
+                sensor.ylocationStr = sensor.ylocation.toString() + 'px';
+                sensor.xlocationStr = sensor.xlocation.toString() + 'px';
 
-                sensor.sizeStr = sensor.size.toString() + "px";
+                sensor.sizeStr = sensor.size.toString() + 'px';
 
                 if (sensor.rectangular) {
-                    sensor.borderRadius = '5%'
+                    sensor.borderRadius = '5%';
                 } else {
-                    sensor.borderRadius = '50%'
+                    sensor.borderRadius = '50%';
                 }
 
-                if (sensor.link_url != undefined) {
+                if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
                 }
 
-                //We need to replace possible variables in the sensors name
+                // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
                 let mValue = metricMap[effectiveName];
                 if (mValue === undefined) {
                     mValue = {
-                        name: "dummy",
+                        name: 'dummy',
                         value: 'null'
                     };
                 }
 
                 // update existing valueMappings
-                for (let valueMapping of ctrl.panel.valueMappings) {
+                for (const valueMapping of ctrl.panel.valueMappings) {
                     if (valueMapping.mappingOperatorName == null) {
-                        valueMapping.mappingOperatorName = mappingOperators[0].name
+                        valueMapping.mappingOperatorName = mappingOperators[0].name;
                     }
 
                     if (valueMapping.id == null) {
-                        valueMapping.id = getRandomId()
+                        valueMapping.id = getRandomId();
                     }
-
                 }
 
-                sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : ''
+                if (sensor.valueMappingIds === undefined) {
+                    sensor.valueMappingIds = [];
+                }
 
-                if(sensor.valueMappingIds.length > 0) {
+                if (sensor.valueMappingIds.length > 0) {
                     for (const mappingId of sensor.valueMappingIds) {
-                        const valueMapping = valueMappingsMap[mappingId]
-    
-                        if (valueMapping === undefined) {
-                            break
-                        }
-    
-                        const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName]
-    
-                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
-    
-                            sensor.realFontColor = valueMapping.fontColor
-                            sensor.realBgColor = valueMapping.bgColor
-    
-                            sensor.nameBlink = valueMapping.nameBlink
-                            sensor.valueBlink = valueMapping.valueBlink
-                            sensor.bgBlink = valueMapping.bgBlink
-    
-                            sensor.isBold = valueMapping.isSensorFontBold
-    
-                            break
-                        } else {
-                            normalizeSensor(sensor)
+                        const valueMapping = valueMappingsMap[mappingId];
 
+                        if (valueMapping === undefined) {
+                            break;
                         }
-    
+
+                        const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
+
+                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                            sensor.realFontColor = valueMapping.fontColor;
+                            sensor.realBgColor = valueMapping.bgColor;
+
+                            sensor.nameBlink = valueMapping.nameBlink;
+                            sensor.valueBlink = valueMapping.valueBlink;
+                            sensor.bgBlink = valueMapping.bgBlink;
+
+                            sensor.isBold = valueMapping.isSensorFontBold;
+
+                            break;
+                        } else {
+                            normalizeSensor(sensor);
+                        }
                     }
                 } else {
-                    normalizeSensor(sensor)
-
+                    normalizeSensor(sensor);
                 }
 
 
-                //finally format the value itself
+                // finally format the value itself
+                // I'll delete this later
+                // eslint-disable-next-line no-undef
                 sensor.valueFormatted = sprintf(sensor.format, mValue.value);
             }
 
             dragEventSetup();
-
         }
 
         function normalizeSensor(sensor) {
-            // new sensor property so it doesn't lose the original one 
+            // new sensor property so it doesn't lose the original one
             // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
-            sensor.realBgColor = sensor.bgColor
-            sensor.realFontColor = sensor.fontColor
+            sensor.realBgColor = sensor.bgColor;
+            sensor.realFontColor = sensor.fontColor;
 
-            sensor.nameBlink = false
-            sensor.valueBlink = false
-            sensor.bgBlink = false
+            sensor.nameBlink = false;
+            sensor.valueBlink = false;
+            sensor.bgBlink = false;
 
-            sensor.isBold = false
+            sensor.isBold = false;
         }
 
         function dragEventSetup() {
@@ -237,7 +236,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 // I dont like it personally but this could be configurable in the future
                 inertia: false,
                 restrict: {
-                    restriction: "#draggableparent",
+                    restriction: '#draggableparent',
                     endOnly: true,
                     elementRect: {
                         top: 0,
@@ -248,58 +247,57 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 },
                 autoScroll: true,
                 onmove: function (event) {
-                    const target = event.target,
-                        // keep the dragged position in the data-x/data-y attributes
-                        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                    const {target} = event;
+                    // keep the dragged position in the data-x/data-y attributes
+                    const datax = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    const datay = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
                     // translate the element
-                    target.style.webkitTransform =
-                        target.style.transform =
-                        'translate(' + x + 'px, ' + y + 'px)';
+                    const elementTransform = 'translate(' + datax + 'px, ' + datay + 'px)';
+                    target.style.webkitTransform = elementTransform;
+                    target.style.transform = elementTransform;
 
                     // update the position attributes
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-
+                    target.setAttribute('data-x', datax);
+                    target.setAttribute('data-y', datay);
                 },
                 onend: function (event) {
-                    const target = event.target;
+                    const {target} = event;
 
-                    let imageHeight = image.offsetHeight;
-                    let imageWidth = image.offsetWidth;
+                    const imageHeight = image.offsetHeight;
+                    const imageWidth = image.offsetWidth;
 
-                    let x = target.getAttribute('data-x');
-                    let y = target.getAttribute('data-y')
+                    const datax = target.getAttribute('data-x');
+                    const datay = target.getAttribute('data-y');
 
-                    // get percentage of relative distance from starting point 
-                    let xpercentage = (x * 100) / imageWidth;
-                    let ypercentage = (y * 100) / imageHeight;
+                    // get percentage of relative distance from starting point
+                    const xpercentage = (datax * 100) / imageWidth;
+                    const ypercentage = (datay * 100) / imageHeight;
 
                     // browsers dont render more than 4 decimals so better cut away the others
-                    let newX = parseInt(target.style.left) + xpercentage;
-                    newX = Math.round(newX * 10000) / 10000
+                    let newX = parseInt(target.style.left, 10) + xpercentage;
+                    newX = Math.round(newX * 10000) / 10000;
 
-                    let newY = parseInt(target.style.top) + ypercentage;
-                    newY = Math.round(newY * 10000) / 10000
+                    let newY = parseInt(target.style.top, 10) + ypercentage;
+                    newY = Math.round(newY * 10000) / 10000;
 
-                    target.style.webkitTransform =
-                        target.style.transform =
-                        'translate(0px, 0px)';
+                    const elementTransform = 'translate(0px, 0px)';
+                    target.style.webkitTransform = elementTransform;
+                    target.style.transform = elementTransform;
 
                     // manually set the new style so I don't need to render() again
-                    target.style.left = newX + '%'
-                    target.style.top = newY + '%'
+                    target.style.left = newX + '%';
+                    target.style.top = newY + '%';
 
                     // really update the sensor values
 
-                    //find sensor with the id from the refId attribute on html
-                    let sensor = _.find(ctrl.panel.sensors, {
+                    // find sensor with the id from the refId attribute on html
+                    const sensor = _.find(ctrl.panel.sensors, {
                         'id': (event.target).getAttribute('refId')
-                    })
+                    });
 
-                    sensor.xlocation = newX
-                    sensor.ylocation = newY
+                    sensor.xlocation = newX;
+                    sensor.ylocation = newY;
 
                     // reset the starting sensor points
                     target.setAttribute('data-x', 0);
@@ -315,26 +313,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     }
 
     //------------------
-    // Color mapping stuff
-    //------------------
-
-    addColorMapping() {
-        this.panel.colorMappings.push(new ColorMapping('name', '#FFFFFF'));
-        this.refreshColorMappings();
-    }
-
-    removeColorMapping(index) {
-        this.panel.colorMappings.splice(index, 1);
-        this.refreshColorMappings();
-    }
-
-    refreshColorMappings() {
-        this.panel.colorMappingMap = _.keyBy(this.panel.colorMappings, mapping => mapping.name);
-        this.render();
-    }
-
-
-    //------------------
     // Mapping stuff
     //------------------
 
@@ -347,72 +325,72 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.render();
     }
 
-    replaceTokens(value) {
+    replaceTokens(originalValue) {
+        let value = originalValue;
 
         if (!value) {
             return value;
         }
-        value = value + "";
-        value = value.split(" ").map(a => {
-            if (a.startsWith("_fa-") && a.endsWith("_")) {
-                let icon = a.replace(/\_/g, "").split(",")[0];
-                let color = a.indexOf(",") > -1 ? ` style="color:${normalizeColor(a.replace(/\_/g, "").split(",")[1])}" ` : "";
-                let repeatCount = a.split(",").length > 2 ? +(a.replace(/\_/g, "").split(",")[2]) : 1;
+        value += '';
+        value = value.split(' ').map((a) => {
+            if (a.startsWith('_fa-') && a.endsWith('_')) {
+                const icon = a.replace(/_/g, '').split(',')[0];
+                const color = a.indexOf(',') > -1 ? ` style="color:${normalizeColor(a.replace(/_/g, '').split(',')[1])}" ` : '';
+                const repeatCount = a.split(',').length > 2 ? +(a.replace(/_/g, '').split(',')[2]) : 1;
                 a = `<i class="fa ${icon}" ${color}></i> `.repeat(repeatCount);
-
-            } else if (a.startsWith("_img-") && a.endsWith("_")) {
+            } else if (a.startsWith('_img-') && a.endsWith('_')) {
                 a = a.slice(0, -1);
-                let imgUrl = a.replace("_img-", "").split(",")[0];
-                let imgWidth = a.split(",").length > 1 ? a.replace("_img-", "").split(",")[1] : "20px";
-                let imgHeight = a.split(",").length > 2 ? a.replace("_img-", "").split(",")[2] : "20px";
-                let repeatCount = a.split(",").length > 3 ? +(a.replace("_img-", "").split(",")[3]) : 1;
+                const imgUrl = a.replace('_img-', '').split(',')[0];
+                const imgWidth = a.split(',').length > 1 ? a.replace('_img-', '').split(',')[1] : '20px';
+                const imgHeight = a.split(',').length > 2 ? a.replace('_img-', '').split(',')[2] : '20px';
+                const repeatCount = a.split(',').length > 3 ? +(a.replace('_img-', '').split(',')[3]) : 1;
                 a = `<img width="${imgWidth}" height="${imgHeight}" src="${imgUrl}"/>`.repeat(repeatCount);
             }
             return a;
-        }).join(" ");
+        }).join(' ');
 
         return this.$sce.trustAsHtml(value);
     }
 
     getMappingOperators() {
-        return getMappingOperators()
+        return getMappingOperators();
     }
-
 }
 
 function isEqualTo(a, b) {
-    return (a !== undefined && b !== undefined) ? a == b : false
+    // Could be ok if Im comparing strings and numbers
+    // eslint-disable-next-line eqeqeq
+    return (a !== undefined && b !== undefined) ? a == b : false;
 }
 
 function isGreaterThan(a, b) {
-    return (a !== undefined && b !== undefined) ? a > b : false
+    return (a !== undefined && b !== undefined) ? a > b : false;
 }
 
 function isLessThan(a, b) {
-    return (a !== undefined && b !== undefined) ? a < b : false
+    return (a !== undefined && b !== undefined) ? a < b : false;
 }
 
 function getMappingOperators() {
-    return mappingOperators
+    return mappingOperators;
 }
 
 function getRandomId() {
     return '_' + Math.random().toString(36).substr(2, 9);
-};
+}
 
 function ValueColorMapping() {
-    'use strict';
     // TODO: check if it doesnt exist yet
-    this.id = getRandomId()
-    this.name = undefined
-    this.operatorName = mappingOperators[0].name
-    this.compareTo = undefined
-    this.isSensorFontBold = false
-    this.fontColor = '#000'
-    this.bgColor = '#fff'
-    this.nameBlink = false
-    this.valueBlink = false
-    this.bgBlink = false
+    this.id = getRandomId();
+    this.name = undefined;
+    this.operatorName = mappingOperators[0].name;
+    this.compareTo = undefined;
+    this.isSensorFontBold = false;
+    this.fontColor = '#000';
+    this.bgColor = '#fff';
+    this.nameBlink = false;
+    this.valueBlink = false;
+    this.bgBlink = false;
 }
 
 function Sensor(metric,
@@ -423,7 +401,6 @@ function Sensor(metric,
     fontColor,
     size,
     visible) {
-    'use strict';
     this.metric = metric;
     this.xlocation = xlocation;
     this.ylocation = ylocation;
@@ -439,22 +416,20 @@ function Sensor(metric,
     this.link_url = '';
     this.resolvedLink = '';
     this.rectangular = true;
-    this.valueMappingIds = []
-    this.isBold = false
-    this.id = getRandomId()
+    this.valueMappingIds = [];
+    this.isBold = false;
+    this.id = getRandomId();
 }
 
 function normalizeColor(color) {
-
-    if (color.toLowerCase() === "green") {
-        return "rgba(50, 172, 45, 0.97)";
-    } else if (color.toLowerCase() === "orange") {
-        return "rgba(237, 129, 40, 0.89)";
-    } else if (color.toLowerCase() === "red") {
-        return "rgba(245, 54, 54, 0.9)";
-    } else {
-        return color.toLowerCase();
+    if (color.toLowerCase() === 'green') {
+        return 'rgba(50, 172, 45, 0.97)';
+    } if (color.toLowerCase() === 'orange') {
+        return 'rgba(237, 129, 40, 0.89)';
+    } if (color.toLowerCase() === 'red') {
+        return 'rgba(245, 54, 54, 0.9)';
     }
-};
+    return color.toLowerCase();
+}
 
 ImageItCtrl.templateUrl = 'module.html';
