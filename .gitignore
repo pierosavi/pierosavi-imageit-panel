@@ -3,3 +3,4 @@ npm-debug.log
 .idea
 package-lock.json
 .vscode
+yarn.lock
