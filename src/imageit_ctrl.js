@@ -20,8 +20,6 @@ const panelDefaults = {
     series: [],
     bgimage: '',
     sensors: [],
-    height: '400px',
-    width: '100px',
     templateSrv: null,
     sizecoefficient: 20,
     // uncache is a random number added to the img url to refresh it
