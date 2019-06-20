@@ -1,7 +1,6 @@
-<div ng-style="{height:ctrl.panel.height,width:'100%','background-repeat':'no-repeat', 'background-size': 'contain'}"
-    class="pierosavi-imageit-panel">
-    <div style="position: relative;" id="draggableparent">
-        <img id="imageit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%" />
+<div class="pierosavi-imageit-panel">
+    <div class="pierosavi-imageit-wrapper" id="draggableparent" ng-style="{'max-height': ctrl.height}">
+        <img id="imageit-image" class="pierosavi-imageit-panel-img" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" ng-style="{'max-height': ctrl.height}"/>
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
                 <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;"
@@ -10,7 +9,6 @@
                     <div
                         ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor, padding:'5px'}"
                         ng-class="{'blink-background': sensor.bgBlink}">
-                        <!-- handle<div><br/></div> -->
                         <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}"
                             bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
                             <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
@@ -26,7 +24,26 @@
     </div>
 </div>
 
+
 <style>
+    .pierosavi-imageit-panel {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pierosavi-imageit-wrapper {
+        position: relative; 
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .pierosavi-imageit-panel-img {
+        max-width: 100%;
+    }
+
     .bold-text {
         font-weight: bold;
     }

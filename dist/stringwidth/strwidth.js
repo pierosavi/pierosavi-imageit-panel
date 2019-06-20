@@ -29,14 +29,14 @@ System.register(["./deburr.js", "./widthsMap.js"], function (_export, _context) 
         }
 
         var totalWidth = 0;
-        deburr(string).split('').forEach(function (char) {
-          if (/[\x00-\x1F]/.test(char)) {
+        deburr(string).split('').forEach(function (_char) {
+          if (/[\x00-\x1F]/.test(_char)) {
             // non-printable character
             return true;
           } // use width of 'x' as fallback for unregistered char
 
 
-          var widths = widthsMap[font][char] || widthsMap[font].x;
+          var widths = widthsMap[font][_char] || widthsMap[font].x;
           var width = widths[variant];
           totalWidth += width;
           return true;

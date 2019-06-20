@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf.js", "./stringwidth/strwidth.js", "./libs/interact"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", "./stringwidth/strwidth", "./libs/interact"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, interact, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getWidth, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -24,6 +24,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
   function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
   function isEqualTo(a, b) {
+    // Could be ok if Im comparing strings and numbers
+    // eslint-disable-next-line eqeqeq
     return a !== undefined && b !== undefined ? a == b : false;
   }
 
@@ -44,8 +46,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
   }
 
   function ValueColorMapping() {
-    'use strict'; // TODO: check if it doesnt exist yet
-
+    // TODO: check if it doesnt exist yet
     this.id = getRandomId();
     this.name = undefined;
     this.operatorName = mappingOperators[0].name;
@@ -59,8 +60,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
   }
 
   function Sensor(metric, xlocation, ylocation, format, bgColor, fontColor, size, visible) {
-    'use strict';
-
     this.metric = metric;
     this.xlocation = xlocation;
     this.ylocation = ylocation;
@@ -82,15 +81,19 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
   }
 
   function normalizeColor(color) {
-    if (color.toLowerCase() === "green") {
-      return "rgba(50, 172, 45, 0.97)";
-    } else if (color.toLowerCase() === "orange") {
-      return "rgba(237, 129, 40, 0.89)";
-    } else if (color.toLowerCase() === "red") {
-      return "rgba(245, 54, 54, 0.9)";
-    } else {
-      return color.toLowerCase();
+    if (color.toLowerCase() === 'green') {
+      return 'rgba(50, 172, 45, 0.97)';
     }
+
+    if (color.toLowerCase() === 'orange') {
+      return 'rgba(237, 129, 40, 0.89)';
+    }
+
+    if (color.toLowerCase() === 'red') {
+      return 'rgba(245, 54, 54, 0.9)';
+    }
+
+    return color.toLowerCase();
   }
 
   return {
@@ -98,11 +101,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
       _ = _lodash.default;
     }, function (_appPluginsSdk) {
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
-    }, function (_sprintfJs) {}, function (_angularSprintfJs) {}, function (_stringwidthStrwidthJs) {
-      getWidth = _stringwidthStrwidthJs.default;
-    }, function (_libsInteract) {
-      interact = _libsInteract.default;
-    }],
+    }, function (_sprintf) {}, function (_angularSprintf) {}, function (_stringwidthStrwidth) {
+      getWidth = _stringwidthStrwidth.default;
+    }, function (_libsInteract) {}],
     execute: function () {
       panelDefaults = {
         colorMappings: [],
@@ -113,11 +114,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         series: [],
         bgimage: '',
         sensors: [],
-        height: '400px',
-        width: '100px',
         templateSrv: null,
         sizecoefficient: 20,
-        //uncache is a random number added to the img url to refresh it
+        // uncache is a random number added to the img url to refresh it
         uncache: 0
       };
       mappingOperators = [{
@@ -169,7 +168,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             var dataListLength = dataList.length;
             this.panel.metricValues = [];
 
-            for (var series = 0; series < dataListLength; series++) {
+            for (var series = 0; series < dataListLength; series += 1) {
               this.panel.metricValues.push({
                 name: dataList[series].target,
                 value: dataList[series].datapoints[dataList[series].datapoints.length - 1][0]
@@ -250,7 +249,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 for (var _iterator = ctrl.panel.sensors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   var sensor = _step.value;
 
-                  if (!sensor.hasOwnProperty('id')) {
+                  if (!Object.prototype.hasOwnProperty.call(sensor, 'id')) {
                     sensor.id = getRandomId();
                   }
 
@@ -263,11 +262,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     font: 'Arial',
                     size: sensor.size
                   }) + 20;
-                  sensor.panelWidth = sensorWidth + "px";
+                  sensor.panelWidth = sensorWidth + 'px';
                   sensor.width = sensorWidth;
-                  sensor.ylocationStr = sensor.ylocation.toString() + "px";
-                  sensor.xlocationStr = sensor.xlocation.toString() + "px";
-                  sensor.sizeStr = sensor.size.toString() + "px";
+                  sensor.ylocationStr = sensor.ylocation.toString() + 'px';
+                  sensor.xlocationStr = sensor.xlocation.toString() + 'px';
+                  sensor.sizeStr = sensor.size.toString() + 'px';
 
                   if (sensor.rectangular) {
                     sensor.borderRadius = '5%';
@@ -275,9 +274,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     sensor.borderRadius = '50%';
                   }
 
-                  if (sensor.link_url != undefined) {
+                  if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
-                  } //We need to replace possible variables in the sensors name
+                  } // We need to replace possible variables in the sensors name
 
 
                   var effectiveName = ctrl.templateSrv.replace(sensor.metric);
@@ -285,7 +284,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
 
                   if (mValue === undefined) {
                     mValue = {
-                      name: "dummy",
+                      name: 'dummy',
                       value: 'null'
                     };
                   } // update existing valueMappings
@@ -312,8 +311,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     _iteratorError2 = err;
                   } finally {
                     try {
-                      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-                        _iterator2.return();
+                      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                        _iterator2["return"]();
                       }
                     } finally {
                       if (_didIteratorError2) {
@@ -322,7 +321,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     }
                   }
 
-                  sensor.valueMappingIds == undefined ? sensor.valueMappingIds = [] : '';
+                  if (sensor.valueMappingIds === undefined) {
+                    sensor.valueMappingIds = [];
+                  }
 
                   if (sensor.valueMappingIds.length > 0) {
                     var _iteratorNormalCompletion3 = true;
@@ -357,8 +358,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                       _iteratorError3 = err;
                     } finally {
                       try {
-                        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                          _iterator3.return();
+                        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+                          _iterator3["return"]();
                         }
                       } finally {
                         if (_didIteratorError3) {
@@ -368,7 +369,9 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                     }
                   } else {
                     normalizeSensor(sensor);
-                  } //finally format the value itself
+                  } // finally format the value itself
+                  // I'll delete this later
+                  // eslint-disable-next-line no-undef
 
 
                   sensor.valueFormatted = sprintf(sensor.format, mValue.value);
@@ -378,8 +381,8 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 _iteratorError = err;
               } finally {
                 try {
-                  if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
+                  if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                    _iterator["return"]();
                   }
                 } finally {
                   if (_didIteratorError) {
@@ -392,7 +395,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
             }
 
             function normalizeSensor(sensor) {
-              // new sensor property so it doesn't lose the original one 
+              // new sensor property so it doesn't lose the original one
               // https://github.com/pierosavi/pierosavi-imageit-panel/issues/4
               sensor.realBgColor = sensor.bgColor;
               sensor.realFontColor = sensor.fontColor;
@@ -407,7 +410,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 // I dont like it personally but this could be configurable in the future
                 inertia: false,
                 restrict: {
-                  restriction: "#draggableparent",
+                  restriction: '#draggableparent',
                   endOnly: true,
                   elementRect: {
                     top: 0,
@@ -418,35 +421,39 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
                 },
                 autoScroll: true,
                 onmove: function onmove(event) {
-                  var target = event.target,
-                      // keep the dragged position in the data-x/data-y attributes
-                  x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy; // translate the element
+                  var target = event.target; // keep the dragged position in the data-x/data-y attributes
 
-                  target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'; // update the position attributes
+                  var datax = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                  var datay = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy; // translate the element
 
-                  target.setAttribute('data-x', x);
-                  target.setAttribute('data-y', y);
+                  var elementTransform = 'translate(' + datax + 'px, ' + datay + 'px)';
+                  target.style.webkitTransform = elementTransform;
+                  target.style.transform = elementTransform; // update the position attributes
+
+                  target.setAttribute('data-x', datax);
+                  target.setAttribute('data-y', datay);
                 },
                 onend: function onend(event) {
                   var target = event.target;
                   var imageHeight = image.offsetHeight;
                   var imageWidth = image.offsetWidth;
-                  var x = target.getAttribute('data-x');
-                  var y = target.getAttribute('data-y'); // get percentage of relative distance from starting point 
+                  var datax = target.getAttribute('data-x');
+                  var datay = target.getAttribute('data-y'); // get percentage of relative distance from starting point
 
-                  var xpercentage = x * 100 / imageWidth;
-                  var ypercentage = y * 100 / imageHeight; // browsers dont render more than 4 decimals so better cut away the others
+                  var xpercentage = datax * 100 / imageWidth;
+                  var ypercentage = datay * 100 / imageHeight; // browsers dont render more than 4 decimals so better cut away the others
 
-                  var newX = parseInt(target.style.left) + xpercentage;
+                  var newX = parseInt(target.style.left, 10) + xpercentage;
                   newX = Math.round(newX * 10000) / 10000;
-                  var newY = parseInt(target.style.top) + ypercentage;
+                  var newY = parseInt(target.style.top, 10) + ypercentage;
                   newY = Math.round(newY * 10000) / 10000;
-                  target.style.webkitTransform = target.style.transform = 'translate(0px, 0px)'; // manually set the new style so I don't need to render() again
+                  var elementTransform = 'translate(0px, 0px)';
+                  target.style.webkitTransform = elementTransform;
+                  target.style.transform = elementTransform; // manually set the new style so I don't need to render() again
 
                   target.style.left = newX + '%';
                   target.style.top = newY + '%'; // really update the sensor values
-                  //find sensor with the id from the refId attribute on html
+                  // find sensor with the id from the refId attribute on html
 
                   var sensor = _.find(ctrl.panel.sensors, {
                     'id': event.target.getAttribute('refId')
@@ -466,29 +473,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
               ctrl.renderingCompleted();
             });
           } //------------------
-          // Color mapping stuff
-          //------------------
-
-        }, {
-          key: "addColorMapping",
-          value: function addColorMapping() {
-            this.panel.colorMappings.push(new ColorMapping('name', '#FFFFFF'));
-            this.refreshColorMappings();
-          }
-        }, {
-          key: "removeColorMapping",
-          value: function removeColorMapping(index) {
-            this.panel.colorMappings.splice(index, 1);
-            this.refreshColorMappings();
-          }
-        }, {
-          key: "refreshColorMappings",
-          value: function refreshColorMappings() {
-            this.panel.colorMappingMap = _.keyBy(this.panel.colorMappings, function (mapping) {
-              return mapping.name;
-            });
-            this.render();
-          } //------------------
           // Mapping stuff
           //------------------
 
@@ -505,31 +489,33 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
           }
         }, {
           key: "replaceTokens",
-          value: function replaceTokens(value) {
+          value: function replaceTokens(originalValue) {
+            var value = originalValue;
+
             if (!value) {
               return value;
             }
 
-            value = value + "";
-            value = value.split(" ").map(function (a) {
-              if (a.startsWith("_fa-") && a.endsWith("_")) {
-                var icon = a.replace(/\_/g, "").split(",")[0];
-                var color = a.indexOf(",") > -1 ? " style=\"color:".concat(normalizeColor(a.replace(/\_/g, "").split(",")[1]), "\" ") : "";
-                var repeatCount = a.split(",").length > 2 ? +a.replace(/\_/g, "").split(",")[2] : 1;
+            value += '';
+            value = value.split(' ').map(function (a) {
+              if (a.startsWith('_fa-') && a.endsWith('_')) {
+                var icon = a.replace(/_/g, '').split(',')[0];
+                var color = a.indexOf(',') > -1 ? " style=\"color:".concat(normalizeColor(a.replace(/_/g, '').split(',')[1]), "\" ") : '';
+                var repeatCount = a.split(',').length > 2 ? +a.replace(/_/g, '').split(',')[2] : 1;
                 a = "<i class=\"fa ".concat(icon, "\" ").concat(color, "></i> ").repeat(repeatCount);
-              } else if (a.startsWith("_img-") && a.endsWith("_")) {
+              } else if (a.startsWith('_img-') && a.endsWith('_')) {
                 a = a.slice(0, -1);
-                var imgUrl = a.replace("_img-", "").split(",")[0];
-                var imgWidth = a.split(",").length > 1 ? a.replace("_img-", "").split(",")[1] : "20px";
-                var imgHeight = a.split(",").length > 2 ? a.replace("_img-", "").split(",")[2] : "20px";
+                var imgUrl = a.replace('_img-', '').split(',')[0];
+                var imgWidth = a.split(',').length > 1 ? a.replace('_img-', '').split(',')[1] : '20px';
+                var imgHeight = a.split(',').length > 2 ? a.replace('_img-', '').split(',')[2] : '20px';
 
-                var _repeatCount = a.split(",").length > 3 ? +a.replace("_img-", "").split(",")[3] : 1;
+                var _repeatCount = a.split(',').length > 3 ? +a.replace('_img-', '').split(',')[3] : 1;
 
                 a = "<img width=\"".concat(imgWidth, "\" height=\"").concat(imgHeight, "\" src=\"").concat(imgUrl, "\"/>").repeat(_repeatCount);
               }
 
               return a;
-            }).join(" ");
+            }).join(' ');
             return this.$sce.trustAsHtml(value);
           }
         }, {
@@ -542,8 +528,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf.js", "./angular-sprintf
         return ImageItCtrl;
       }(MetricsPanelCtrl));
 
-      ;
-      ;
       ImageItCtrl.templateUrl = 'module.html';
     }
   };
