@@ -1,5 +1,5 @@
 <div class="pierosavi-imageit-panel" id="draggableparent" ng-style="{'max-height': ctrl.height}">
-    <img id="imageit-image" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" style="width:100%; max-height: 100%" />
+    <img id="imageit-image" class="pierosavi-imageit-panel-img" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" ng-style="{'max-height': ctrl.height}"/>
     <div ng-repeat="sensor in ctrl.panel.sensors">
         <div ng-if="sensor.visible">
             <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;"
@@ -23,6 +23,16 @@
 </div>
 
 <style>
+    .pierosavi-imageit-panel {
+        position: relative; 
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .pierosavi-imageit-panel-img {
+        max-width: 100%;
+    }
+
     .bold-text {
         font-weight: bold;
     }
