@@ -15,7 +15,7 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 `npm run build` or `yarn build`
 
-Master branch is always built befor pushing
+Master branch is always built before pushing
 
 ### Features
 
