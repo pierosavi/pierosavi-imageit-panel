@@ -409,7 +409,6 @@ function Sensor(metric,
     this.visible = visible;
     this.renderValue = true;
     this.valueFormatted = '';
-    this.valueUnit = '';
     this.displayName = '';
     this.link_url = '';
     this.resolvedLink = '';

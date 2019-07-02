@@ -14,7 +14,7 @@
                             <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
                                 ng-class="{'blink': sensor.nameBlink}" />
                             <div ng-if="sensor.renderValue" ng-class="{'blink': sensor.valueBlink}">
-                                {{sensor.valueFormatted}} {{sensor.valueUnit}}
+                                {{sensor.valueFormatted}}
                             </div>
                         </a>
                     </div>

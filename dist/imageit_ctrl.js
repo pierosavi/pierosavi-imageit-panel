@@ -70,7 +70,6 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
     this.visible = visible;
     this.renderValue = true;
     this.valueFormatted = '';
-    this.valueUnit = '';
     this.displayName = '';
     this.link_url = '';
     this.resolvedLink = '';
