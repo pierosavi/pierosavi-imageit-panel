@@ -9,8 +9,7 @@
                     <div
                         ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor, padding:'5px'}"
                         ng-class="{'blink-background': sensor.bgBlink}">
-                        
-                        <a ng-if="sensor.link_url" href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}"
+                        <a ng-href="{{sensor.link_url ? sensor.resolvedLink : ''}}" ng-style="{color:sensor.realFontColor}"
                             bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
                             <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
                                 ng-class="{'blink': sensor.nameBlink}" />
@@ -18,16 +17,6 @@
                                 {{sensor.valueFormatted}} {{sensor.valueUnit}}
                             </div>
                         </a>
-
-                        <div ng-if="!sensor.link_url" ng-style="{color:sensor.realFontColor}"
-                            bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
-                            <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
-                                ng-class="{'blink': sensor.nameBlink}" />
-                            <div ng-if="sensor.renderValue" ng-class="{'blink': sensor.valueBlink}">
-                                {{sensor.valueFormatted}} {{sensor.valueUnit}}
-                            </div>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
