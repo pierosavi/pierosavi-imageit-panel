@@ -23,7 +23,8 @@ const panelDefaults = {
     templateSrv: null,
     sizecoefficient: 20,
     // uncache is a random number added to the img url to refresh it
-    uncache: 0
+    uncache: 0,
+    islocked: false
 };
 
 const mappingOperators = [{
@@ -105,9 +106,15 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
     }
 
+    toggleBlock() {
+        this.panel.islocked = !this.panel.islocked;
+        this.render();
+    }
+
     link(scope, elem, attrs, ctrl) {
         const panelContainer = (elem.find('.pierosavi-imageit-panel')[0]);
         const image = (panelContainer.querySelector('#imageit-image'));
+        const draggableElement = '#imageit_panel' + ctrl.panel.id + '_sensor';
 
         function render() {
             if (!ctrl.panel.sensors) {
@@ -230,78 +237,84 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         }
 
         function dragEventSetup() {
-            window.interact('#imageit_panel' + ctrl.panel.id + '_sensor').draggable({
-                // I dont like it personally but this could be configurable in the future
-                inertia: false,
-                restrict: {
-                    restriction: '#draggableparent',
-                    endOnly: true,
-                    elementRect: {
-                        top: 0,
-                        left: 0,
-                        bottom: 1,
-                        right: 1
-                    }
-                },
-                autoScroll: true,
-                onmove: function (event) {
-                    const {target} = event;
-                    // keep the dragged position in the data-x/data-y attributes
-                    const datax = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    const datay = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-                    // translate the element
-                    const elementTransform = 'translate(' + datax + 'px, ' + datay + 'px)';
-                    target.style.webkitTransform = elementTransform;
-                    target.style.transform = elementTransform;
-
-                    // update the position attributes
-                    target.setAttribute('data-x', datax);
-                    target.setAttribute('data-y', datay);
-                },
-                onend: function (event) {
-                    const {target} = event;
-
-                    const imageHeight = image.offsetHeight;
-                    const imageWidth = image.offsetWidth;
-
-                    const datax = target.getAttribute('data-x');
-                    const datay = target.getAttribute('data-y');
-
-                    // get percentage of relative distance from starting point
-                    const xpercentage = (datax * 100) / imageWidth;
-                    const ypercentage = (datay * 100) / imageHeight;
-
-                    // browsers dont render more than 4 decimals so better cut away the others
-                    let newX = parseInt(target.style.left, 10) + xpercentage;
-                    newX = Math.round(newX * 10000) / 10000;
-
-                    let newY = parseInt(target.style.top, 10) + ypercentage;
-                    newY = Math.round(newY * 10000) / 10000;
-
-                    const elementTransform = 'translate(0px, 0px)';
-                    target.style.webkitTransform = elementTransform;
-                    target.style.transform = elementTransform;
-
-                    // manually set the new style so I don't need to render() again
-                    target.style.left = newX + '%';
-                    target.style.top = newY + '%';
-
-                    // really update the sensor values
-
-                    // find sensor with the id from the refId attribute on html
-                    const sensor = _.find(ctrl.panel.sensors, {
-                        'id': (event.target).getAttribute('refId')
-                    });
-
-                    sensor.xlocation = newX;
-                    sensor.ylocation = newY;
-
-                    // reset the starting sensor points
-                    target.setAttribute('data-x', 0);
-                    target.setAttribute('data-y', 0);
+            if (ctrl.panel.islocked) {
+                if (window.interact.isSet(draggableElement)) {
+                    window.interact(draggableElement).unset();
                 }
-            });
+            } else if (!window.interact.isSet(draggableElement)) {
+                window.interact(draggableElement).draggable({
+                    // I dont like it personally but this could be configurable in the future
+                    inertia: false,
+                    restrict: {
+                        restriction: '#draggableparent',
+                        endOnly: true,
+                        elementRect: {
+                            top: 0,
+                            left: 0,
+                            bottom: 1,
+                            right: 1
+                        }
+                    },
+                    autoScroll: true,
+                    onmove: function (event) {
+                        const {target} = event;
+                        // keep the dragged position in the data-x/data-y attributes
+                        const datax = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                        const datay = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                        // translate the element
+                        const elementTransform = 'translate(' + datax + 'px, ' + datay + 'px)';
+                        target.style.webkitTransform = elementTransform;
+                        target.style.transform = elementTransform;
+
+                        // update the position attributes
+                        target.setAttribute('data-x', datax);
+                        target.setAttribute('data-y', datay);
+                    },
+                    onend: function (event) {
+                        const {target} = event;
+
+                        const imageHeight = image.offsetHeight;
+                        const imageWidth = image.offsetWidth;
+
+                        const datax = target.getAttribute('data-x');
+                        const datay = target.getAttribute('data-y');
+
+                        // get percentage of relative distance from starting point
+                        const xpercentage = (datax * 100) / imageWidth;
+                        const ypercentage = (datay * 100) / imageHeight;
+
+                        // browsers dont render more than 4 decimals so better cut away the others
+                        let newX = parseInt(target.style.left, 10) + xpercentage;
+                        newX = Math.round(newX * 10000) / 10000;
+
+                        let newY = parseInt(target.style.top, 10) + ypercentage;
+                        newY = Math.round(newY * 10000) / 10000;
+
+                        const elementTransform = 'translate(0px, 0px)';
+                        target.style.webkitTransform = elementTransform;
+                        target.style.transform = elementTransform;
+
+                        // manually set the new style so I don't need to render() again
+                        target.style.left = newX + '%';
+                        target.style.top = newY + '%';
+
+                        // really update the sensor values
+
+                        // find sensor with the id from the refId attribute on html
+                        const sensor = _.find(ctrl.panel.sensors, {
+                            'id': (event.target).getAttribute('refId')
+                        });
+
+                        sensor.xlocation = newX;
+                        sensor.ylocation = newY;
+
+                        // reset the starting sensor points
+                        target.setAttribute('data-x', 0);
+                        target.setAttribute('data-y', 0);
+                    }
+                });
+            }
         }
 
         this.events.on('render', function () {
