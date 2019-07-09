@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", "./stringwidth/strwidth", "./libs/interact"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", "./stringwidth/strwidth", "./libs/interact", "app/core/utils/kbn", "@grafana/ui"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getWidth, kbn, getValueFormat, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -59,15 +59,14 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
     this.bgBlink = false;
   }
 
-  function Sensor(metric, xlocation, ylocation, format, bgColor, fontColor, size, visible) {
-    this.metric = metric;
-    this.xlocation = xlocation;
-    this.ylocation = ylocation;
-    this.format = format;
-    this.bgColor = bgColor;
-    this.fontColor = fontColor;
-    this.size = size;
-    this.visible = visible;
+  function Sensor() {
+    this.metric = '';
+    this.xlocation = 50;
+    this.ylocation = 25;
+    this.bgColor = 'rgba(64,64,64,1.000)';
+    this.fontColor = 'rgba(255,255,255,1.000)';
+    this.size = 14;
+    this.visible = true;
     this.renderValue = true;
     this.valueFormatted = '';
     this.valueUnit = '';
@@ -78,6 +77,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
     this.valueMappingIds = [];
     this.isBold = false;
     this.id = getRandomId();
+    this.unitFormat = 'none';
+
+    this.setUnitFormat = function (subItem) {
+      this.unitFormat = subItem.value;
+    };
   }
 
   function normalizeColor(color) {
@@ -103,7 +107,11 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
     }, function (_sprintf) {}, function (_angularSprintf) {}, function (_stringwidthStrwidth) {
       getWidth = _stringwidthStrwidth.default;
-    }, function (_libsInteract) {}],
+    }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
+      kbn = _appCoreUtilsKbn.default;
+    }, function (_grafanaUi) {
+      getValueFormat = _grafanaUi.getValueFormat;
+    }],
     execute: function () {
       panelDefaults = {
         colorMappings: [],
@@ -196,7 +204,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
         }, {
           key: "addSensor",
           value: function addSensor() {
-            this.panel.sensors.push(new Sensor('A', 50, 25, '%.2f', 'rgba(64,64,64,1.000)', 'rgba(255,255,255,1.000)', 14, true));
+            this.panel.sensors.push(new Sensor());
           }
         }, {
           key: "moveSensorUp",
@@ -217,6 +225,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
           value: function onInitEditMode() {
             this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
             this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
+            this.unitFormats = kbn.getUnitFormats();
           }
         }, {
           key: "link",
@@ -249,9 +258,7 @@ System.register(["lodash", "app/plugins/sdk", "./sprintf", "./angular-sprintf", 
                 for (var _iterator = ctrl.panel.sensors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   var sensor = _step.value;
 
-                  if (!Object.prototype.hasOwnProperty.call(sensor, 'id')) {
-                    sensor.id = getRandomId();
-                  }
+                  _.defaults(sensor, new Sensor());
 
                   if (image != null) {
                     var imageWidth = image.offsetWidth;

@@ -44,9 +44,15 @@
                 </div>
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <label class="gf-form-label width-8">Unit</label>
+                        <label class="gf-form-label width-8">Postfix</label>
                         <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.valueUnit"
                             ng-change="ctrl.render()" ng-model-onblur />
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-6">Unit</label>
+                        <div class="gf-form-dropdown-typeahead width-18" ng-model="sensor.unitFormat" dropdown-typeahead2="ctrl.unitFormats" dropdown-typeahead-on-select="sensor.setUnitFormat($subItem)"></div>
                     </div>
                 </div>
                 <div class="gf-form-inline">
@@ -68,7 +74,6 @@
                 </div>
                 <div class="gf-form-inline">
                     <div class="gf-form">
-
                         <label class="gf-form-label width-8">Y Location</label>
                         <input type="number" class="input-small gf-form-input width-8" ng-model="sensor.ylocation"
                             ng-change="ctrl.render()" />
@@ -96,7 +101,6 @@
 
             <div class="section gf-form-group">
                 <h5 class="section-heading">Appearance</h5>
-
                 <div class="gf-form-inline">
                     <div class="gf-form">
                         <label class="gf-form-label width-8">Font Color</label>

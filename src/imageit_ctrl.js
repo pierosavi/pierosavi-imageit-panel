@@ -10,6 +10,8 @@ import './sprintf';
 import './angular-sprintf';
 import getWidth from './stringwidth/strwidth';
 import './libs/interact';
+import kbn from 'app/core/utils/kbn';
+import { getValueFormat } from '@grafana/ui';
 
 const panelDefaults = {
     colorMappings: [],
@@ -84,7 +86,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     addSensor() {
         this.panel.sensors.push(
-            new Sensor('A', 50, 25, '%.2f', 'rgba(64,64,64,1.000)', 'rgba(255,255,255,1.000)', 14, true)
+            new Sensor()
         );
     }
 
@@ -103,6 +105,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     onInitEditMode() {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
         this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
+        this.unitFormats = kbn.getUnitFormats();
     }
 
     link(scope, elem, attrs, ctrl) {
@@ -119,9 +122,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             const mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
 
             for (const sensor of ctrl.panel.sensors) {
-                if (!Object.prototype.hasOwnProperty.call(sensor, 'id')) {
-                    sensor.id = getRandomId();
-                }
+                _.defaults(sensor, new Sensor());
 
                 if (image != null) {
                     const imageWidth = image.offsetWidth;
@@ -391,22 +392,14 @@ function ValueColorMapping() {
     this.bgBlink = false;
 }
 
-function Sensor(metric,
-    xlocation,
-    ylocation,
-    format,
-    bgColor,
-    fontColor,
-    size,
-    visible) {
-    this.metric = metric;
-    this.xlocation = xlocation;
-    this.ylocation = ylocation;
-    this.format = format;
-    this.bgColor = bgColor;
-    this.fontColor = fontColor;
-    this.size = size;
-    this.visible = visible;
+function Sensor() {
+    this.metric = '';
+    this.xlocation = 50;
+    this.ylocation = 25;
+    this.bgColor = 'rgba(64,64,64,1.000)';
+    this.fontColor = 'rgba(255,255,255,1.000)';
+    this.size = 14;
+    this.visible = true;
     this.renderValue = true;
     this.valueFormatted = '';
     this.valueUnit = '';
@@ -417,6 +410,11 @@ function Sensor(metric,
     this.valueMappingIds = [];
     this.isBold = false;
     this.id = getRandomId();
+    this.unitFormat = 'none';
+
+    this.setUnitFormat = function (subItem) {
+        this.unitFormat = subItem.value;
+    };
 }
 
 function normalizeColor(color) {
