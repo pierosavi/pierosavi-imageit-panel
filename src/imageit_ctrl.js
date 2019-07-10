@@ -139,7 +139,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                const metricValue = (metricMap[effectiveName]).value;
+                const metric = metricMap[effectiveName];
+
+                const metricValue = (metric !== undefined) ? metric.value : undefined;
 
                 // update existing valueMappings
                 for (const valueMapping of ctrl.panel.valueMappings) {

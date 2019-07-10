@@ -278,7 +278,8 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
 
 
                   var effectiveName = ctrl.templateSrv.replace(sensor.metric);
-                  var metricValue = metricMap[effectiveName].value; // update existing valueMappings
+                  var metric = metricMap[effectiveName];
+                  var metricValue = metric !== undefined ? metric.value : undefined; // update existing valueMappings
 
                   var _iteratorNormalCompletion2 = true;
                   var _didIteratorError2 = false;
