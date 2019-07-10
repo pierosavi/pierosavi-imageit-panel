@@ -52,7 +52,16 @@
                 <div class="gf-form-inline">
                     <div class="gf-form">
                         <label class="gf-form-label width-8">Unit</label>
-                        <div class="gf-form-dropdown-typeahead width-24" ng-model="sensor.unitFormat" dropdown-typeahead2="ctrl.unitFormats" dropdown-typeahead-on-select="sensor.setUnitFormat($subItem);ctrl.render()"></div>
+                        <div class="gf-form-dropdown-typeahead width-24" ng-model="sensor.unitFormat"
+                            dropdown-typeahead2="ctrl.unitFormats"
+                            dropdown-typeahead-on-select="sensor.setUnitFormat($subItem);ctrl.render()"></div>
+                    </div>
+                </div>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-8">Decimals</label>
+                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.decimals"
+                            ng-change="ctrl.render()" ng-model-onblur />
                     </div>
                 </div>
                 <div class="gf-form-inline">

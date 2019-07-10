@@ -118,7 +118,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         const draggableElement = '#imageit_panel' + ctrl.panel.id + '_sensor';
 
         function render() {
-            if (!ctrl.panel.sensors) {
+            if (!ctrl.panel.sensors || (ctrl.panel.bgimage === '')) {
                 return;
             }
 
@@ -133,17 +133,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     const imageWidth = image.offsetWidth;
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                 }
-
-                const sensorWidth = getWidth(sensor.displayName, {
-                    font: 'Arial',
-                    size: sensor.size
-                }) + 20;
-
-                sensor.panelWidth = sensorWidth + 'px';
-                sensor.width = sensorWidth;
-
-                sensor.ylocationStr = sensor.ylocation.toString() + 'px';
-                sensor.xlocationStr = sensor.xlocation.toString() + 'px';
 
                 sensor.sizeStr = sensor.size.toString() + 'px';
 
@@ -160,13 +149,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                let mValue = metricMap[effectiveName];
-                if (mValue === undefined) {
-                    mValue = {
-                        name: 'dummy',
-                        value: 'null'
-                    };
-                }
+                const mValue = metricMap[effectiveName];
 
                 // update existing valueMappings
                 for (const valueMapping of ctrl.panel.valueMappings) {
@@ -212,10 +195,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     normalizeSensor(sensor);
                 }
 
-
                 const formatFunc = getValueFormat(sensor.unitFormat);
 
-                sensor.valueFormatted = formatFunc(mValue.value, 2);
+                sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
             }
 
             dragEventSetup();
@@ -421,6 +403,7 @@ function Sensor() {
     this.isBold = false;
     this.id = getRandomId();
     this.unitFormat = 'none';
+    this.decimals = 2;
 
     this.setUnitFormat = function (subItem) {
         this.unitFormat = subItem.value;

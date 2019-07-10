@@ -3,7 +3,7 @@
 System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/interact", "app/core/utils/kbn", "@grafana/ui"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, kbn, getValueFormat, getDecimalsForValue, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getWidth, kbn, getValueFormat, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -78,6 +78,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
     this.isBold = false;
     this.id = getRandomId();
     this.unitFormat = 'none';
+    this.decimals = 2;
 
     this.setUnitFormat = function (subItem) {
       this.unitFormat = subItem.value;
@@ -111,7 +112,6 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
       kbn = _appCoreUtilsKbn.default;
     }, function (_grafanaUi) {
       getValueFormat = _grafanaUi.getValueFormat;
-      getDecimalsForValue = _grafanaUi.getDecimalsForValue;
     }],
     execute: function () {
       panelDefaults = {
@@ -243,7 +243,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
             var draggableElement = '#imageit_panel' + ctrl.panel.id + '_sensor';
 
             function render() {
-              if (!ctrl.panel.sensors) {
+              if (!ctrl.panel.sensors || ctrl.panel.bgimage === '') {
                 return;
               }
 
@@ -274,14 +274,6 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
                     sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                   }
 
-                  var sensorWidth = getWidth(sensor.displayName, {
-                    font: 'Arial',
-                    size: sensor.size
-                  }) + 20;
-                  sensor.panelWidth = sensorWidth + 'px';
-                  sensor.width = sensorWidth;
-                  sensor.ylocationStr = sensor.ylocation.toString() + 'px';
-                  sensor.xlocationStr = sensor.xlocation.toString() + 'px';
                   sensor.sizeStr = sensor.size.toString() + 'px';
 
                   if (sensor.rectangular) {
@@ -296,15 +288,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
 
                   var effectiveName = ctrl.templateSrv.replace(sensor.metric);
-                  var mValue = metricMap[effectiveName];
-
-                  if (mValue === undefined) {
-                    mValue = {
-                      name: 'dummy',
-                      value: 'null'
-                    };
-                  } // update existing valueMappings
-
+                  var mValue = metricMap[effectiveName]; // update existing valueMappings
 
                   var _iteratorNormalCompletion2 = true;
                   var _didIteratorError2 = false;
@@ -388,7 +372,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
                   }
 
                   var formatFunc = getValueFormat(sensor.unitFormat);
-                  sensor.valueFormatted = formatFunc(mValue.value, 2);
+                  sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
                 }
               } catch (err) {
                 _didIteratorError = true;
