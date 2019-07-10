@@ -187,9 +187,12 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     normalizeSensor(sensor);
                 }
 
-                const formatFunc = getValueFormat(sensor.unitFormat);
-
-                sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                if (metricValue === undefined) {
+                    sensor.valueFormatted = 'Select a sensor metric';
+                } else {
+                    const formatFunc = getValueFormat(sensor.unitFormat);
+                    sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                }
             }
 
             dragEventSetup();

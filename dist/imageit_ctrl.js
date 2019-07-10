@@ -362,8 +362,12 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
                     normalizeSensor(sensor);
                   }
 
-                  var formatFunc = getValueFormat(sensor.unitFormat);
-                  sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                  if (metricValue === undefined) {
+                    sensor.valueFormatted = 'Select a sensor metric';
+                  } else {
+                    var formatFunc = getValueFormat(sensor.unitFormat);
+                    sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                  }
                 }
               } catch (err) {
                 _didIteratorError = true;
