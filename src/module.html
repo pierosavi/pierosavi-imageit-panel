@@ -1,4 +1,5 @@
 <div class="pierosavi-imageit-panel">
+    <i class="pierosavi-imageit-lockicon fa {{ctrl.panel.islocked ? 'fa-lock' : 'fa-unlock'}}" ng-click="ctrl.toggleBlock()"/>
     <div class="pierosavi-imageit-wrapper" id="draggableparent" ng-style="{'max-height': ctrl.height}">
         <img id="imageit-image" class="pierosavi-imageit-panel-img" ng-src="{{ctrl.panel.bgimage}}?{{ctrl.panel.uncache}}" ng-style="{'max-height': ctrl.height}"/>
         <div ng-repeat="sensor in ctrl.panel.sensors">
@@ -9,7 +10,7 @@
                     <div
                         ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0,'background-color': sensor.realBgColor, padding:'5px'}"
                         ng-class="{'blink-background': sensor.bgBlink}">
-                        <a href="{{sensor.resolvedLink}}" ng-style="{color:sensor.realFontColor}"
+                        <a ng-href="{{sensor.link_url ? sensor.resolvedLink : ''}}" ng-style="{color:sensor.realFontColor}"
                             bs-tooltip="sensor.link_hover" ng-class="{'bold-text': sensor.isBold}">
                             <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
                                 ng-class="{'blink': sensor.nameBlink}" />
@@ -42,6 +43,13 @@
 
     .pierosavi-imageit-panel-img {
         max-width: 100%;
+    }
+
+    .pierosavi-imageit-lockicon {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        z-index: 1;
     }
 
     .bold-text {

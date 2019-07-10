@@ -6,10 +6,16 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 ### Setup
 
-1. Install the last stable version with `grafana-cli plugins install pierosavi-imageit-panel` or build it from source with `grunt`
+1. Install the last stable version with `grafana-cli plugins install pierosavi-imageit-panel` or clone master for the latest features.
 2. Enter a URL for your background image.
 3. Set up a metric and give it an unique alias.
 4. Add a Sensor and give it the same name as the alias.
+
+### How to build
+
+`npm run build` or `yarn build`
+
+Master branch is always built before pushing
 
 ### Features
 
