@@ -6,8 +6,6 @@ import _ from 'lodash';
 import {
     MetricsPanelCtrl
 } from 'app/plugins/sdk';
-import './sprintf';
-import './angular-sprintf';
 import getWidth from './stringwidth/strwidth';
 import './libs/interact';
 import kbn from 'app/core/utils/kbn';
@@ -215,10 +213,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 }
 
 
-                // finally format the value itself
-                // I'll delete this later
-                // eslint-disable-next-line no-undef
-                sensor.valueFormatted = sprintf(sensor.format, mValue.value);
+                const formatFunc = getValueFormat(sensor.unitFormat);
+
+                sensor.valueFormatted = formatFunc(mValue.value, 2);
             }
 
             dragEventSetup();

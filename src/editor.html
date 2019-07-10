@@ -51,8 +51,8 @@
                 </div>
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <label class="gf-form-label width-6">Unit</label>
-                        <div class="gf-form-dropdown-typeahead width-18" ng-model="sensor.unitFormat" dropdown-typeahead2="ctrl.unitFormats" dropdown-typeahead-on-select="sensor.setUnitFormat($subItem)"></div>
+                        <label class="gf-form-label width-8">Unit</label>
+                        <div class="gf-form-dropdown-typeahead width-24" ng-model="sensor.unitFormat" dropdown-typeahead2="ctrl.unitFormats" dropdown-typeahead-on-select="sensor.setUnitFormat($subItem);ctrl.render()"></div>
                     </div>
                 </div>
                 <div class="gf-form-inline">
@@ -137,16 +137,6 @@
                         </span>
                     </div>
                 </div>
-
-                <!-- <div class="gf-form-inline">
-                    <div class="gf-form">
-                        <label class="gf-form-label width-8">Value Mapping</label>
-                        <select class="gf-form-input width-8" ng-blur="ctrl.render()" ng-model="sensor.valueMappingId">
-                            <option ng-repeat="mapping in ctrl.panel.valueMappings" value="{{mapping.id}}">
-                                {{mapping.name}}</option>
-                        </select>
-                    </div>
-                </div> -->
             </div>
 
             <div class="section gf-form-group">
