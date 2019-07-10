@@ -3,13 +3,10 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/prefer-default-export */
 import _ from 'lodash';
-import {
-    MetricsPanelCtrl
-} from 'app/plugins/sdk';
-import getWidth from './stringwidth/strwidth';
+import { MetricsPanelCtrl } from 'app/plugins/sdk';
+import { getValueFormat } from '@grafana/ui';
 import './libs/interact';
 import kbn from 'app/core/utils/kbn';
-import { getValueFormat } from '@grafana/ui';
 
 const panelDefaults = {
     colorMappings: [],
@@ -129,18 +126,11 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             for (const sensor of ctrl.panel.sensors) {
                 _.defaults(sensor, new Sensor());
 
-                if (image != null) {
-                    const imageWidth = image.offsetWidth;
-                    sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
-                }
-
+                const imageWidth = image.offsetWidth;
+                sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                 sensor.sizeStr = sensor.size.toString() + 'px';
 
-                if (sensor.rectangular) {
-                    sensor.borderRadius = '5%';
-                } else {
-                    sensor.borderRadius = '50%';
-                }
+                sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
                 if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
@@ -149,7 +139,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                const mValue = metricMap[effectiveName];
+                const metricValue = (metricMap[effectiveName]).value;
 
                 // update existing valueMappings
                 for (const valueMapping of ctrl.panel.valueMappings) {
@@ -176,7 +166,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                         const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
 
-                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                        if (mappingOperator.fn(metricValue, valueMapping.compareTo)) {
                             sensor.realFontColor = valueMapping.fontColor;
                             sensor.realBgColor = valueMapping.bgColor;
 
@@ -197,7 +187,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                 const formatFunc = getValueFormat(sensor.unitFormat);
 
-                sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
+                sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
             }
 
             dragEventSetup();
@@ -413,9 +403,11 @@ function Sensor() {
 function normalizeColor(color) {
     if (color.toLowerCase() === 'green') {
         return 'rgba(50, 172, 45, 0.97)';
-    } if (color.toLowerCase() === 'orange') {
+    }
+    if (color.toLowerCase() === 'orange') {
         return 'rgba(237, 129, 40, 0.89)';
-    } if (color.toLowerCase() === 'red') {
+    }
+    if (color.toLowerCase() === 'red') {
         return 'rgba(245, 54, 54, 0.9)';
     }
     return color.toLowerCase();

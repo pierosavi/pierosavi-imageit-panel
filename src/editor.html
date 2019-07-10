@@ -37,9 +37,10 @@
                 <h5 class="section-heading">Metric</h5>
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <label class="gf-form-label width-8">Name</label>
-                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.metric"
-                            ng-change="ctrl.render()" ng-model-onblur />
+                        <label class="gf-form-label width-8">Metric</label>
+                        <div class="gf-form-select-wrapper width-12">
+                            <select class="gf-form-input" ng-model="sensor.metric" ng-options="metric.name as metric.name for metric in ctrl.panel.metricValues" ng-change="ctrl.refresh()"></select>
+                        </div>
                     </div>
                 </div>
                 <div class="gf-form-inline">
@@ -60,7 +61,7 @@
                 <div class="gf-form-inline">
                     <div class="gf-form">
                         <label class="gf-form-label width-8">Decimals</label>
-                        <input type="text" class="input-small gf-form-input width-24" ng-model="sensor.decimals"
+                        <input type="number" class="input-small gf-form-input width-24" ng-model="sensor.decimals"
                             ng-change="ctrl.render()" ng-model-onblur />
                     </div>
                 </div>

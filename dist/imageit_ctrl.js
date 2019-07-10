@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/interact", "app/core/utils/kbn", "@grafana/ui"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", "app/core/utils/kbn"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, kbn, getValueFormat, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getValueFormat, kbn, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -106,12 +106,10 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
       _ = _lodash.default;
     }, function (_appPluginsSdk) {
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
-    }, function (_stringwidthStrwidth) {
-      getWidth = _stringwidthStrwidth.default;
-    }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
-      kbn = _appCoreUtilsKbn.default;
     }, function (_grafanaUi) {
       getValueFormat = _grafanaUi.getValueFormat;
+    }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
+      kbn = _appCoreUtilsKbn.default;
     }],
     execute: function () {
       panelDefaults = {
@@ -269,18 +267,10 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
                   _.defaults(sensor, new Sensor());
 
-                  if (image != null) {
-                    var imageWidth = image.offsetWidth;
-                    sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
-                  }
-
+                  var imageWidth = image.offsetWidth;
+                  sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
                   sensor.sizeStr = sensor.size.toString() + 'px';
-
-                  if (sensor.rectangular) {
-                    sensor.borderRadius = '5%';
-                  } else {
-                    sensor.borderRadius = '50%';
-                  }
+                  sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
                   if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
@@ -288,7 +278,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
 
                   var effectiveName = ctrl.templateSrv.replace(sensor.metric);
-                  var mValue = metricMap[effectiveName]; // update existing valueMappings
+                  var metricValue = metricMap[effectiveName].value; // update existing valueMappings
 
                   var _iteratorNormalCompletion2 = true;
                   var _didIteratorError2 = false;
@@ -341,7 +331,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
                         var mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
 
-                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                        if (mappingOperator.fn(metricValue, valueMapping.compareTo)) {
                           sensor.realFontColor = valueMapping.fontColor;
                           sensor.realBgColor = valueMapping.bgColor;
                           sensor.nameBlink = valueMapping.nameBlink;
@@ -372,7 +362,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
                   }
 
                   var formatFunc = getValueFormat(sensor.unitFormat);
-                  sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
+                  sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
                 }
               } catch (err) {
                 _didIteratorError = true;
