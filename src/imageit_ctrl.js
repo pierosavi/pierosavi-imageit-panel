@@ -127,7 +127,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 _.defaults(sensor, new Sensor());
 
                 const imageWidth = image.offsetWidth;
-                sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
+                const sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
+
+                sensor.size = imageWidth * sizeCoefficient / 1600;
                 sensor.sizeStr = sensor.size.toString() + 'px';
 
                 sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
@@ -399,6 +401,7 @@ function Sensor() {
     this.id = getRandomId();
     this.unitFormat = 'none';
     this.decimals = 2;
+    this.sizeCoefficient = undefined;
 
     this.setUnitFormat = function (subItem) {
         this.unitFormat = subItem.value;

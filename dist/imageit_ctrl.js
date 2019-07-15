@@ -79,6 +79,7 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
     this.id = getRandomId();
     this.unitFormat = 'none';
     this.decimals = 2;
+    this.sizeCoefficient = undefined;
 
     this.setUnitFormat = function (subItem) {
       this.unitFormat = subItem.value;
@@ -268,7 +269,8 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
                   _.defaults(sensor, new Sensor());
 
                   var imageWidth = image.offsetWidth;
-                  sensor.size = imageWidth * ctrl.panel.sizecoefficient / 1600;
+                  var sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
+                  sensor.size = imageWidth * sizeCoefficient / 1600;
                   sensor.sizeStr = sensor.size.toString() + 'px';
                   sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
