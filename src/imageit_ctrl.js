@@ -102,6 +102,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
         this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
         this.unitFormats = kbn.getUnitFormats();
+        this.render();
     }
 
     toggleBlock() {
