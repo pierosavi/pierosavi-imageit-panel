@@ -139,8 +139,6 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 sensor.xlocationStr = (sensor.xlocation * imageWidth / 100) + 'px';
                 sensor.ylocationStr = (sensor.ylocation * imageHeight / 100) + 'px';
 
-                sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
-
                 if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
                 }
