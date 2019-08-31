@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/module.js"],"names":["ImageItCtrl"],"mappings":";;;;;;;;AAAQA,MAAAA,W,iBAAAA,W;;;2BAGNA,W","sourcesContent":["import {ImageItCtrl} from './imageit_ctrl';\r\n\r\nexport {\r\n  ImageItCtrl as PanelCtrl\r\n};\r\n"],"file":"module.js"}
