@@ -272,22 +272,11 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
 
                   _.defaults(sensor, new Sensor());
 
-<<<<<<< HEAD
                   var sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
                   sensor.size = imageWidth * sizeCoefficient / 1600;
-                  var sensorWidth = getWidth(sensor.displayName, {
-                    font: 'Arial',
-                    size: sensor.size
-                  }) + 20;
-                  sensor.width = sensorWidth;
+                  sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
                   sensor.xlocationStr = sensor.xlocation * imageWidth / 100 + 'px';
                   sensor.ylocationStr = sensor.ylocation * imageHeight / 100 + 'px';
-=======
-                  var imageWidth = image.offsetWidth;
-                  var sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
-                  sensor.size = imageWidth * sizeCoefficient / 1600;
-                  sensor.sizeStr = sensor.size.toString() + 'px';
->>>>>>> master
                   sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
                   if (sensor.link_url !== undefined) {
