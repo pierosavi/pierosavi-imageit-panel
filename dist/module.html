@@ -7,7 +7,7 @@
         <div ng-repeat="sensor in ctrl.panel.sensors">
             <div ng-if="sensor.visible">
                 <div id="{{'imageit_panel' + ctrl.panel.id + '_sensor'}}" style="text-align: center;"
-                    ng-style="{'position': 'absolute', left:sensor.xlocationStr, 'top':sensor.ylocationStr, 'font-size':sensor.sizeStr, 'font-color':sensor.realFontColor}"
+                    ng-style="{'position': 'absolute', left:sensor.xlocationStr, 'top':sensor.ylocationStr, 'font-size':sensor.size + 'px', 'font-color':sensor.realFontColor}"
                     refId="{{sensor.id}}">
                     <div ng-style="{ 'border-radius': sensor.borderRadius, position: 'relative', top: 0, left: 0, 'background-color': sensor.realBgColor, padding:'5px'}"
                         ng-class="{'blink-background': sensor.bgBlink}">
