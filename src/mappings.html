@@ -3,24 +3,18 @@
 <div class="editor-row">
     <div ng-repeat="mapping in ctrl.panel.valueMappings">
         <div class="section gf-form-group">
-            <h5 class="section-heading">&nbsp</h5>
-            <span class="gf-form-label">
-                <i class="fa fa-remove pointer" ng-click="ctrl.removeValueMappingMap($index)"></i>
-            </span>
-        </div>
-        <div class="section gf-form-group">
             <h5 class="section-heading">Values</h5>
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-8">Name</label>
-                    <input type="text" class="input-small gf-form-input width-10" placeholder="Name"
+                    <label class="gf-form-label width-10">Name</label>
+                    <input type="text" class="input-small gf-form-input width-8" placeholder="Name"
                         ng-model="mapping.name" ng-change="ctrl.render()" ng-model-onblur />
                 </div>
             </div>
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-8">Operator</label>
-                    <select class="gf-form-input width-10" ng-blur="ctrl.render()"
+                    <label class="gf-form-label width-10">Operator</label>
+                    <select class="gf-form-input width-8" ng-blur="ctrl.render()"
                         ng-model="mapping.mappingOperatorName">
                         <option ng-repeat="mappingOperator in ctrl.getMappingOperators()"
                             value="{{mappingOperator.name}}">
@@ -30,9 +24,9 @@
             </div>
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-8">Compare To</label>
+                    <label class="gf-form-label width-10">Compare To</label>
                     <input type="text" ng-model="mapping.compareTo" placeholder="Value to compare to"
-                        class="gf-form-input width-10" ng-blur="ctrl.render()">
+                        class="gf-form-input width-8" ng-blur="ctrl.render()">
                 </div>
             </div>
         </div>
@@ -42,8 +36,8 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Font Color</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Font Color</label>
+                    <span class="gf-form-label width-3">
                         <spectrum-picker ng-model="mapping.fontColor" ng-change="ctrl.render()"></spectrum-picker>
                     </span>
                 </div>
@@ -51,8 +45,8 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Background Color</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Background Color</label>
+                    <span class="gf-form-label width-3">
                         <spectrum-picker ng-model="mapping.bgColor" ng-change="ctrl.render()"></spectrum-picker>
                     </span>
                 </div>
@@ -60,8 +54,8 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Font Bold</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Font Bold</label>
+                    <span class="gf-form-label width-3">
                         <input type="checkbox" ng-model="mapping.isSensorFontBold" ng-change="ctrl.render()">
                     </span>
                 </div>
@@ -69,8 +63,8 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Name Blink</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Name Blink</label>
+                    <span class="gf-form-label width-3">
                         <input type="checkbox" ng-model="mapping.nameBlink" ng-change="ctrl.render()">
                     </span>
                 </div>
@@ -78,8 +72,8 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Value Blink</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Value Blink</label>
+                    <span class="gf-form-label width-3">
                         <input type="checkbox" ng-model="mapping.valueBlink" ng-change="ctrl.render()">
                     </span>
                 </div>
@@ -87,10 +81,20 @@
 
             <div class="gf-form-inline">
                 <div class="gf-form">
-                    <label class="gf-form-label width-9">Background Blink</label>
-                    <span class="gf-form-label width-4">
+                    <label class="gf-form-label width-10">Background Blink</label>
+                    <span class="gf-form-label width-3">
                         <input type="checkbox" ng-model="mapping.bgBlink" ng-change="ctrl.render()">
                     </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="gf-form-inline">
+            <div class="gf-form">
+                <div class="gf-form-button">
+                    <button class="btn btn-inverse width-14" ng-click="ctrl.removeValueMappingMap($index)">
+                        <i class="fa fa-remove"></i> Delete Value Mapping
+                    </button>
                 </div>
             </div>
         </div>
@@ -99,9 +103,13 @@
 </div>
 
 <div class="editor-row">
-    <div class="gf-form-button">
-        <button class="btn btn-inverse" ng-click="ctrl.addValueMappingMap();">
-            <i class="fa fa-plus"></i>Add a value mapping
-        </button>
-    </div>
+        <div class="gf-form-inline">
+                <div class="gf-form">
+                    <div class="gf-form-button">
+                        <button class="btn btn-inverse width-14" ng-click="ctrl.addValueMappingMap();">
+                            <i class="fa fa-plus"></i> Add a value mapping
+                        </button>
+                    </div>
+                </div>
+        </div>
 </div>
