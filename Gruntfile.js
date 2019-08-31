@@ -2,12 +2,7 @@
 module.exports = (grunt) => {
   require('load-grunt-tasks')(grunt);
 
-  grunt.loadNpmTasks('grunt-execute');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-babel');
-
   grunt.initConfig({
-
     clean: ['dist'],
 
     copy: {
@@ -36,10 +31,10 @@ module.exports = (grunt) => {
       options: {
         sourceMap: true,
         plugins: [
-          "@babel/plugin-transform-modules-systemjs",
+          '@babel/plugin-transform-modules-systemjs',
         ],
         presets: [
-          ["@babel/preset-env"]
+          ['@babel/preset-env']
         ]
       },
       dist: {

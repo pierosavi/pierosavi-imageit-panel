@@ -3,13 +3,10 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/prefer-default-export */
 import _ from 'lodash';
-import {
-    MetricsPanelCtrl
-} from 'app/plugins/sdk';
-import getWidth from './stringwidth/strwidth';
+import { MetricsPanelCtrl } from 'app/plugins/sdk';
+import { getValueFormat } from '@grafana/ui';
 import './libs/interact';
 import kbn from 'app/core/utils/kbn';
-import { getValueFormat } from '@grafana/ui';
 
 const panelDefaults = {
     colorMappings: [],
@@ -105,6 +102,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
         this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
         this.unitFormats = kbn.getUnitFormats();
+        this.render();
     }
 
     toggleBlock() {
@@ -135,12 +133,8 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 const sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
 
                 sensor.size = imageWidth * sizeCoefficient / 1600;
-                const sensorWidth = getWidth(sensor.displayName, {
-                    font: 'Arial',
-                    size: sensor.size
-                }) + 20;
 
-                sensor.width = sensorWidth;
+                sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
                 sensor.xlocationStr = (sensor.xlocation * imageWidth / 100) + 'px';
                 sensor.ylocationStr = (sensor.ylocation * imageHeight / 100) + 'px';
@@ -154,7 +148,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
-                const mValue = metricMap[effectiveName];
+                const metric = metricMap[effectiveName];
+
+                const metricValue = (metric !== undefined) ? metric.value : undefined;
 
                 // update existing valueMappings
                 for (const valueMapping of ctrl.panel.valueMappings) {
@@ -181,7 +177,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
                         const mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
 
-                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                        if (mappingOperator.fn(metricValue, valueMapping.compareTo)) {
                             sensor.realFontColor = valueMapping.fontColor;
                             sensor.realBgColor = valueMapping.bgColor;
 
@@ -200,9 +196,12 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     normalizeSensor(sensor);
                 }
 
-                const formatFunc = getValueFormat(sensor.unitFormat);
-
-                sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
+                if (metricValue === undefined) {
+                    sensor.valueFormatted = 'Select a sensor metric';
+                } else {
+                    const formatFunc = getValueFormat(sensor.unitFormat);
+                    sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                }
             }
 
             dragEventSetup();
@@ -399,6 +398,7 @@ function Sensor() {
     this.id = getRandomId();
     this.unitFormat = 'none';
     this.decimals = 2;
+    this.sizeCoefficient = undefined;
 
     this.setUnitFormat = function (subItem) {
         this.unitFormat = subItem.value;
@@ -408,9 +408,11 @@ function Sensor() {
 function normalizeColor(color) {
     if (color.toLowerCase() === 'green') {
         return 'rgba(50, 172, 45, 0.97)';
-    } if (color.toLowerCase() === 'orange') {
+    }
+    if (color.toLowerCase() === 'orange') {
         return 'rgba(237, 129, 40, 0.89)';
-    } if (color.toLowerCase() === 'red') {
+    }
+    if (color.toLowerCase() === 'red') {
         return 'rgba(245, 54, 54, 0.9)';
     }
     return color.toLowerCase();

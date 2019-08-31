@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/interact", "app/core/utils/kbn", "@grafana/ui"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", "app/core/utils/kbn"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getWidth, kbn, getValueFormat, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, getValueFormat, kbn, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -79,6 +79,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
     this.id = getRandomId();
     this.unitFormat = 'none';
     this.decimals = 2;
+    this.sizeCoefficient = undefined;
 
     this.setUnitFormat = function (subItem) {
       this.unitFormat = subItem.value;
@@ -106,12 +107,10 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
       _ = _lodash.default;
     }, function (_appPluginsSdk) {
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
-    }, function (_stringwidthStrwidth) {
-      getWidth = _stringwidthStrwidth.default;
-    }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
-      kbn = _appCoreUtilsKbn.default;
     }, function (_grafanaUi) {
       getValueFormat = _grafanaUi.getValueFormat;
+    }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
+      kbn = _appCoreUtilsKbn.default;
     }],
     execute: function () {
       panelDefaults = {
@@ -228,6 +227,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
             this.addEditorTab('Sensor', 'public/plugins/pierosavi-imageit-panel/editor.html', 2);
             this.addEditorTab('Value Mapping', 'public/plugins/pierosavi-imageit-panel/mappings.html', 3);
             this.unitFormats = kbn.getUnitFormats();
+            this.render();
           }
         }, {
           key: "toggleBlock",
@@ -272,6 +272,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
                   _.defaults(sensor, new Sensor());
 
+<<<<<<< HEAD
                   var sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
                   sensor.size = imageWidth * sizeCoefficient / 1600;
                   var sensorWidth = getWidth(sensor.displayName, {
@@ -281,6 +282,12 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
                   sensor.width = sensorWidth;
                   sensor.xlocationStr = sensor.xlocation * imageWidth / 100 + 'px';
                   sensor.ylocationStr = sensor.ylocation * imageHeight / 100 + 'px';
+=======
+                  var imageWidth = image.offsetWidth;
+                  var sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
+                  sensor.size = imageWidth * sizeCoefficient / 1600;
+                  sensor.sizeStr = sensor.size.toString() + 'px';
+>>>>>>> master
                   sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
 
                   if (sensor.link_url !== undefined) {
@@ -289,7 +296,8 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
 
                   var effectiveName = ctrl.templateSrv.replace(sensor.metric);
-                  var mValue = metricMap[effectiveName]; // update existing valueMappings
+                  var metric = metricMap[effectiveName];
+                  var metricValue = metric !== undefined ? metric.value : undefined; // update existing valueMappings
 
                   var _iteratorNormalCompletion2 = true;
                   var _didIteratorError2 = false;
@@ -342,7 +350,7 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
 
                         var mappingOperator = mappingOperatorsMap[valueMapping.mappingOperatorName];
 
-                        if (mappingOperator.fn(mValue.value, valueMapping.compareTo)) {
+                        if (mappingOperator.fn(metricValue, valueMapping.compareTo)) {
                           sensor.realFontColor = valueMapping.fontColor;
                           sensor.realBgColor = valueMapping.bgColor;
                           sensor.nameBlink = valueMapping.nameBlink;
@@ -372,8 +380,12 @@ System.register(["lodash", "app/plugins/sdk", "./stringwidth/strwidth", "./libs/
                     normalizeSensor(sensor);
                   }
 
-                  var formatFunc = getValueFormat(sensor.unitFormat);
-                  sensor.valueFormatted = formatFunc(mValue.value, sensor.decimals);
+                  if (metricValue === undefined) {
+                    sensor.valueFormatted = 'Select a sensor metric';
+                  } else {
+                    var formatFunc = getValueFormat(sensor.unitFormat);
+                    sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
+                  }
                 }
               } catch (err) {
                 _didIteratorError = true;
