@@ -120,6 +120,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 return;
             }
 
+            const imageWidth = image.offsetWidth;
+            const imageHeight = image.offsetHeight;
+
             const metricMap = _.keyBy(ctrl.panel.metricValues, value => value.name);
             const valueMappingsMap = _.keyBy(ctrl.panel.valueMappings, mapping => mapping.id);
             const mappingOperatorsMap = _.keyBy(mappingOperators, operator => operator.name);
@@ -127,13 +130,14 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             for (const sensor of ctrl.panel.sensors) {
                 _.defaults(sensor, new Sensor());
 
-                const imageWidth = image.offsetWidth;
                 const sizeCoefficient = sensor.sizeCoefficient ? sensor.sizeCoefficient : ctrl.panel.sizecoefficient;
 
                 sensor.size = imageWidth * sizeCoefficient / 1600;
-                sensor.sizeStr = sensor.size.toString() + 'px';
 
                 sensor.borderRadius = sensor.rectangular ? '5%' : '50%';
+
+                sensor.xlocationStr = (sensor.xlocation * imageWidth / 100) + 'px';
+                sensor.ylocationStr = (sensor.ylocation * imageHeight / 100) + 'px';
 
                 if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
@@ -255,6 +259,12 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                         const imageHeight = image.offsetHeight;
                         const imageWidth = image.offsetWidth;
 
+                        // find sensor with the id from the refId attribute on html
+                        const sensor = _.find(ctrl.panel.sensors, {
+                            'id': (event.target).getAttribute('refId')
+                        });
+
+                        // get relative distance in px
                         const datax = target.getAttribute('data-x');
                         const datay = target.getAttribute('data-y');
 
@@ -262,34 +272,18 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                         const xpercentage = (datax * 100) / imageWidth;
                         const ypercentage = (datay * 100) / imageHeight;
 
-                        // browsers dont render more than 4 decimals so better cut away the others
-                        let newX = parseInt(target.style.left, 10) + xpercentage;
-                        newX = Math.round(newX * 10000) / 10000;
-
-                        let newY = parseInt(target.style.top, 10) + ypercentage;
-                        newY = Math.round(newY * 10000) / 10000;
-
-                        const elementTransform = 'translate(0px, 0px)';
-                        target.style.webkitTransform = elementTransform;
-                        target.style.transform = elementTransform;
-
-                        // manually set the new style so I don't need to render() again
-                        target.style.left = newX + '%';
-                        target.style.top = newY + '%';
-
-                        // really update the sensor values
-
-                        // find sensor with the id from the refId attribute on html
-                        const sensor = _.find(ctrl.panel.sensors, {
-                            'id': (event.target).getAttribute('refId')
-                        });
-
-                        sensor.xlocation = newX;
-                        sensor.ylocation = newY;
+                        sensor.xlocation += xpercentage;
+                        sensor.ylocation += ypercentage;
 
                         // reset the starting sensor points
                         target.setAttribute('data-x', 0);
                         target.setAttribute('data-y', 0);
+
+                        // target.style.webkitTransform = '';
+                        target.style.transform = '';
+
+                        target.style.left = (sensor.xlocation * imageWidth / 100) + 'px';
+                        target.style.top = (sensor.ylocation * imageHeight / 100) + 'px';
                     }
                 });
             }
