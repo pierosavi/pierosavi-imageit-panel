@@ -21,7 +21,8 @@ const panelDefaults = {
     sizecoefficient: 20,
     // uncache is a random number added to the img url to refresh it
     uncache: 0,
-    islocked: false
+    islocked: false,
+    islockvisible: true
 };
 
 const mappingOperators = [{

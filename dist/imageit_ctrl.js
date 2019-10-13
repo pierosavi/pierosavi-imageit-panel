@@ -126,7 +126,8 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
         sizecoefficient: 20,
         // uncache is a random number added to the img url to refresh it
         uncache: 0,
-        islocked: false
+        islocked: false,
+        islockvisible: true
       };
       mappingOperators = [{
         name: 'equal',

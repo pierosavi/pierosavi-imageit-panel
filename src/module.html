@@ -1,5 +1,5 @@
 <div class="pierosavi-imageit-panel">
-    <i class="pierosavi-imageit-lockicon fa {{ctrl.panel.islocked ? 'fa-lock' : 'fa-unlock'}}"
+    <i ng-if="ctrl.panel.islockvisible" class="pierosavi-imageit-lockicon fa {{ctrl.panel.islocked ? 'fa-lock' : 'fa-unlock'}}"
         ng-click="ctrl.toggleBlock()" />
     <div class="pierosavi-imageit-wrapper" id="draggableparent" ng-style="{'max-height': ctrl.height}">
         <img id="imageit-image" class="pierosavi-imageit-panel-img"
