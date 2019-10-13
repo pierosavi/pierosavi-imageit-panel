@@ -13,7 +13,7 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 ### How to build
 
-`npm run build` or `yarn build`
+`npm run build`
 
 Master branch is always built before pushing
 
