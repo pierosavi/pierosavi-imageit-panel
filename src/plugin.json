@@ -19,7 +19,7 @@
       {"name": "3-clause BSD license", "url": "https://github.com/pierosavi/pierosavi-imageit-panel/blob/master/LICENSE_additional"}
     ],
     "version": "0.1.2",
-    "updated": "2019-08-01"
+    "updated": "2019-10-13"
   },
 
   "dependencies": {
