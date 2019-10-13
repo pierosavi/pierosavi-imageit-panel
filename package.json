@@ -5,8 +5,6 @@
   "main": "src/module.js",
   "scripts": {
     "build": "grunt",
-    "lint": "eslint --color .",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "grunt watch"
   },
   "keywords": [
