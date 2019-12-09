@@ -80,11 +80,6 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
     this.unitFormat = 'none';
     this.decimals = 2;
     this.sizeCoefficient = undefined;
-
-    this.setUnitFormat = function (subItem) {
-      this.unitFormat = subItem.value;
-      console.log(subItem);
-    };
   }
 
   function normalizeColor(color) {
@@ -120,6 +115,7 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
         seriesList: [],
         series: [],
         bgimage: '',
+        realbgimage: '',
         sensors: [],
         templateSrv: null,
         sizecoefficient: 20,
@@ -206,6 +202,7 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
           key: "addSensor",
           value: function addSensor() {
             this.panel.sensors.push(new Sensor());
+            this.render();
           }
         }, {
           key: "moveSensorUp",
@@ -245,8 +242,10 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
             function render() {
               if (!ctrl.panel.sensors || ctrl.panel.bgimage === '') {
                 return;
-              }
+              } // Replace possible variables in image URL
 
+
+              ctrl.panel.realbgimage = ctrl.templateSrv.replace(ctrl.panel.bgimage);
               var imageWidth = image.offsetWidth;
               var imageHeight = image.offsetHeight;
 
@@ -520,6 +519,18 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
           key: "getMappingOperators",
           value: function getMappingOperators() {
             return _getMappingOperators();
+          }
+        }, {
+          key: "setUnitFormat",
+          value: function setUnitFormat(sensor, subItem) {
+            sensor.unitFormat = subItem.value;
+            this.render();
+          }
+        }, {
+          key: "setBackgroundImage",
+          value: function setBackgroundImage() {
+            this.panel.realbgimage = this.templateSrv.replace(this.panel.bgimage);
+            this.render();
           }
         }]);
 

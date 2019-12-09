@@ -15,6 +15,7 @@ const panelDefaults = {
     seriesList: [],
     series: [],
     bgimage: '',
+    realbgimage: '',
     sensors: [],
     templateSrv: null,
     sizecoefficient: 20,
@@ -84,6 +85,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
         this.panel.sensors.push(
             new Sensor()
         );
+        this.render();
     }
 
     moveSensorUp(index) {
@@ -119,6 +121,9 @@ export class ImageItCtrl extends MetricsPanelCtrl {
             if (!ctrl.panel.sensors || (ctrl.panel.bgimage === '')) {
                 return;
             }
+
+            // Replace possible variables in image URL
+            ctrl.panel.realbgimage = ctrl.templateSrv.replace(ctrl.panel.bgimage);
 
             const imageWidth = image.offsetWidth;
             const imageHeight = image.offsetHeight;
@@ -338,6 +343,16 @@ export class ImageItCtrl extends MetricsPanelCtrl {
     getMappingOperators() {
         return getMappingOperators();
     }
+
+    setUnitFormat(sensor, subItem) {
+        sensor.unitFormat = subItem.value;
+        this.render();
+    }
+
+    setBackgroundImage() {
+        this.panel.realbgimage = this.templateSrv.replace(this.panel.bgimage);
+        this.render();
+    }
 }
 
 function isEqualTo(a, b) {
@@ -397,11 +412,6 @@ function Sensor() {
     this.unitFormat = 'none';
     this.decimals = 2;
     this.sizeCoefficient = undefined;
-
-    this.setUnitFormat = function (subItem) {
-        this.unitFormat = subItem.value;
-        console.log(subItem);
-    };
 }
 
 function normalizeColor(color) {
