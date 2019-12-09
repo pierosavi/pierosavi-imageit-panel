@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", "app/core/utils/kbn"], function (_export, _context) {
+System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils/kbn"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, getValueFormat, kbn, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, kbn, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -83,6 +83,7 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
 
     this.setUnitFormat = function (subItem) {
       this.unitFormat = subItem.value;
+      console.log(subItem);
     };
   }
 
@@ -107,8 +108,6 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
       _ = _lodash.default;
     }, function (_appPluginsSdk) {
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
-    }, function (_grafanaUi) {
-      getValueFormat = _grafanaUi.getValueFormat;
     }, function (_libsInteract) {}, function (_appCoreUtilsKbn) {
       kbn = _appCoreUtilsKbn.default;
     }],
@@ -372,7 +371,7 @@ System.register(["lodash", "app/plugins/sdk", "@grafana/ui", "./libs/interact", 
                   if (metricValue === undefined) {
                     sensor.valueFormatted = 'Select a sensor metric';
                   } else {
-                    var formatFunc = getValueFormat(sensor.unitFormat);
+                    var formatFunc = kbn.valueFormats[sensor.unitFormat];
                     sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
                   }
                 }

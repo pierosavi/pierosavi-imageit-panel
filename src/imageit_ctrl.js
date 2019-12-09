@@ -4,7 +4,6 @@
 /* eslint-disable import/prefer-default-export */
 import _ from 'lodash';
 import { MetricsPanelCtrl } from 'app/plugins/sdk';
-import { getValueFormat } from '@grafana/ui';
 import './libs/interact';
 import kbn from 'app/core/utils/kbn';
 
@@ -198,7 +197,7 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                 if (metricValue === undefined) {
                     sensor.valueFormatted = 'Select a sensor metric';
                 } else {
-                    const formatFunc = getValueFormat(sensor.unitFormat);
+                    const formatFunc = kbn.valueFormats[sensor.unitFormat];
                     sensor.valueFormatted = formatFunc(metricValue, sensor.decimals);
                 }
             }
@@ -401,6 +400,7 @@ function Sensor() {
 
     this.setUnitFormat = function (subItem) {
         this.unitFormat = subItem.value;
+        console.log(subItem);
     };
 }
 
