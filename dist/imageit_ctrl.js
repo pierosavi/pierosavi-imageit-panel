@@ -279,6 +279,10 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
 
                   if (sensor.link_url !== undefined) {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
+                  }
+
+                  if (sensor.displayName !== undefined) {
+                    sensor.effectiveDisplayName = ctrl.templateSrv.replace(sensor.displayName);
                   } // We need to replace possible variables in the sensors name
 
 

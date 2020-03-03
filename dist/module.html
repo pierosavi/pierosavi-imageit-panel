@@ -14,7 +14,7 @@
                         <a ng-href="{{sensor.link_url ? sensor.resolvedLink : ''}}"
                             ng-style="{color:sensor.realFontColor}" bs-tooltip="sensor.link_hover"
                             ng-class="{'bold-text': sensor.isBold}">
-                            <div ng-bind-html="ctrl.replaceTokens(sensor.displayName)"
+                            <div ng-bind-html="ctrl.replaceTokens(sensor.displayName? sensor.effectiveDisplayName : '')"
                                 ng-class="{'blink': sensor.nameBlink}" />
                             <div ng-if="sensor.renderValue" ng-class="{'blink': sensor.valueBlink}">
                                 {{sensor.valueFormatted}} {{sensor.valueUnit}}

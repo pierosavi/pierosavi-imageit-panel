@@ -148,6 +148,10 @@ export class ImageItCtrl extends MetricsPanelCtrl {
                     sensor.resolvedLink = ctrl.templateSrv.replace(sensor.link_url);
                 }
 
+                if (sensor.displayName !== undefined) {
+                    sensor.effectiveDisplayName = ctrl.templateSrv.replace(sensor.displayName);
+                }
+
                 // We need to replace possible variables in the sensors name
                 const effectiveName = ctrl.templateSrv.replace(sensor.metric);
 
