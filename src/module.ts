@@ -11,8 +11,8 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       defaultValue: 'https://i.picsum.photos/id/522/400/400.jpg',
     })
     .addBooleanSwitch({
-      path: 'showLock',
-      name: 'Show Lock',
+      path: 'lockSensors',
+      name: 'Lock sensors movement',
       defaultValue: false,
     })
     .addRadio({

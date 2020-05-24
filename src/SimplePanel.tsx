@@ -13,7 +13,6 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.lockIcon}>lock</div>
       <div
         className={cx(
           styles.imageWrapper,

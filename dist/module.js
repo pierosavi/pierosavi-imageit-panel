@@ -372,8 +372,6 @@ var SimplePanel = function SimplePanel(_a) {
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: styles.wrapper
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: styles.lockIcon
-  }, "lock"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: Object(emotion__WEBPACK_IMPORTED_MODULE_2__["cx"])(styles.imageWrapper, Object(emotion__WEBPACK_IMPORTED_MODULE_2__["css"])(templateObject_1 || (templateObject_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__makeTemplateObject"])(["\n            max-height: ", "px;\n          "], ["\n            max-height: ", "px;\n          "])), height))
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     className: Object(emotion__WEBPACK_IMPORTED_MODULE_2__["cx"])(styles.bgImage, Object(emotion__WEBPACK_IMPORTED_MODULE_2__["css"])(templateObject_2 || (templateObject_2 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__makeTemplateObject"])(["\n              max-height: ", "px;\n            "], ["\n              max-height: ", "px;\n            "])), height)),
@@ -415,8 +413,8 @@ var plugin = new _grafana_data__WEBPACK_IMPORTED_MODULE_0__["PanelPlugin"](_Simp
     description: 'URL of base image',
     defaultValue: 'https://i.picsum.photos/id/522/400/400.jpg'
   }).addBooleanSwitch({
-    path: 'showLock',
-    name: 'Show Lock',
+    path: 'lockSensors',
+    name: 'Lock sensors movement',
     defaultValue: false
   }).addRadio({
     path: 'sensorTextSize',
