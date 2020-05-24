@@ -1,6 +1,8 @@
+import React from 'react';
 import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './types';
 import { SimplePanel } from './SimplePanel';
+import { EditorSensorList } from 'CustomEditors/EditorSensorList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions(builder => {
   const panelOptionsBuilder = builder
@@ -36,6 +38,15 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
         ],
       },
       // showIf: config => config.showSeriesCount,
+    })
+    .addCustomEditor({
+      id: 'sensors',
+      path: 'sensors',
+      name: 'Sensors',
+      description: 'List of sensors',
+      editor: props => {
+        return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
+      },
     });
 
   return panelOptionsBuilder;
