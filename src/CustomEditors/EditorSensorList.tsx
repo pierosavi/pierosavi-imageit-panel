@@ -3,8 +3,9 @@ import { css, cx } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
 import { Button } from '@grafana/ui';
 import { Input } from '@grafana/ui';
-import { EditorSensorItem, Sensor } from './EditorSensorItem';
+import { EditorSensorItem } from './EditorSensorItem';
 import update from 'immutability-helper';
+import { Sensor } from '../types';
 
 interface Props {
   sensors?: Sensor[];

@@ -6,3 +6,7 @@ export interface SimpleOptions {
   sensorTextSize: SeriesSize;
   tags: string[];
 }
+
+export interface Sensor {
+  value: string;
+}

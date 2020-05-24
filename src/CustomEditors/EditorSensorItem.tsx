@@ -1,10 +1,6 @@
 import React, { PureComponent, ChangeEvent } from 'react';
 import { Input } from '@grafana/ui';
-import { Sensor } from 'Sensor';
-
-export interface Sensor {
-  value: string;
-}
+import { Sensor } from '../types';
 
 interface Props {
   sensor: Sensor;
