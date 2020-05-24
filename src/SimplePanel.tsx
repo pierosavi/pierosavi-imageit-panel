@@ -9,30 +9,31 @@ interface Props extends PanelProps<SimpleOptions> {}
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
   const styles = getStyles();
-  return (
-    <div
-      className={cx(
-        styles.wrapper,
-        css`
-          width: ${width}px;
-          height: ${height}px;
-        `
-      )}
-    >
-      <svg
-        className={styles.svg}
-        width={width}
-        height={height}
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox={`-${width / 2} -${height / 2} ${width} ${height}`}
-      >
-        <g>
-          <circle style={{ fill: `${theme.isLight ? theme.palette.greenBase : theme.palette.blue95}` }} r={100} />
-        </g>
-      </svg>
+  console.log(height);
 
-      <div className={styles.textBox}>
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.lockIcon}>lock</div>
+      <div
+        className={cx(
+          styles.imageWrapper,
+          css`
+            max-height: ${height}px;
+          `
+        )}
+      >
+        <img
+          className={cx(
+            styles.bgImage,
+            css`
+              max-height: ${height}px;
+            `
+          )}
+          src={options.imageUrl}
+        />
+      </div>
+
+      {/* <div className={styles.textBox}>
         {options.showLock && (
           <div
             className={css`
@@ -43,7 +44,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           </div>
         )}
         <div>Text option value: {options.imageUrl}</div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -51,12 +52,25 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 const getStyles = stylesFactory(() => {
   return {
     wrapper: css`
-      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     `,
-    svg: css`
+    imageWrapper: css`
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    `,
+    bgImage: css`
+      max-width: 100%;
+    `,
+    lockIcon: css`
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 25px;
+      right: 25px;
+      z-index: 1;
     `,
     textBox: css`
       position: absolute;
