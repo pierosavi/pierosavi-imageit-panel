@@ -3,7 +3,7 @@ import { SimpleOptions } from './types';
 import { SimplePanel } from './SimplePanel';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions(builder => {
-  return builder
+  const panelOptionsBuilder = builder
     .addTextInput({
       path: 'imageUrl',
       name: 'Image URL',
@@ -37,4 +37,6 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       },
       // showIf: config => config.showSeriesCount,
     });
+
+  return panelOptionsBuilder;
 });

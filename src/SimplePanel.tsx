@@ -2,18 +2,20 @@ import React from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { css, cx } from 'emotion';
-import { stylesFactory, useTheme } from '@grafana/ui';
+// import { stylesFactory, useTheme } from '@grafana/ui';
+import { stylesFactory } from '@grafana/ui';
+import { Sensor } from './Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
-  const theme = useTheme();
+  //  const theme = useTheme();
   const styles = getStyles();
-  console.log(height);
 
   return (
     <div className={styles.wrapper}>
       <div
+        id="imageItBgImage"
         className={cx(
           styles.imageWrapper,
           css`
@@ -30,6 +32,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           )}
           src={options.imageUrl}
         />
+        <Sensor draggable={options.lockSensors} visible={true} value="Sensor Value" />
       </div>
 
       {/* <div className={styles.textBox}>

@@ -27,5 +27,8 @@
   },
   "engines": {
     "node": ">=12 <13"
+  },
+  "dependencies": {
+    "react-draggable": "^4.4.2"
   }
 }

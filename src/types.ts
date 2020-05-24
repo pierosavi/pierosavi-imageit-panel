@@ -2,6 +2,6 @@ type SeriesSize = 'sm' | 'md' | 'lg';
 
 export interface SimpleOptions {
   imageUrl: string;
-  showLock: boolean;
+  lockSensors: boolean;
   sensorTextSize: SeriesSize;
 }
