@@ -2,10 +2,30 @@
 /* eslint-disable func-names */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/prefer-default-export */
+// eslint-disable-next-line import/no-extraneous-dependencies
 import _ from 'lodash';
 import { MetricsPanelCtrl } from 'app/plugins/sdk';
 import './libs/interact';
 import kbn from 'app/core/utils/kbn';
+
+const copyProps = [
+    'size',
+    'bgColor',
+    'fontColor',
+    'visible',
+    'renderValue',
+    'valueUnit',
+    'displayName',
+    'link_url',
+    'link_hover',
+    'resolvedLink',
+    'rectangular',
+    'valueMappingIds',
+    'isBold',
+    'unitFormat',
+    'decimals',
+    'sizeCoefficient'
+];
 
 const panelDefaults = {
     colorMappings: [],
@@ -79,6 +99,24 @@ export class ImageItCtrl extends MetricsPanelCtrl {
 
     deleteSensor(index) {
         this.panel.sensors.splice(index, 1);
+    }
+
+    copySensor(index) {
+        let tmp1 = new Sensor();
+
+        copyProps.forEach((prop) => {
+            tmp1[prop] = this.panel.sensors[index][prop];
+        });
+        let ii = index + 1;
+
+        while (ii < this.panel.sensors.length) {
+            const tmp2 = this.panel.sensors[ii];
+            this.panel.sensors[ii] = tmp1;
+            tmp1 = tmp2;
+            ii += 1;
+        }
+
+        this.panel.sensors.push(tmp1);
     }
 
     addSensor() {
