@@ -3,7 +3,7 @@
 System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils/kbn"], function (_export, _context) {
   "use strict";
 
-  var _, MetricsPanelCtrl, kbn, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
+  var _, MetricsPanelCtrl, kbn, copyProps, panelDefaults, mappingOperators, isTheFirstRender, ImageItCtrl;
 
   function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -107,6 +107,7 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
       kbn = _appCoreUtilsKbn.default;
     }],
     execute: function () {
+      copyProps = ['size', 'bgColor', 'fontColor', 'visible', 'renderValue', 'valueUnit', 'displayName', 'link_url', 'link_hover', 'resolvedLink', 'rectangular', 'valueMappingIds', 'isBold', 'unitFormat', 'decimals', 'sizeCoefficient'];
       panelDefaults = {
         colorMappings: [],
         colorMappingMap: [],
@@ -197,6 +198,26 @@ System.register(["lodash", "app/plugins/sdk", "./libs/interact", "app/core/utils
           key: "deleteSensor",
           value: function deleteSensor(index) {
             this.panel.sensors.splice(index, 1);
+          }
+        }, {
+          key: "copySensor",
+          value: function copySensor(index) {
+            var _this2 = this;
+
+            var tmp1 = new Sensor();
+            copyProps.forEach(function (prop) {
+              tmp1[prop] = _this2.panel.sensors[index][prop];
+            });
+            var ii = index + 1;
+
+            while (ii < this.panel.sensors.length) {
+              var tmp2 = this.panel.sensors[ii];
+              this.panel.sensors[ii] = tmp1;
+              tmp1 = tmp2;
+              ii += 1;
+            }
+
+            this.panel.sensors.push(tmp1);
           }
         }, {
           key: "addSensor",

@@ -193,10 +193,13 @@
 
                 <div class="gf-form-inline">
                     <div class="gf-form">
-                        <div class="gf-form-button">
+                        <div class="gf-form-button-row">
                             <button class="btn btn-inverse width-10" ng-click="ctrl.deleteSensor($index);ctrl.render()">
                                 <i class="fa fa-remove"></i> Delete Sensor
                             </button>
+							<button class="btn btn-inverse width-10" ng-click="ctrl.copySensor($index);ctrl.render()">
+								<i class="fa fa-copy"></i> Copy settings
+							</button>
                         </div>
                     </div>
                 </div>
