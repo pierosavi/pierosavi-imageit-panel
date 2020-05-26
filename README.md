@@ -1,3 +1,9 @@
+## Rewrite
+
+The plugin is currently being rewritten in React following the new Grafana Plugin standard
+
+New PRs for the old Angular V1 version will not be accepted
+
 ## ImageIt Panel Plugin for Grafana
 
 Allows a user to superimpose measurement displays ontop of picture.
