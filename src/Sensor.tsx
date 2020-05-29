@@ -8,6 +8,7 @@ import SensorType from './Types/Sensor';
 type SensorProps = {
   sensor: SensorType;
   draggable: boolean;
+  index: number;
 };
 
 export const Sensor = (props: SensorProps) => {

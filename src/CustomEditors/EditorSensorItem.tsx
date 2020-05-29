@@ -1,5 +1,5 @@
 import React, { PureComponent, ChangeEvent } from 'react';
-import { Input } from '@grafana/ui';
+import { Input, Checkbox } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
 interface Props {
@@ -21,14 +21,15 @@ export class EditorSensorItem extends PureComponent<Props, State> {
     };
   }
 
-  onValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const updatedSensor: Sensor = {
-      value: event.target.value,
-      visible: true,
-    };
-    this.setState({ sensor: updatedSensor });
+  onSensorValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let sensor = {...this.state.sensor}
+    sensor.value = event.target.value
 
-    this.props.onChange(updatedSensor, this.props.index);
+    this.setState(() => {
+      return { sensor }
+    }, () => {
+      this.props.onChange(this.state.sensor, this.props.index);
+    });
   };
 
   render() {
@@ -36,8 +37,12 @@ export class EditorSensorItem extends PureComponent<Props, State> {
 
     return (
       <>
-        Sensor {sensor.value}
-        <Input value={sensor.value} onChange={this.onValueChange} />
+        Sensor {this.props.index + 1}
+        <br />
+        <Input value={sensor.value} onChange={this.onSensorValueChange} />
+        <br />
+        <Checkbox value={sensor.visible} />
+        <br />
       </>
     );
   }
