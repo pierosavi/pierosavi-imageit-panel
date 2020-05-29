@@ -1,6 +1,6 @@
 import React from 'react';
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions } from './types';
+import { SimpleOptions } from './Types/SimpleOptions';
 import { ImageItPanel } from './ImageItPanel';
 import { EditorSensorList } from 'CustomEditors/EditorSensorList';
 

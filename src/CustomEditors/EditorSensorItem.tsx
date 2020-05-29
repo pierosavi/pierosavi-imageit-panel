@@ -1,6 +1,6 @@
 import React, { PureComponent, ChangeEvent } from 'react';
 import { Input } from '@grafana/ui';
-import { Sensor } from '../types';
+import Sensor from '../Types/Sensor';
 
 interface Props {
   sensor: Sensor;
@@ -24,6 +24,7 @@ export class EditorSensorItem extends PureComponent<Props, State> {
   onValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     const updatedSensor: Sensor = {
       value: event.target.value,
+      visible: true
     };
     this.setState({ sensor: updatedSensor });
 
@@ -33,6 +34,11 @@ export class EditorSensorItem extends PureComponent<Props, State> {
   render() {
     const { sensor } = this.state;
 
-    return <Input value={sensor.value} onChange={this.onValueChange} />;
+    return (
+      <>
+      Sensor { sensor.value }
+      <Input value={sensor.value} onChange={this.onValueChange} />
+      </>
+    )
   }
 }

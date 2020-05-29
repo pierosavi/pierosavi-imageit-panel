@@ -9,7 +9,3 @@ export interface SimpleOptions {
   sensors: string[];
   unitpicker: UnitPicker
 }
-
-export interface Sensor {
-  value: string;
-}

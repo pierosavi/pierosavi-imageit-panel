@@ -5,21 +5,22 @@ import { Button } from '@grafana/ui';
 import { Input } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import update from 'immutability-helper';
-import { Sensor } from '../types';
+import SensorType from '../Types/Sensor';
 
 interface Props {
-  sensors?: Sensor[];
+  sensors?: SensorType[];
 
-  onChange: (sensors: Sensor[]) => void;
+  onChange: (sensors: SensorType[]) => void;
 }
 
 interface State {
-  sensors: Sensor[];
-  newSensor: Sensor;
+  sensors: SensorType[];
+  newSensor: SensorType;
 }
 
-const defaultNewSensor: Sensor = {
-  value: 'DefaultNewSensor',
+const defaultNewSensor: SensorType = {
+  value: '',
+  visible: true
 };
 
 export class EditorSensorList extends PureComponent<Props, State> {
@@ -34,11 +35,11 @@ export class EditorSensorList extends PureComponent<Props, State> {
 
   onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      newSensor: { value: event.target.value },
+      // newSensor: { value: event.target.value },
     });
   };
 
-  onRemove = (sensorToRemove: Sensor) => {
+  onRemove = (sensorToRemove: SensorType) => {
     this.setState(
       (prevState: State) => ({
         ...prevState,
@@ -84,7 +85,7 @@ export class EditorSensorList extends PureComponent<Props, State> {
     this.props.onChange(this.state.sensors);
   };
 
-  onSensorChange = (sensor: Sensor, index: number): void => {
+  onSensorChange = (sensor: SensorType, index: number): void => {
     this.setState(
       {
         sensors: update(this.state.sensors, { [index]: { $set: sensor } }),
@@ -116,7 +117,7 @@ export class EditorSensorList extends PureComponent<Props, State> {
 
         <div className={getStyles().tagsCloudStyle}>
           {sensors &&
-            sensors.map((sensor: Sensor, index: number) => {
+            sensors.map((sensor: SensorType, index: number) => {
               return (
                 <EditorSensorItem
                   key={`${sensor}-${index}`}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions } from 'types';
+import { SimpleOptions } from 'Types/SimpleOptions';
 import { css, cx } from 'emotion';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory } from '@grafana/ui';
@@ -32,7 +32,8 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
           )}
           src={options.imageUrl}
         />
-        <Sensor draggable={options.lockSensors} visible={true} value="Sensor Value" />
+
+        <Sensor draggable={options.lockSensors} sensor={{'visible': true, 'value': 'Sensor Value'}} />
       </div>
 
       {/* <div className={styles.textBox}>
