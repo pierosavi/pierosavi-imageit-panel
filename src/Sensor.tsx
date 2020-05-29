@@ -3,12 +3,12 @@ import { css } from 'emotion';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import Draggable from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
-import SensorType from './Types/Sensor'
+import SensorType from './Types/Sensor';
 
 type SensorProps = {
-  sensor: SensorType,
-  draggable: boolean
-}
+  sensor: SensorType;
+  draggable: boolean;
+};
 
 export const Sensor = (props: SensorProps) => {
   // const theme = useTheme();

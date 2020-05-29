@@ -33,7 +33,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
           src={options.imageUrl}
         />
 
-        <Sensor draggable={options.lockSensors} sensor={{'visible': true, 'value': 'Sensor Value'}} />
+        <Sensor draggable={options.lockSensors} sensor={{ visible: true, value: 'Sensor Value' }} />
       </div>
 
       {/* <div className={styles.textBox}>

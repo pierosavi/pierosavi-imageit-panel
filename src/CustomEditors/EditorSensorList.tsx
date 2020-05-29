@@ -20,7 +20,7 @@ interface State {
 
 const defaultNewSensor: SensorType = {
   value: '',
-  visible: true
+  visible: true,
 };
 
 export class EditorSensorList extends PureComponent<Props, State> {

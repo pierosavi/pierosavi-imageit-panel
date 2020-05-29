@@ -3,4 +3,4 @@ type Sensor = {
   value: string;
 };
 
-export default Sensor
+export default Sensor;

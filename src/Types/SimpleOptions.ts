@@ -7,5 +7,5 @@ export interface SimpleOptions {
   lockSensors: boolean;
   sensorTextSize: SeriesSize;
   sensors: string[];
-  unitpicker: UnitPicker
+  unitpicker: UnitPicker;
 }

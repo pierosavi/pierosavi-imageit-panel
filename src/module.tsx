@@ -50,8 +50,8 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
     })
     .addUnitPicker({
       name: 'unitpicker',
-      path: 'unitpicker'
-    })
+      path: 'unitpicker',
+    });
 
   return panelOptionsBuilder;
 });
