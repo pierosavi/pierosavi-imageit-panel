@@ -1,10 +1,10 @@
 import React from 'react';
 import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './types';
-import { SimplePanel } from './SimplePanel';
+import { ImageItPanel } from './ImageItPanel';
 import { EditorSensorList } from 'CustomEditors/EditorSensorList';
 
-export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions(builder => {
+export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
   const panelOptionsBuilder = builder
     .addTextInput({
       path: 'imageUrl',
@@ -47,7 +47,11 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       editor: props => {
         return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
       },
-    });
+    })
+    .addUnitPicker({
+      name: 'unitpicker',
+      path: 'unitpicker'
+    })
 
   return panelOptionsBuilder;
 });

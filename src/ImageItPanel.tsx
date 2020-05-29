@@ -8,7 +8,7 @@ import { Sensor } from './Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
+export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) => {
   //  const theme = useTheme();
   const styles = getStyles();
 
