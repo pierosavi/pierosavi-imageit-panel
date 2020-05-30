@@ -1,8 +1,7 @@
-import React, { ChangeEvent, KeyboardEvent, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { css, cx } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
 import { Button } from '@grafana/ui';
-import { Input } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import update from 'immutability-helper';
 import SensorType from '../Types/Sensor';
@@ -15,12 +14,14 @@ interface Props {
 
 interface State {
   sensors: SensorType[];
-  newSensor: SensorType;
 }
 
 const defaultNewSensor: SensorType = {
   value: '',
   visible: true,
+  backgroundColor: '#000',
+  fontColor: '#FFF',
+  bold: false,
 };
 
 export class EditorSensorList extends PureComponent<Props, State> {
@@ -29,15 +30,8 @@ export class EditorSensorList extends PureComponent<Props, State> {
 
     this.state = {
       sensors: this.props.sensors || [],
-      newSensor: defaultNewSensor,
     };
   }
-
-  onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      // newSensor: { value: event.target.value },
-    });
-  };
 
   onRemove = (sensorToRemove: SensorType) => {
     this.setState(
@@ -47,38 +41,6 @@ export class EditorSensorList extends PureComponent<Props, State> {
       }),
       () => this.onChange()
     );
-  };
-
-  // Using React.MouseEvent to avoid tslint error
-  onAdd = (event: React.MouseEvent) => {
-    event.preventDefault();
-    if (this.state.newSensor.value !== '') {
-      this.setNewSensors();
-    }
-  };
-
-  onKeyboardAdd = (event: KeyboardEvent) => {
-    event.preventDefault();
-    if (event.key === 'Enter' && this.state.newSensor.value !== '') {
-      this.setNewSensors();
-    }
-  };
-
-  setNewSensors = () => {
-    // We don't want to duplicate sensors, clearing the input if
-    // the user is trying to add the same sensor.
-    if (!this.state.sensors.includes(this.state.newSensor)) {
-      this.setState(
-        (prevState: State) => ({
-          ...prevState,
-          sensors: [...prevState.sensors, prevState.newSensor],
-          newSensor: defaultNewSensor,
-        }),
-        () => this.onChange()
-      );
-    } else {
-      this.setState({ newSensor: defaultNewSensor });
-    }
   };
 
   onChange = () => {
@@ -96,8 +58,19 @@ export class EditorSensorList extends PureComponent<Props, State> {
     );
   };
 
+  addNewSensor = () => {
+    this.setState(
+      {
+        sensors: update(this.state.sensors, { $push: [defaultNewSensor] }),
+      },
+      () => {
+        this.onChange();
+      }
+    );
+  };
+
   render() {
-    const { sensors, newSensor } = this.state;
+    const { sensors } = this.state;
 
     const getStyles = stylesFactory(() => ({
       tagsCloudStyle: css`
@@ -107,7 +80,7 @@ export class EditorSensorList extends PureComponent<Props, State> {
       `,
 
       addButtonStyle: css`
-        margin-left: 8px;
+        /* margin-left: 8px; */
       `,
     }));
 
@@ -137,14 +110,8 @@ export class EditorSensorList extends PureComponent<Props, State> {
             `
           )}
         >
-          <Input
-            placeholder="Add Name"
-            onChange={this.onNameChange}
-            value={newSensor.value}
-            onKeyUp={this.onKeyboardAdd}
-          />
-          <Button className={getStyles().addButtonStyle} onClick={this.onAdd} variant="secondary" size="md">
-            Add
+          <Button className={getStyles().addButtonStyle} onClick={this.addNewSensor} variant="secondary" size="md">
+            Add New
           </Button>
         </div>
       </div>

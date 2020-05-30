@@ -5,7 +5,7 @@ import { css, cx } from 'emotion';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
-import SensorType from './Types/Sensor'
+import SensorType from './Types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
@@ -34,11 +34,9 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
           src={options.imageUrl}
         />
         {options.sensors &&
-            options.sensors.map((sensor: SensorType, index: number) => {
-              return (
-                <Sensor draggable={options.lockSensors} sensor={sensor} index={index}/>
-              );
-            })}
+          options.sensors.map((sensor: SensorType, index: number) => {
+            return <Sensor draggable={options.lockSensors} sensor={sensor} index={index} />;
+          })}
       </div>
 
       {/* <div className={styles.textBox}>

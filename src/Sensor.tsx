@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import Draggable from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
@@ -19,7 +19,16 @@ export const Sensor = (props: SensorProps) => {
     <>
       {props.sensor.visible && (
         <Draggable disabled={props.draggable} bounds="#imageItBgImage">
-          <div className={styles.sensor}>{props.sensor.value}</div>
+          <div
+            className={cx(
+              styles.sensor,
+              css`
+                color: ${props.sensor.fontColor};
+              `
+            )}
+          >
+            {props.sensor.value}
+          </div>
         </Draggable>
       )}
     </>

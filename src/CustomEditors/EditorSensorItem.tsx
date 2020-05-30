@@ -1,5 +1,5 @@
 import React, { PureComponent, ChangeEvent } from 'react';
-import { Input, Checkbox } from '@grafana/ui';
+import { Input, ColorPicker, Switch } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
 interface Props {
@@ -21,27 +21,37 @@ export class EditorSensorItem extends PureComponent<Props, State> {
     };
   }
 
-  onSensorValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let sensor = {...this.state.sensor}
-    sensor.value = event.target.value
+  updateSensorState(sensor: Sensor) {
+    this.setState(
+      () => {
+        return { sensor };
+      },
+      () => {
+        this.props.onChange(this.state.sensor, this.props.index);
+      }
+    );
+  }
 
-    this.updateSensorState(sensor)
+  onSensorValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let sensor = { ...this.state.sensor };
+    sensor.value = event.target.value;
+
+    this.updateSensorState(sensor);
   };
 
   onSensorVisibleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let sensor = {...this.state.sensor}
-    sensor.visible = event.target.checked
+    let sensor = { ...this.state.sensor };
+    sensor.visible = event.target.checked;
 
-    this.updateSensorState(sensor)
+    this.updateSensorState(sensor);
   };
 
-  updateSensorState(sensor: Sensor) {
-    this.setState(() => {
-      return { sensor }
-    }, () => {
-      this.props.onChange(this.state.sensor, this.props.index);
-    });
-  }
+  onFontColorChange = (color: string) => {
+    let sensor = { ...this.state.sensor };
+    sensor.fontColor = color;
+
+    this.updateSensorState(sensor);
+  };
 
   render() {
     const { sensor } = this.state;
@@ -53,7 +63,9 @@ export class EditorSensorItem extends PureComponent<Props, State> {
         <br />
         <Input value={sensor.value} onChange={this.onSensorValueChange} />
         <br />
-        <Checkbox value={sensor.visible} onChange={this.onSensorVisibleChange} label='label' description="description" />
+        <Switch value={sensor.visible} onChange={this.onSensorVisibleChange} />
+        <br />
+        <ColorPicker color={sensor.fontColor} onChange={this.onFontColorChange} />
         <br />
       </>
     );
