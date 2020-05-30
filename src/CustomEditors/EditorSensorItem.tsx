@@ -53,6 +53,13 @@ export class EditorSensorItem extends PureComponent<Props, State> {
     this.updateSensorState(sensor);
   };
 
+  onBackgroundColorChange = (color: string) => {
+    let sensor = { ...this.state.sensor };
+    sensor.backgroundColor = color;
+
+    this.updateSensorState(sensor);
+  };
+
   render() {
     const { sensor } = this.state;
 
@@ -66,6 +73,8 @@ export class EditorSensorItem extends PureComponent<Props, State> {
         <Switch value={sensor.visible} onChange={this.onSensorVisibleChange} />
         <br />
         <ColorPicker color={sensor.fontColor} onChange={this.onFontColorChange} />
+        <br />
+        <ColorPicker color={sensor.backgroundColor} onChange={this.onBackgroundColorChange} />
         <br />
       </>
     );

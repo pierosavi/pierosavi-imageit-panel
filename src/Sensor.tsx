@@ -24,6 +24,7 @@ export const Sensor = (props: SensorProps) => {
               styles.sensor,
               css`
                 color: ${props.sensor.fontColor};
+                background-color: ${props.sensor.backgroundColor};
               `
             )}
           >
