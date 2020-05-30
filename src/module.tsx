@@ -47,10 +47,6 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       editor: props => {
         return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
       },
-    })
-    .addUnitPicker({
-      name: 'unitpicker',
-      path: 'unitpicker',
     });
 
   return panelOptionsBuilder;
