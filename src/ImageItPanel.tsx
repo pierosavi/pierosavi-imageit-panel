@@ -31,8 +31,8 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
   };
 
   const onSensorPositionChange = (position: any) => {
-    console.log(position)
-  }
+    console.log(position);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -48,7 +48,13 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
         {options.sensors &&
           options.sensors.map((sensor: SensorType, index: number) => {
             return (
-              <Sensor draggable={options.lockSensors} sensor={sensor} index={index} imageDimensions={imageDimensions} onPositionChange={onSensorPositionChange}/>
+              <Sensor
+                draggable={options.lockSensors}
+                sensor={sensor}
+                index={index}
+                imageDimensions={imageDimensions}
+                onPositionChange={onSensorPositionChange}
+              />
             );
           })}
 
@@ -64,19 +70,6 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
           onLoad={onImageLoad}
         />
       </div>
-
-      {/* <div className={styles.textBox}>
-        {options.showLock && (
-          <div
-            className={css`
-              font-size: ${theme.typography.size[options.sensorTextSize]};
-            `}
-          >
-            Number of series: {data.series.length}
-          </div>
-        )}
-        <div>Text option value: {options.imageUrl}</div>
-      </div> */}
     </div>
   );
 };

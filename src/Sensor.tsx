@@ -44,7 +44,7 @@ export const Sensor = (props: SensorProps) => {
       height: pxToPerc(data.y, props.imageDimensions.height),
     };
 
-    props.onPositionChange(newPosition)
+    props.onPositionChange(newPosition);
   };
 
   const sensorPosition = {
