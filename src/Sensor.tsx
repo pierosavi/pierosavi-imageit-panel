@@ -84,7 +84,7 @@ export const Sensor = (props: SensorProps) => {
               </a>
             </div>
 
-            {isMouseOver && (
+            {!props.draggable && isMouseOver && (
               <div className={cx(styles.handle, 'handle')}>
                 <div className="fa fa-bars" />
               </div>
