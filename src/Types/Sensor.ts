@@ -4,6 +4,7 @@ type Sensor = {
   backgroundColor: string;
   fontColor: string;
   bold: boolean;
+  link: string;
 };
 
 export default Sensor;

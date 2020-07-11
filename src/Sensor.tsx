@@ -28,7 +28,8 @@ export const Sensor = (props: SensorProps) => {
               `
             )}
           >
-            {props.sensor.value}
+            <a href={props.sensor.link}>{props.sensor.value}</a>
+
           </div>
         </Draggable>
       )}
@@ -40,6 +41,7 @@ const getStyles = stylesFactory(() => {
   return {
     sensor: css`
       position: absolute;
+      padding: 0.5em;
     `,
   };
 });

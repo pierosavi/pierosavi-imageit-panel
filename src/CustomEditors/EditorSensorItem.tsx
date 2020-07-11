@@ -39,6 +39,13 @@ export class EditorSensorItem extends PureComponent<Props, State> {
     this.updateSensorState(sensor);
   };
 
+  onSensorLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let sensor = { ...this.state.sensor };
+    sensor.link = event.target.value;
+
+    this.updateSensorState(sensor);
+  };
+
   onSensorVisibleChange = (event: ChangeEvent<HTMLInputElement>) => {
     let sensor = { ...this.state.sensor };
     sensor.visible = event.target.checked;
@@ -69,6 +76,8 @@ export class EditorSensorItem extends PureComponent<Props, State> {
         Sensor {this.props.index + 1}
         <br />
         <Input value={sensor.value} onChange={this.onSensorValueChange} />
+        <br />
+        <Input value={sensor.link} onChange={this.onSensorLinkChange} />
         <br />
         <Switch value={sensor.visible} onChange={this.onSensorVisibleChange} />
         <br />
