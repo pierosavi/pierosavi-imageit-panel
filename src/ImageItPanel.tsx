@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'Types/SimpleOptions';
 import { css, cx } from 'emotion';
@@ -13,6 +13,27 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
   //  const theme = useTheme();
   const styles = getStyles();
 
+  const imageRef = useRef(null);
+  const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
+
+  useEffect(() => {
+    setImageDimensions({
+      height: imageRef.current.offsetHeight,
+      width: imageRef.current.offsetWidth,
+    });
+  }, [width, height]);
+
+  const onImageLoad = ({ target: image }: any) => {
+    setImageDimensions({
+      height: image.offsetHeight,
+      width: image.offsetWidth,
+    });
+  };
+
+  const onSensorPositionChange = (position: any) => {
+    console.log(position)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div
@@ -24,6 +45,13 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
           `
         )}
       >
+        {options.sensors &&
+          options.sensors.map((sensor: SensorType, index: number) => {
+            return (
+              <Sensor draggable={options.lockSensors} sensor={sensor} index={index} imageDimensions={imageDimensions} onPositionChange={onSensorPositionChange}/>
+            );
+          })}
+
         <img
           className={cx(
             styles.bgImage,
@@ -32,11 +60,9 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
             `
           )}
           src={options.imageUrl}
+          ref={imageRef}
+          onLoad={onImageLoad}
         />
-        {options.sensors &&
-          options.sensors.map((sensor: SensorType, index: number) => {
-            return <Sensor draggable={options.lockSensors} sensor={sensor} index={index} />;
-          })}
       </div>
 
       {/* <div className={styles.textBox}>

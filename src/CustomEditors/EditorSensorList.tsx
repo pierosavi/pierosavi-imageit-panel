@@ -23,6 +23,10 @@ const defaultNewSensor: SensorType = {
   fontColor: '#FFF',
   bold: false,
   link: '',
+  position: {
+    x: 50,
+    y: 50,
+  },
 };
 
 export class EditorSensorList extends PureComponent<Props, State> {
