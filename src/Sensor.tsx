@@ -17,11 +17,11 @@ type SensorProps = {
 };
 
 const pxToPerc = (px: number, size: number): number => {
-  return ((px * 100) / size);
+  return (px * 100) / size;
 };
 
 const percToPx = (perc: number, size: number): number => {
-  return ((perc * size) / 100);
+  return (perc * size) / 100;
 };
 
 export const Sensor = (props: SensorProps) => {

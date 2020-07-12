@@ -14,13 +14,13 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   //  const theme = useTheme();
   const styles = getStyles();
 
-  const imageRef = useRef(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
 
   useEffect(() => {
     setImageDimensions({
-      height: imageRef.current.offsetHeight,
-      width: imageRef.current.offsetWidth,
+      height: imageRef.current!.offsetHeight,
+      width: imageRef.current!.offsetWidth,
     });
   }, [width, height]);
 
@@ -32,10 +32,10 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   };
 
   const onSensorPositionChange = (position: any, index: number) => {
-    const newOptions = _.cloneDeep(options)
+    const newOptions = _.cloneDeep(options);
     newOptions.sensors[index].position = position;
 
-    onOptionsChange(newOptions)
+    onOptionsChange(newOptions);
   };
 
   return (
