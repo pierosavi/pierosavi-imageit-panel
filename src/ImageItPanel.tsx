@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'Types/SimpleOptions';
 import { css, cx } from 'emotion';
+import * as _ from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
@@ -9,7 +10,7 @@ import SensorType from './Types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) => {
+export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
   //  const theme = useTheme();
   const styles = getStyles();
 
@@ -30,8 +31,11 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height }) 
     });
   };
 
-  const onSensorPositionChange = (position: any) => {
-    console.log(position);
+  const onSensorPositionChange = (position: any, index: number) => {
+    const newOptions = _.cloneDeep(options)
+    newOptions.sensors[index].position = position;
+
+    onOptionsChange(newOptions)
   };
 
   return (

@@ -16,19 +16,19 @@ type SensorProps = {
   onPositionChange: Function;
 };
 
+const pxToPerc = (px: number, size: number): number => {
+  return ((px * 100) / size);
+};
+
+const percToPx = (perc: number, size: number): number => {
+  return ((perc * size) / 100);
+};
+
 export const Sensor = (props: SensorProps) => {
   // const theme = useTheme();
   const styles = getStyles();
 
   const [isMouseOver, setIsMouseOver] = useState(false);
-
-  const pxToPerc = (px: number, size: number) => {
-    return (px * 100) / size;
-  };
-
-  const percToPx = (perc: number, size: number) => {
-    return (perc * size) / 100;
-  };
 
   const onMouseEnter = (event: any) => {
     setIsMouseOver(true);
@@ -40,11 +40,11 @@ export const Sensor = (props: SensorProps) => {
 
   const onDragStop = (event: DraggableEvent, data: DraggableData) => {
     const newPosition = {
-      width: pxToPerc(data.x, props.imageDimensions.width),
-      height: pxToPerc(data.y, props.imageDimensions.height),
+      x: pxToPerc(data.x, props.imageDimensions.width),
+      y: pxToPerc(data.y, props.imageDimensions.height),
     };
 
-    props.onPositionChange(newPosition);
+    props.onPositionChange(newPosition, props.index);
   };
 
   const sensorPosition = {
