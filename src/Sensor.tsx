@@ -24,7 +24,7 @@ const percToPx = (perc: number, size: number): number => {
   return (perc * size) / 100;
 };
 
-export const Sensor = (props: SensorProps) => {
+export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
   // const theme = useTheme();
   const styles = getStyles();
 
