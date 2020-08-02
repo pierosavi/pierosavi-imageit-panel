@@ -10,7 +10,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       path: 'imageUrl',
       name: 'Image URL',
       description: 'URL of base image',
-      defaultValue: 'https://i.picsum.photos/id/522/400/400.jpg',
+      defaultValue: 'https://i.ibb.co/tLXrjb6/imageit.png',
     })
     .addBooleanSwitch({
       path: 'lockSensors',
