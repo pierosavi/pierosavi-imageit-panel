@@ -72,19 +72,12 @@ export class EditorSensorItem extends PureComponent<Props, State> {
 
     return (
       <>
-        <br />
         Sensor {this.props.index + 1}
-        <br />
         <Input value={sensor.value} onChange={this.onSensorValueChange} />
-        <br />
         <Input value={sensor.link} onChange={this.onSensorLinkChange} />
-        <br />
         <Switch value={sensor.visible} onChange={this.onSensorVisibleChange} />
-        <br />
-        <ColorPicker color={sensor.fontColor} onChange={this.onFontColorChange} />
-        <br />
-        <ColorPicker color={sensor.backgroundColor} onChange={this.onBackgroundColorChange} />
-        <br />
+        <ColorPicker color={sensor.fontColor} onChange={this.onFontColorChange} enableNamedColors={true} />
+        <ColorPicker color={sensor.backgroundColor} onChange={this.onBackgroundColorChange} enableNamedColors={true} />
       </>
     );
   }

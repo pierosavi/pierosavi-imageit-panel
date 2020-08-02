@@ -78,10 +78,10 @@ export class EditorSensorList extends PureComponent<Props, State> {
     const { sensors } = this.state;
 
     const getStyles = stylesFactory(() => ({
-      tagsCloudStyle: css`
-        display: flex;
-        justify-content: flex-start;
-        flex-wrap: wrap;
+      sensorItemWrapperStyle: css`
+        margin-bottom: 16px;
+        padding: 8px;
+        background-color: #2f343b;
       `,
 
       addButtonStyle: css`
@@ -89,37 +89,30 @@ export class EditorSensorList extends PureComponent<Props, State> {
       `,
     }));
 
-    return (
-      <div className="width-20">
-        {/* list of existing sensors */}
+    const styles = getStyles();
 
-        <div className={getStyles().tagsCloudStyle}>
-          {sensors &&
-            sensors.map((sensor: SensorType, index: number) => {
-              return (
+    return (
+      <>
+        {/* list of existing sensors */}
+        {sensors &&
+          sensors.map((sensor: SensorType, index: number) => {
+            return (
+              <div className={styles.sensorItemWrapperStyle}>
                 <EditorSensorItem
                   key={`${sensor}-${index}`}
                   sensor={sensor}
                   onChange={this.onSensorChange}
                   index={index}
                 />
-              );
-            })}
-        </div>
+              </div>
+            );
+          })}
 
-        <div
-          className={cx(
-            ['gf-form-inline'],
-            css`
-              margin-bottom: 4px;
-            `
-          )}
-        >
-          <Button className={getStyles().addButtonStyle} onClick={this.addNewSensor} variant="secondary" size="md">
-            Add New
-          </Button>
-        </div>
-      </div>
+        <Button className={styles.addButtonStyle} onClick={this.addNewSensor} variant="secondary" size="md">
+          Add New
+        </Button>
+
+      </>
     );
   }
 }
