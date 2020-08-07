@@ -1,23 +1,24 @@
 import React, { PureComponent } from 'react';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
 import { Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import update from 'immutability-helper';
-import SensorType from '../Types/Sensor';
+import Sensor from '../Types/Sensor';
 
 interface Props {
-  sensors?: SensorType[];
+  sensors?: Sensor[];
 
-  onChange: (sensors: SensorType[]) => void;
+  onChange: (sensors: Sensor[]) => void;
 }
 
 interface State {
-  sensors: SensorType[];
+  sensors: Sensor[];
 }
 
-const defaultNewSensor: SensorType = {
-  value: '',
+const defaultNewSensor: Sensor = {
+  name: 'Name',
+  value: undefined,
   visible: true,
   backgroundColor: '#000',
   fontColor: '#FFF',
@@ -38,7 +39,7 @@ export class EditorSensorList extends PureComponent<Props, State> {
     };
   }
 
-  onRemove = (sensorToRemove: SensorType) => {
+  onRemove = (sensorToRemove: Sensor) => {
     this.setState(
       (prevState: State) => ({
         ...prevState,
@@ -52,7 +53,7 @@ export class EditorSensorList extends PureComponent<Props, State> {
     this.props.onChange(this.state.sensors);
   };
 
-  onSensorChange = (sensor: SensorType, index: number): void => {
+  onSensorChange = (sensor: Sensor, index: number): void => {
     this.setState(
       {
         sensors: update(this.state.sensors, { [index]: { $set: sensor } }),
@@ -95,15 +96,10 @@ export class EditorSensorList extends PureComponent<Props, State> {
       <>
         {/* list of existing sensors */}
         {sensors &&
-          sensors.map((sensor: SensorType, index: number) => {
+          sensors.map((sensor: Sensor, index: number) => {
             return (
               <div className={styles.sensorItemWrapperStyle}>
-                <EditorSensorItem
-                  key={`${sensor}-${index}`}
-                  sensor={sensor}
-                  onChange={this.onSensorChange}
-                  index={index}
-                />
+                <EditorSensorItem key={index} sensor={sensor} onChange={this.onSensorChange} index={index} />
               </div>
             );
           })}
@@ -111,7 +107,6 @@ export class EditorSensorList extends PureComponent<Props, State> {
         <Button className={styles.addButtonStyle} onClick={this.addNewSensor} variant="secondary" size="md">
           Add New
         </Button>
-
       </>
     );
   }

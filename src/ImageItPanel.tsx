@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'Types/SimpleOptions';
 import { css, cx } from 'emotion';
-import * as _ from 'lodash';
+import _ from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
