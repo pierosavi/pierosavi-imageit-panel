@@ -1,4 +1,4 @@
-import React, { PureComponent, ChangeEvent } from 'react';
+import React from 'react';
 import { Input, ColorPicker, Switch } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
@@ -8,77 +8,48 @@ interface Props {
   index: number;
 }
 
-interface State {
-  sensor: Sensor;
-}
+export const EditorSensorItem: React.FC<Props> = (props: Props) => {
+  const { sensor, index } = props;
 
-export class EditorSensorItem extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      sensor: props.sensor,
-    };
+  function updateSensorState(sensor: Sensor) {
+    props.onChange(sensor, index);
   }
 
-  updateSensorState(sensor: Sensor) {
-    this.setState(
-      () => {
-        return { sensor };
-      },
-      () => {
-        this.props.onChange(this.state.sensor, this.props.index);
-      }
-    );
-  }
-
-  onSensorValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let sensor = { ...this.state.sensor };
-    sensor.value = event.target.value;
-
-    this.updateSensorState(sensor);
-  };
-
-  onSensorLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let sensor = { ...this.state.sensor };
-    sensor.link = event.target.value;
-
-    this.updateSensorState(sensor);
-  };
-
-  onSensorVisibleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let sensor = { ...this.state.sensor };
-    sensor.visible = event.target.checked;
-
-    this.updateSensorState(sensor);
-  };
-
-  onFontColorChange = (color: string) => {
-    let sensor = { ...this.state.sensor };
-    sensor.fontColor = color;
-
-    this.updateSensorState(sensor);
-  };
-
-  onBackgroundColorChange = (color: string) => {
-    let sensor = { ...this.state.sensor };
-    sensor.backgroundColor = color;
-
-    this.updateSensorState(sensor);
-  };
-
-  render() {
-    const { sensor } = this.state;
-
-    return (
-      <>
-        Sensor {this.props.index + 1}
-        <Input value={sensor.value} onChange={this.onSensorValueChange} />
-        <Input value={sensor.link} onChange={this.onSensorLinkChange} />
-        <Switch value={sensor.visible} onChange={this.onSensorVisibleChange} />
-        <ColorPicker color={sensor.fontColor} onChange={this.onFontColorChange} enableNamedColors={true} />
-        <ColorPicker color={sensor.backgroundColor} onChange={this.onBackgroundColorChange} enableNamedColors={true} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      Sensor {props.index + 1}
+      <Input
+        value={sensor.name}
+        onChange={event => {
+          updateSensorState({ ...sensor, name: event.currentTarget.value });
+        }}
+      />
+      <Input
+        value={sensor.link}
+        onChange={event => {
+          updateSensorState({ ...sensor, link: event.currentTarget.value });
+        }}
+      />
+      <Switch
+        value={sensor.visible}
+        onChange={event => {
+          updateSensorState({ ...sensor, visible: event.currentTarget.checked });
+        }}
+      />
+      <ColorPicker
+        color={sensor.fontColor}
+        onChange={color => {
+          updateSensorState({ ...sensor, fontColor: color });
+        }}
+        enableNamedColors={true}
+      />
+      <ColorPicker
+        color={sensor.backgroundColor}
+        onChange={color => {
+          updateSensorState({ ...sensor, backgroundColor: color });
+        }}
+        enableNamedColors={true}
+      />
+    </>
+  );
+};
