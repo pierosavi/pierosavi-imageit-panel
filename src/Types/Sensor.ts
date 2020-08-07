@@ -1,6 +1,7 @@
 type Sensor = {
   visible: boolean;
-  value: string;
+  name: string;
+  value: string | undefined;
   backgroundColor: string;
   fontColor: string;
   bold: boolean;

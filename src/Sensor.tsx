@@ -80,7 +80,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                 `}
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
-                {props.sensor.value}
+                {props.sensor.name}
               </a>
             </div>
 
