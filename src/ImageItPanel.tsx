@@ -10,7 +10,37 @@ import SensorType from './Types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
+const defaultNewSensor: SensorType = {
+  name: 'Name',
+  displayName: undefined,
+  value: "Value",
+  visible: true,
+  backgroundColor: '#000',
+  fontColor: '#FFF',
+  bold: false,
+  link: '',
+  position: {
+    x: 50,
+    y: 50,
+  },
+};
+
 export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
+  if (!options.sensors) {
+    options.sensors = [];
+  }
+  let strings = options.sensors.map(sensor => sensor.name);
+
+  let newSensors = data.series
+    .map(dataFrame => dataFrame.name)
+    .filter(name => name && !strings.includes(name))
+    .map(name => {
+      return {...defaultNewSensor, name: name!};
+    })
+  if (newSensors.length > 0) {
+    options.sensors.push(...newSensors);
+    onOptionsChange(options);
+  }
   //  const theme = useTheme();
   const styles = getStyles();
 
@@ -56,6 +86,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
                 draggable={options.lockSensors}
                 sensor={sensor}
                 index={index}
+                data={data.series}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
               />

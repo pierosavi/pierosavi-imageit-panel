@@ -4,11 +4,13 @@ import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
+import {DataFrame, FieldCache} from "@grafana/data";
 
 type SensorProps = {
   sensor: SensorType;
   draggable: boolean;
   index: number;
+  data: DataFrame[],
   imageDimensions: {
     width: number;
     height: number;
@@ -27,7 +29,7 @@ const percToPx = (perc: number, size: number): number => {
 export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
   // const theme = useTheme();
   const styles = getStyles();
-
+  console.log(props.data);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const onMouseEnter = (event: any) => {
@@ -46,12 +48,19 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
 
     props.onPositionChange(newPosition, props.index);
   };
-
   const sensorPosition = {
     x: percToPx(props.sensor.position.x, props.imageDimensions.width),
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
-
+  let caches = props.data
+    .filter(value1 => value1.name === props.sensor.name)
+    .map(val => new FieldCache(val))
+    .filter(value => value.hasFieldNamed(props.sensor.value));
+  let value = -1;
+  if (caches.length > 0) {
+    let value1 = caches[0].getFieldByName(props.sensor.value)?.values;
+    value = value1?.get(value1?.length - 1);
+  }
   return (
     <>
       {props.sensor.visible && (
@@ -80,7 +89,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                 `}
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
-                {props.sensor.name}
+                {(props.sensor.displayName || props.sensor.name) + ": "+ value}
               </a>
             </div>
 

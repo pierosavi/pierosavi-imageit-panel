@@ -1,11 +1,11 @@
 import React from 'react';
-import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions } from './Types/SimpleOptions';
-import { ImageItPanel } from './ImageItPanel';
-import { EditorSensorList } from 'CustomEditors/EditorSensorList';
+import {PanelPlugin} from '@grafana/data';
+import {SimpleOptions} from './Types/SimpleOptions';
+import {ImageItPanel} from './ImageItPanel';
+import {EditorSensorList} from 'CustomEditors/EditorSensorList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
-  const panelOptionsBuilder = builder
+  return builder
     .addTextInput({
       path: 'imageUrl',
       name: 'Image URL',
@@ -17,37 +17,43 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       name: 'Lock sensors movement',
       defaultValue: false,
     })
-    .addRadio({
-      path: 'sensorTextSize',
-      defaultValue: 'sm',
-      name: 'Sensor text size',
-      settings: {
-        options: [
-          {
-            value: 'sm',
-            label: 'Small',
-          },
-          {
-            value: 'md',
-            label: 'Medium',
-          },
-          {
-            value: 'lg',
-            label: 'Large',
-          },
-        ],
-      },
-      // showIf: config => config.showSeriesCount,
-    })
+    // .addRadio({
+    //   path: 'sensorTextSize',
+    //   defaultValue: 'sm',
+    //   name: 'Sensor text size',
+    //   settings: {
+    //     options: [
+    //       {
+    //         value: 'sm',
+    //         label: 'Small',
+    //       },
+    //       {
+    //         value: 'md',
+    //         label: 'Medium',
+    //       },
+    //       {
+    //         value: 'lg',
+    //         label: 'Large',
+    //       },
+    //     ],
+    //   },
+    //   // showIf: config => config.showSeriesCount,
+    // })
     .addCustomEditor({
       id: 'sensors',
       path: 'sensors',
       name: 'Sensors',
       description: 'List of sensors',
       editor: props => {
-        return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
+        return <EditorSensorList sensors={props.value} onChange={props.onChange}/>;
       },
     });
-
-  return panelOptionsBuilder;
-});
+})/*.useFieldConfig({
+  standardOptions: [
+    FieldConfigProperty.Thresholds,
+    FieldConfigProperty.Title,
+    FieldConfigProperty.Unit,
+    FieldConfigProperty.Decimals,
+    FieldConfigProperty.NoValue
+  ]
+})*/
