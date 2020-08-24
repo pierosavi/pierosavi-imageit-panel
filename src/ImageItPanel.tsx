@@ -29,6 +29,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   if (!options.sensors) {
     options.sensors = [];
   }
+
   let strings = options.sensors.map(sensor => sensor.name);
 
   let newSensors = data.series

@@ -1,5 +1,5 @@
 import React from 'react';
-import {PanelPlugin} from '@grafana/data';
+import {FieldConfigProperty, PanelPlugin} from '@grafana/data';
 import {SimpleOptions} from './Types/SimpleOptions';
 import {ImageItPanel} from './ImageItPanel';
 import {EditorSensorList} from 'CustomEditors/EditorSensorList';
@@ -48,12 +48,17 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
         return <EditorSensorList sensors={props.value} onChange={props.onChange}/>;
       },
     });
-})/*.useFieldConfig({
+}).useFieldConfig({
   standardOptions: [
     FieldConfigProperty.Thresholds,
-    FieldConfigProperty.Title,
     FieldConfigProperty.Unit,
     FieldConfigProperty.Decimals,
     FieldConfigProperty.NoValue
-  ]
-})*/
+  ],
+  standardOptionsDefaults: {
+    [FieldConfigProperty.Thresholds]: {"value": -Infinity, "color": "grey"},
+    [FieldConfigProperty.Unit]: '',
+    [FieldConfigProperty.Decimals]: 2,
+    [FieldConfigProperty.NoValue]: 0
+  }
+})

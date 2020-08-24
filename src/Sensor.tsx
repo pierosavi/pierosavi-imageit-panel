@@ -57,10 +57,28 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
     .map(val => new FieldCache(val))
     .filter(value => value.hasFieldNamed(props.sensor.value));
   let value = -1;
+  let color = 'white';
+  let unit = undefined;
+  let decimal: number| null| undefined = 2;
   if (caches.length > 0) {
-    let value1 = caches[0].getFieldByName(props.sensor.value)?.values;
+    let field = caches[0].getFieldByName(props.sensor.value);
+    let value1 = field?.values;
     value = value1?.get(value1?.length - 1);
+    unit = field?.config.unit;
+    decimal = field && field.config.decimals
+    let thresholds = field?.config.thresholds?.steps.reverse();
+    if (thresholds) {
+      for (let i = 0; i < thresholds.length; i++) {
+        if (value > thresholds[i].value) {
+          color = thresholds[i].color
+          break;
+        }
+      }
+    }
   }
+
+
+
   return (
     <>
       {props.sensor.visible && (
@@ -89,7 +107,11 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                 `}
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
-                {(props.sensor.displayName || props.sensor.name) + ": "+ value}
+                {(props.sensor.displayName || props.sensor.name) + ": "}
+                <span className={css`
+                  color: ${color}
+                `}>{value.toFixed(decimal||2)}</span>
+                {unit||''}
               </a>
             </div>
 
