@@ -1,11 +1,18 @@
 import React from 'react';
-import {FieldConfigProperty, PanelPlugin} from '@grafana/data';
+import {FieldConfigProperty, PanelPlugin, ReducerID, standardEditorsRegistry, ThresholdsMode} from '@grafana/data';
 import {SimpleOptions} from './Types/SimpleOptions';
 import {ImageItPanel} from './ImageItPanel';
 import {EditorSensorList} from 'CustomEditors/EditorSensorList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
   return builder
+    .addCustomEditor({
+      id: 'reduceOptions.calcs',
+      path: 'reduceOptions.calcs',
+      name: 'Calculation',
+      editor: standardEditorsRegistry.get('stats-picker').editor as any,
+      defaultValue: ReducerID.mean
+    })
     .addTextInput({
       path: 'imageUrl',
       name: 'Image URL',
@@ -17,27 +24,14 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       name: 'Lock sensors movement',
       defaultValue: false,
     })
-    // .addRadio({
-    //   path: 'sensorTextSize',
-    //   defaultValue: 'sm',
-    //   name: 'Sensor text size',
-    //   settings: {
-    //     options: [
-    //       {
-    //         value: 'sm',
-    //         label: 'Small',
-    //       },
-    //       {
-    //         value: 'md',
-    //         label: 'Medium',
-    //       },
-    //       {
-    //         value: 'lg',
-    //         label: 'Large',
-    //       },
-    //     ],
-    //   },
-    //   // showIf: config => config.showSeriesCount,
+    .addBooleanSwitch({
+      path: 'allowResie',
+      name: 'Allow resize sensors',
+      defaultValue: true
+    })
+    // .addSelect({
+    //   path: '',
+    //   name: 'Add Sensor'
     // })
     .addCustomEditor({
       id: 'sensors',
@@ -49,16 +43,16 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       },
     });
 }).useFieldConfig({
-  standardOptions: [
-    FieldConfigProperty.Thresholds,
-    FieldConfigProperty.Unit,
-    FieldConfigProperty.Decimals,
-    FieldConfigProperty.NoValue
-  ],
+  standardOptions: [FieldConfigProperty.Unit, FieldConfigProperty.Decimals, FieldConfigProperty.Thresholds],
   standardOptionsDefaults: {
-    [FieldConfigProperty.Thresholds]: {"value": -Infinity, "color": "grey"},
     [FieldConfigProperty.Unit]: '',
     [FieldConfigProperty.Decimals]: 2,
-    [FieldConfigProperty.NoValue]: 0
+    [FieldConfigProperty.Thresholds]: {
+      mode: ThresholdsMode.Absolute,
+      steps:[{
+        value: -Infinity,
+        color: '#fff'
+      }]
+    }
   }
-})
+});

@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import * as _ from 'lodash';
 import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 import {DataFrame, FieldCache} from "@grafana/data";
+import {Resizable} from "re-resizable";
+import {Direction} from "re-resizable/lib/resizer";
 
 type SensorProps = {
   sensor: SensorType;
   draggable: boolean;
+  resizable: boolean;
   index: number;
   data: DataFrame[],
   imageDimensions: {
@@ -16,6 +19,7 @@ type SensorProps = {
     height: number;
   };
   onPositionChange: Function;
+  onResized: Function;
 };
 
 const pxToPerc = (px: number, size: number): number => {
@@ -27,9 +31,13 @@ const percToPx = (perc: number, size: number): number => {
 };
 
 export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
+  const size = {
+    width: percToPx(props.sensor.size.width, props.imageDimensions.width),
+    height: percToPx(props.sensor.size.height, props.imageDimensions.height)
+  }
+  const {width, height} = size;
   // const theme = useTheme();
   const styles = getStyles();
-  console.log(props.data);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const onMouseEnter = (event: any) => {
@@ -45,13 +53,22 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
       x: pxToPerc(data.x, props.imageDimensions.width),
       y: pxToPerc(data.y, props.imageDimensions.height),
     };
-
     props.onPositionChange(newPosition, props.index);
   };
+
+  const onResize = (e: MouseEvent| TouchEvent, direction: Direction, ref: HTMLElement, d: any) => {
+    let newSize = {
+      width: pxToPerc(width + d.width, props.imageDimensions.width),
+      height: pxToPerc(height + d.height, props.imageDimensions.height)
+    }
+    props.onResized(newSize, props.index);
+  }
+
   const sensorPosition = {
     x: percToPx(props.sensor.position.x, props.imageDimensions.width),
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
+
   let caches = props.data
     .filter(value1 => value1.name === props.sensor.name)
     .map(val => new FieldCache(val))
@@ -77,8 +94,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
     }
   }
 
-
-
+  const resizeHandleRef = useRef<HTMLImageElement>(null);
   return (
     <>
       {props.sensor.visible && (
@@ -100,21 +116,54 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
           >
-            <div className={cx(styles.content)}>
-              <a
-                className={css`
-                  color: ${props.sensor.fontColor};
-                `}
-                href={props.sensor.link ? props.sensor.link : '#'}
-              >
-                {(props.sensor.displayName || props.sensor.name) + ": "}
-                <span className={css`
-                  color: ${color}
-                `}>{value.toFixed(decimal||2)}</span>
-                {unit||''}
-              </a>
-            </div>
+            {
+              props.sensor.imageUrl? (
+                  <Resizable
+                    enable={props.resizable? {bottomRight: true}: undefined}
+                    size={{
+                      width: width,
+                      height: height
+                    }}
+                    handleClasses={{
+                      bottomRight: '.resize-handle'
+                    }}
+                    onResizeStop={onResize}
+                  >
+                    <img
+                      className={css`
+                        max-height: ${height}px;
+                        max-width: ${width}px;
+                      `}
+                      src={props.sensor.imageUrl}
+                    />
+                    {
+                      props.resizable && isMouseOver && (
+                        <div className={cx(styles.resizeHandler, 'resize-handle')} ref={resizeHandleRef}>
+                        </div>
+                      )
+                    }
+                  </Resizable>
+                )
+                :(
+                  <div className={cx(styles.content)}>
+                    <a
+                      className={css`
+                        color: ${props.sensor.fontColor};
+                      `}
+                      href={props.sensor.link ? props.sensor.link : '#'}
+                    >
+                      {(props.sensor.displayName || props.sensor.name) + ": "}
+                      <span
+                        className={css`
+                          color: ${color}
+                        `}
+                      >{value?.toFixed(decimal||2)}</span>
+                      {unit||''}
+                    </a>
 
+                  </div>
+                )
+            }
             {!props.draggable && isMouseOver && (
               <div className={cx(styles.handle, 'handle')}>
                 <div className="fa fa-bars" />
@@ -134,11 +183,25 @@ const getStyles = stylesFactory(() => {
       padding: 0.5em;
     `,
     handle: css`
-      float: right;
+      position: absolute;
+      top: 1px;
+      right: 1px;
       margin-left: 0.5em;
     `,
     content: css`
       float: left;
     `,
+    resizeHandler: css`
+      position: absolute;
+      cursor: nwse-resize;
+      height: 20px;
+      width: 20px;
+      border-right: grey solid 1px;
+      border-bottom: grey solid 1px;
+      border-radius: 3px;
+      background-color: transparent;
+      bottom: 1px;
+      right: 1px;
+    `
   };
 });

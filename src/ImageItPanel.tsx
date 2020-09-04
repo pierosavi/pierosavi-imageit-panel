@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { PanelProps } from '@grafana/data';
+import {getFieldDisplayValues, PanelProps} from '@grafana/data';
 import { SimpleOptions } from 'Types/SimpleOptions';
 import { css, cx } from 'emotion';
 import _ from 'lodash';
@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
 import SensorType from './Types/Sensor';
+import {config} from "@grafana/runtime";
 
 interface Props extends PanelProps<SimpleOptions> {}
 
@@ -15,6 +16,7 @@ const defaultNewSensor: SensorType = {
   displayName: undefined,
   value: "Value",
   visible: true,
+  imageUrl: '',
   backgroundColor: '#000',
   fontColor: '#FFF',
   bold: false,
@@ -23,9 +25,13 @@ const defaultNewSensor: SensorType = {
     x: 50,
     y: 50,
   },
+  size: {
+    width: 10,
+    height: 10
+  }
 };
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
+export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, replaceVariables, timeZone, width, height, onOptionsChange }) => {
   if (!options.sensors) {
     options.sensors = [];
   }
@@ -69,6 +75,25 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
     onOptionsChange(newOptions);
   };
 
+  const onSensorSizeChange = (size: any, index: number) => {
+    const newOptions = _.cloneDeep(options);
+    newOptions.sensors[index].size = size;
+    onOptionsChange(newOptions);
+  }
+
+  // const getData = (name :String) => {
+  //   return data.series.filter(s => s.name === name)[0];
+  // }
+
+  const displays = getFieldDisplayValues({
+    fieldConfig,
+    reduceOptions: {...options.reduceOptions, values: false},
+    replaceVariables,
+    theme: config.theme,
+    data: data.series,
+    timeZone
+  });
+  console.log(displays);
   return (
     <div className={styles.wrapper}>
       <div
@@ -85,11 +110,13 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             return (
               <Sensor
                 draggable={options.lockSensors}
+                resizable={options.allowResize}
                 sensor={sensor}
                 index={index}
                 data={data.series}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
+                onResized={onSensorSizeChange}
               />
             );
           })}

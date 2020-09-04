@@ -45,6 +45,13 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </Field>
+      <Field label="Image URl">
+        <Input
+          value={sensor.imageUrl}
+          onChange={event => {
+            updateSensorState({...sensor, imageUrl: event.currentTarget.value})
+          }}/>
+      </Field>
       <Field label="Font Color">
         <ColorPicker
           color={sensor.fontColor}
