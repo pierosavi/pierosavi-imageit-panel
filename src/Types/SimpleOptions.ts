@@ -8,6 +8,9 @@ export interface SimpleOptions extends SingleStatBaseOptions{
   lockSensors: boolean;
   allowResize: boolean;
   sensorTextSize: SeriesSize;
-  sensors: SensorType[];
-  sensorDefinition: {[index: string]: SensorType};
+  imageAlter: string;
+  sensor: {
+    sensors: SensorType[];
+    sensorDefinition: {[index: string]: SensorType};
+  }
 }

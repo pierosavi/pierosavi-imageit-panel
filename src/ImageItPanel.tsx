@@ -33,7 +33,7 @@ const defaultNewSensor: SensorType = {
 
 export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, replaceVariables, timeZone, width, height, onOptionsChange }) => {
 
-  let strings = options.sensors.map(sensor => sensor.name);
+  let strings = options.sensor.sensors.map(sensor => sensor.name);
 
   let newSensors = data.series
     .map(dataFrame => dataFrame.name)
@@ -42,7 +42,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
       return {...defaultNewSensor, name: name!};
     })
   if (newSensors.length > 0) {
-    options.sensors.push(...newSensors);
+    options.sensor.sensors.push(...newSensors);
     onOptionsChange(options);
   }
   //  const theme = useTheme();
@@ -67,14 +67,13 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
 
   const onSensorPositionChange = (position: any, index: string) => {
     const newOptions = _.cloneDeep(options);
-    newOptions.sensorDefinition[index].position = position;
-
+    newOptions.sensor.sensorDefinition[index].position = position;
     onOptionsChange(newOptions);
   };
 
   const onSensorSizeChange = (size: any, index: number) => {
     const newOptions = _.cloneDeep(options);
-    newOptions.sensorDefinition[index].size = size;
+    newOptions.sensor.sensorDefinition[index].size = size;
     onOptionsChange(newOptions);
   }
 
@@ -102,7 +101,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           `
         )}
       >
-        {options.sensors &&(
+        {options.sensor.sensors &&(
           /*options.sensorDefinition.map((sensor: SensorType, index: number) => {
             return (
               <Sensor
@@ -119,7 +118,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           })*/
           displays.map(value => {
             const title = value.display.title!;
-            const sensor = options.sensorDefinition[title];
+            const sensor = options.sensor.sensorDefinition[title];
             if (sensor) {
               return <Sensor
                 draggable={options.lockSensors}
@@ -145,6 +144,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           )}
           src={options.imageUrl}
           ref={imageRef}
+          alt={'Dashboard background image'}
           onLoad={onImageLoad}
         />
       </div>

@@ -19,6 +19,11 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       description: 'URL of base image',
       defaultValue: 'https://i.ibb.co/tLXrjb6/imageit.png',
     })
+    .addTextInput({
+      path: "imageAlter",
+      name: 'Image Description',
+      defaultValue: ''
+    })
     .addBooleanSwitch({
       path: 'lockSensors',
       name: 'Lock sensors movement',
@@ -30,12 +35,12 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       defaultValue: true
     })
     .addCustomEditor({
-      id: 'sensors',
-      path: 'sensors',
+      id: 'sensor',
+      path: 'sensor',
       name: 'Sensors',
       description: 'List of sensors',
       editor: props => {
-        return <EditorSensorList sensors={props.value} onChange={props.onChange}/>;
+        return <EditorSensorList sensor={props.value} onChange={props.onChange}/>;
       },
     });
 }).useFieldConfig({

@@ -4,9 +4,10 @@ import Sensor from '../Types/Sensor';
 
 interface Props {
   sensor: Sensor;
-  onChange: (sensor: Sensor, index: number) => void;
+  options: Sensor[];
+  onChange: (sensor: Sensor, index: string) => void;
   removeSensor: (sensor: Sensor) => () => void;
-  index: number;
+  index: string;
 }
 
 export const EditorSensorItem: React.FC<Props> = (props: Props) => {
@@ -21,6 +22,14 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         Sensor {props.index + 1}
         <IconButton name="trash-alt" size="sm" surface="header" onClick={props.removeSensor(props.sensor)}/>
       </HorizontalGroup>
+      <Field label="Show">
+        <Switch
+          value={sensor.visible}
+          onChange={event => {
+            updateSensorState({ ...sensor, visible: event.currentTarget.checked });
+          }}
+        />
+      </Field>
       <Field label="Name">
         <Input
           value={sensor.name}
@@ -34,14 +43,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           value={sensor.displayName}
           onChange={event => {
             updateSensorState({...sensor, displayName: event.currentTarget.value})
-          }}
-        />
-      </Field>
-      <Field label="Show">
-        <Switch
-          value={sensor.visible}
-          onChange={event => {
-            updateSensorState({ ...sensor, visible: event.currentTarget.checked });
           }}
         />
       </Field>

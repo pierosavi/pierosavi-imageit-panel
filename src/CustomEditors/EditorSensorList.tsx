@@ -1,84 +1,81 @@
-import React, { PureComponent } from 'react';
+import React, {useState} from 'react';
+import * as _ from 'lodash'
 import { css } from 'emotion';
-import { stylesFactory } from '@grafana/ui';
+import {Field, Select, stylesFactory} from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
-import update from 'immutability-helper';
 import Sensor from '../Types/Sensor';
 
 interface Props {
-  sensors?: Sensor[];
+  sensor: {
+    sensors: Sensor[];
+    sensorDefinition: {[index: string]: Sensor};
+  };
 
-  onChange: (sensors: Sensor[]) => void;
+  onChange: (sensor: {
+    sensors: Sensor[];
+    sensorDefinition: {[index: string]: Sensor};
+  }) => void;
 }
 
-interface State {
-  sensors: Sensor[];
-}
+export const EditorSensorList: React.FC<Props> = (props: Props) => {
+  const { sensors, sensorDefinition } = props.sensor;
+  const {selected, setSelected} = useState<Sensor>()
 
-export class EditorSensorList extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      sensors: this.props.sensors || [],
-    };
+  const selectionChange = (selected: Sensor) => {
+    setSelected()
   }
 
-  onRemove = (sensorToRemove: Sensor) => {
-    return () => {
-      this.setState(
-        (prevState: State) => ({
-          ...prevState,
-          sensors: prevState.sensors.filter(sensor => sensorToRemove !== sensor),
-        }),
-        () => this.onChange()
-      )
-    }
-  };
-
-  onChange = () => {
-    this.props.onChange(this.state.sensors);
-  };
-
-  onSensorChange = (sensor: Sensor, index: number): void => {
-    this.setState(
-      {
-        sensors: update(this.state.sensors, { [index]: { $set: sensor } }),
-      },
-      () => {
-        this.onChange();
-      }
-    );
-  };
-
-  render() {
-    const { sensors } = this.state;
-
-    const getStyles = stylesFactory(() => ({
-      sensorItemWrapperStyle: css`
+  const getStyles = stylesFactory(() => ({
+    sensorItemWrapperStyle: css`
         margin-bottom: 16px;
         padding: 8px;
       `,
 
-      addButtonStyle: css`
+    addButtonStyle: css`
         /* margin-left: 8px; */
       `,
-    }));
+  }));
 
-    const styles = getStyles();
+  const styles = getStyles();
+  const onRemove = (sensorToRemove: Sensor) => {
+    return () => {
+      const {sensor} = props;
+      const updated = _.cloneDeep(sensor)
+      delete updated.sensorDefinition[sensorToRemove.name]
+      props.onChange(updated)
+    }
+  };
 
-    return (
-      <>
-        {/* list of existing sensors */}
-        {sensors &&
-          sensors.map((sensor: Sensor, index: number) => {
-            return (
-              <div className={styles.sensorItemWrapperStyle}>
-                <EditorSensorItem key={index} sensor={sensor} onChange={this.onSensorChange} removeSensor={this.onRemove} index={index} />
+  const onSensorChange = (sensor: Sensor, index: string): void => {
+    const newDefinition = _.cloneDeep(props.sensor.sensorDefinition);
+    newDefinition[index] = sensor;
+    props.onChange({
+        sensors: props.sensor.sensors,
+        sensorDefinition: newDefinition
+    });
+  };
+
+  return (
+    <>
+      <Field label={'Add new'}>
+        <Select onChange={(value: Sensor) => {}} options={sensors.filter(value => !sensorDefinition[value.name]).map(value => {
+          return {
+            label: value.name,
+            value: value
+          }
+        })}/>
+      </Field>
+      {sensors &&
+      sensors.map( value => {
+        let res = sensorDefinition[value.name];
+        if (!res) {
+          return <></>
+        }
+        return <div className={styles.sensorItemWrapperStyle}>
+                <EditorSensorItem key={value.name} sensor={res} options={sensors} onChange={onSensorChange} removeSensor={onRemove} index={value.name} />
               </div>
-            );
-          })}
-      </>
-    );
-  }
+      })
+      }
+    </>
+  );
 }
