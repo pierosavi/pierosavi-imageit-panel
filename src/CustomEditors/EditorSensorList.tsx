@@ -1,19 +1,14 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { css } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
 import { Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
-import update from 'immutability-helper';
 import Sensor from '../Types/Sensor';
 
 interface Props {
-  sensors?: Sensor[];
+  sensors: Sensor[];
 
   onChange: (sensors: Sensor[]) => void;
-}
-
-interface State {
-  sensors: Sensor[];
 }
 
 const defaultNewSensor: Sensor = {
@@ -30,84 +25,64 @@ const defaultNewSensor: Sensor = {
   },
 };
 
-export class EditorSensorList extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
+export const EditorSensorList: React.FC<Props> = (props: Props) => {
+  const { sensors } = props;
 
-    this.state = {
-      sensors: this.props.sensors || [],
-    };
-  }
+  /*
+  const onRemove = (sensorToRemove: Sensor) => {
+    const sensors = props.sensors;
 
-  onRemove = (sensorToRemove: Sensor) => {
-    this.setState(
-      (prevState: State) => ({
-        ...prevState,
-        sensors: prevState.sensors.filter(sensor => sensorToRemove !== sensor),
-      }),
-      () => this.onChange()
-    );
+    const updatedSensors = sensors.filter(sensor => sensorToRemove !== sensor);
+
+    onChange(updatedSensors);
+  };
+  */
+
+  const onChange = (sensors: Sensor[]) => {
+    props.onChange(sensors);
   };
 
-  onChange = () => {
-    this.props.onChange(this.state.sensors);
+  const onSensorChange = (sensor: Sensor, index: number) => {
+    sensors[index] = sensor;
+
+    onChange(sensors);
   };
 
-  onSensorChange = (sensor: Sensor, index: number): void => {
-    this.setState(
-      {
-        sensors: update(this.state.sensors, { [index]: { $set: sensor } }),
-      },
-      () => {
-        this.onChange();
-      }
-    );
+  const addNewSensor = () => {
+    sensors.push(defaultNewSensor);
+
+    onChange(sensors);
   };
 
-  addNewSensor = () => {
-    this.setState(
-      {
-        sensors: update(this.state.sensors, { $push: [defaultNewSensor] }),
-      },
-      () => {
-        this.onChange();
-      }
-    );
-  };
+  const styles = getStyles();
 
-  render() {
-    const { sensors } = this.state;
+  return (
+    <>
+      {/* list of existing sensors */}
+      {sensors &&
+        sensors.map((sensor: Sensor, index: number) => {
+          return (
+            <div className={styles.sensorItemWrapperStyle}>
+              <EditorSensorItem key={index} sensor={sensor} onChange={onSensorChange} index={index} />
+            </div>
+          );
+        })}
 
-    const getStyles = stylesFactory(() => ({
-      sensorItemWrapperStyle: css`
-        margin-bottom: 16px;
-        padding: 8px;
-        background-color: #2f343b;
-      `,
+      <Button className={styles.addButtonStyle} onClick={addNewSensor} variant="secondary" size="md">
+        Add New
+      </Button>
+    </>
+  );
+};
 
-      addButtonStyle: css`
-        /* margin-left: 8px; */
-      `,
-    }));
+const getStyles = stylesFactory(() => ({
+  sensorItemWrapperStyle: css`
+    margin-bottom: 16px;
+    padding: 8px;
+    background-color: #2f343b;
+  `,
 
-    const styles = getStyles();
-
-    return (
-      <>
-        {/* list of existing sensors */}
-        {sensors &&
-          sensors.map((sensor: Sensor, index: number) => {
-            return (
-              <div className={styles.sensorItemWrapperStyle}>
-                <EditorSensorItem key={index} sensor={sensor} onChange={this.onSensorChange} index={index} />
-              </div>
-            );
-          })}
-
-        <Button className={styles.addButtonStyle} onClick={this.addNewSensor} variant="secondary" size="md">
-          Add New
-        </Button>
-      </>
-    );
-  }
-}
+  addButtonStyle: css`
+    /* margin-left: 8px; */
+  `,
+}));
