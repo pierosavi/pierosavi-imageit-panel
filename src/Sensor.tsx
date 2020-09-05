@@ -79,8 +79,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
   };
 
   const {display, field} = props.display;
-  const {color, numeric} = display;
-  console.log(display)
+  const {color, text} = display;
 
   // const resizeHandleRef = useRef<HTMLImageElement>(null);
   return (
@@ -146,7 +145,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                         className={css`
                           color: ${color}
                         `}
-                      >{numeric}</span>
+                      >{text}</span>
                       {field.unit||''}
                     </a>
 
