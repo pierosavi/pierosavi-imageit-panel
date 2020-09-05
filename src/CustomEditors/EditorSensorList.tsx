@@ -22,7 +22,6 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
   const {sensor, onChange} = props;
   const { sensors, sensorDefinition } = sensor;
   const [selected, setSelected] = useState<Sensor>()
-  console.log(sensorDefinition);
   const selectionChange = (selected: SelectableValue<Sensor>) => setSelected(selected.value);
 
   const getStyles = stylesFactory(() => ({
@@ -54,15 +53,6 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
     });
   };
 
-  /*sensors.map( value => {
-        let res = sensorDefinition[value.name];
-        if (!res) {
-          return null;
-        }
-        return <div className={styles.sensorItemWrapperStyle}>
-                <EditorSensorItem key={value.name} sensor={res} options={sensors} onChange={onSensorChange} removeSensor={onRemove} index={value.name} />
-              </div>
-      }).filter(value => value)*/
   const renderSensors = () => {
     let res = [];
     for (let key in sensorDefinition) {

@@ -1,11 +1,10 @@
-import React, {useRef, useState} from 'react';
-import * as _ from 'lodash';
+import React, {useState} from 'react';
 import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 import {FieldDisplay} from "@grafana/data";
-import {Resizable} from "re-resizable";
+import {Enable, Resizable} from "re-resizable";
 import {Direction} from "re-resizable/lib/resizer";
 
 type SensorProps = {
@@ -22,6 +21,17 @@ type SensorProps = {
   onResized: Function;
 };
 
+const disableResize: Enable = {
+  top: false,
+  topRight: false,
+  right: false,
+  bottomRight: false,
+  bottom: false,
+  bottomLeft: false,
+  left: false,
+  topLeft: false
+}
+
 const pxToPerc = (px: number, size: number): number => {
   return (px * 100) / size;
 };
@@ -36,15 +46,14 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
     height: percToPx(props.sensor.size.height, props.imageDimensions.height)
   }
   const {width, height} = size;
-  // const theme = useTheme();
   const styles = getStyles();
   const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const onMouseEnter = (event: any) => {
+  const onMouseEnter = (_: any) => {
     setIsMouseOver(true);
   };
 
-  const onMouseLeave = (event: any) => {
+  const onMouseLeave = (_: any) => {
     setIsMouseOver(false);
   };
 
@@ -71,8 +80,9 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
 
   const {display, field} = props.display;
   const {color, numeric} = display;
+  console.log(display)
 
-  const resizeHandleRef = useRef<HTMLImageElement>(null);
+  // const resizeHandleRef = useRef<HTMLImageElement>(null);
   return (
     <>
       {props.sensor.visible && (
@@ -97,7 +107,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
             {
               props.sensor.imageUrl? (
                   <Resizable
-                    enable={props.resizable? {bottomRight: true}: undefined}
+                    enable={props.resizable? {...disableResize, bottomRight: true}: disableResize}
                     size={{
                       width: width,
                       height: height
@@ -113,13 +123,14 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                         max-width: ${width}px;
                       `}
                       src={props.sensor.imageUrl}
+                      alt={display.title}
                     />
-                    {
+                    {/*{
                       props.resizable && isMouseOver && (
                         <div className={cx(styles.resizeHandler, 'resize-handle')} ref={resizeHandleRef}>
                         </div>
                       )
-                    }
+                    }*/}
                   </Resizable>
                 )
                 :(

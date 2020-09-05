@@ -91,14 +91,35 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
   //   return data.series.filter(s => s.name === name)[0];
   // }
 
-  const displays = getFieldDisplayValues({
-    fieldConfig,
-    reduceOptions: {...options.reduceOptions, values: false},
-    replaceVariables,
-    theme: config.theme,
-    data: data.series,
-    timeZone
-  });
+  const renderSensor = () => {
+    const displays = getFieldDisplayValues({
+      fieldConfig,
+      reduceOptions: {...options.reduceOptions, values: false},
+      replaceVariables,
+      theme: config.theme,
+      data: data.series,
+      timeZone
+    });
+    let res = [];
+    for (let value of displays) {
+      const title = value.display.title!;
+      const sensor = sensorDefinition[title];
+      if (sensor) {
+         res.push(<Sensor
+           draggable={options.lockSensors}
+           resizable={options.allowResize}
+           sensor={sensor}
+           index={title}
+           display={value}
+           imageDimensions={imageDimensions}
+           onPositionChange={onSensorPositionChange}
+           onResized={onSensorSizeChange}
+         />)
+      }
+    }
+    return res;
+  }
+
   // console.log(displays)
   return (
     <div className={styles.wrapper}>
@@ -111,40 +132,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           `
         )}
       >
-        {sensors &&(
-          /*options.sensorDefinition.map((sensor: SensorType, index: number) => {
-            return (
-              <Sensor
-                draggable={options.lockSensors}
-                resizable={options.allowResize}
-                sensor={sensor}
-                index={index}
-                display={displays.filter(val => val.display?.title === sensor.name)[0]}
-                imageDimensions={imageDimensions}
-                onPositionChange={onSensorPositionChange}
-                onResized={onSensorSizeChange}
-              />
-            );
-          })*/
-          displays.map(value => {
-            const title = value.display.title!;
-            const sensor = sensorDefinition[title];
-            if (sensor) {
-              return <Sensor
-                draggable={options.lockSensors}
-                resizable={options.allowResize}
-                sensor={sensor}
-                index={title}
-                display={value}
-                imageDimensions={imageDimensions}
-                onPositionChange={onSensorPositionChange}
-                onResized={onSensorSizeChange}
-              />
-            }
-            return <></>
-          })
-        )}
-
+        {renderSensor()}
         <img
           className={cx(
             styles.bgImage,
