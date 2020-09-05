@@ -4,7 +4,6 @@ import Sensor from '../Types/Sensor';
 
 interface Props {
   sensor: Sensor;
-  options: Sensor[];
   onChange: (sensor: Sensor, index: string) => void;
   removeSensor: (sensor: Sensor) => () => void;
   index: string;

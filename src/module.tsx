@@ -30,7 +30,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       defaultValue: false,
     })
     .addBooleanSwitch({
-      path: 'allowResie',
+      path: 'allowResize',
       name: 'Allow resize sensors',
       defaultValue: true
     })
@@ -42,6 +42,10 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       editor: props => {
         return <EditorSensorList sensor={props.value} onChange={props.onChange}/>;
       },
+      defaultValue: {
+        sensors: [],
+        sensorDefinition: {}
+      }
     });
 }).useFieldConfig({
   standardOptions: [FieldConfigProperty.Unit, FieldConfigProperty.Decimals, FieldConfigProperty.Thresholds],

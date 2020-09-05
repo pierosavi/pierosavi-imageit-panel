@@ -33,17 +33,27 @@ const defaultNewSensor: SensorType = {
 
 export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, replaceVariables, timeZone, width, height, onOptionsChange }) => {
 
-  let strings = options.sensor.sensors.map(sensor => sensor.name);
+  const {sensor} = options;
+  const {sensors, sensorDefinition} = sensor;
+
+  let strings = sensors.map(sensor => sensor.name);
 
   let newSensors = data.series
-    .map(dataFrame => dataFrame.name)
+    .map(dataFrame => dataFrame.name!)
     .filter(name => name && !strings.includes(name))
+    .filter(name => !sensorDefinition[name])
     .map(name => {
       return {...defaultNewSensor, name: name!};
     })
   if (newSensors.length > 0) {
-    options.sensor.sensors.push(...newSensors);
-    onOptionsChange(options);
+    const newOptions = {
+      ...options,
+      sensor: {
+        ...sensor,
+        sensors: newSensors
+      }
+    };
+    onOptionsChange(newOptions);
   }
   //  const theme = useTheme();
   const styles = getStyles();
@@ -101,7 +111,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           `
         )}
       >
-        {options.sensor.sensors &&(
+        {sensors &&(
           /*options.sensorDefinition.map((sensor: SensorType, index: number) => {
             return (
               <Sensor
@@ -118,7 +128,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, fieldConfig, repl
           })*/
           displays.map(value => {
             const title = value.display.title!;
-            const sensor = options.sensor.sensorDefinition[title];
+            const sensor = sensorDefinition[title];
             if (sensor) {
               return <Sensor
                 draggable={options.lockSensors}
