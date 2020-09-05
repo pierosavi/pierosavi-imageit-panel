@@ -10,7 +10,7 @@ import SensorType from './Types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange }) => {
+export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
   //  const theme = useTheme();
   const styles = getStyles();
 
@@ -31,7 +31,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
     });
   };
 
-  const onSensorPositionChange = (position: any, index: number) => {
+  const onSensorPositionChange = (position: SensorType['position'], index: number) => {
     const newOptions = _.cloneDeep(options);
     newOptions.sensors[index].position = position;
 

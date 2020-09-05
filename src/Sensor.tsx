@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import * as _ from 'lodash';
 import { css, cx } from 'emotion';
-import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
+import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 
-type SensorProps = {
+type Props = {
   sensor: SensorType;
   draggable: boolean;
   index: number;
@@ -24,7 +24,7 @@ const percToPx = (perc: number, size: number): number => {
   return (perc * size) / 100;
 };
 
-export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
+export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
   const styles = getStyles();
 
@@ -39,7 +39,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
   };
 
   const onDragStop = (event: DraggableEvent, data: DraggableData) => {
-    const newPosition = {
+    const newPosition: SensorType['position'] = {
       x: pxToPerc(data.x, props.imageDimensions.width),
       y: pxToPerc(data.y, props.imageDimensions.height),
     };
@@ -47,7 +47,7 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
     props.onPositionChange(newPosition, props.index);
   };
 
-  const sensorPosition = {
+  const sensorPosition: ControlPosition = {
     x: percToPx(props.sensor.position.x, props.imageDimensions.width),
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
