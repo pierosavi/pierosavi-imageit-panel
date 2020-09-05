@@ -9,4 +9,5 @@ export interface SimpleOptions extends SingleStatBaseOptions{
   allowResize: boolean;
   sensorTextSize: SeriesSize;
   sensors: SensorType[];
+  sensorDefinition: {[index: string]: SensorType};
 }

@@ -4,7 +4,7 @@ import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
-import {DataFrame, FieldCache} from "@grafana/data";
+import {FieldDisplay} from "@grafana/data";
 import {Resizable} from "re-resizable";
 import {Direction} from "re-resizable/lib/resizer";
 
@@ -12,8 +12,8 @@ type SensorProps = {
   sensor: SensorType;
   draggable: boolean;
   resizable: boolean;
-  index: number;
-  data: DataFrame[],
+  index: string;
+  display: FieldDisplay;
   imageDimensions: {
     width: number;
     height: number;
@@ -69,30 +69,8 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
 
-  let caches = props.data
-    .filter(value1 => value1.name === props.sensor.name)
-    .map(val => new FieldCache(val))
-    .filter(value => value.hasFieldNamed(props.sensor.value));
-  let value = -1;
-  let color = 'white';
-  let unit = undefined;
-  let decimal: number| null| undefined = 2;
-  if (caches.length > 0) {
-    let field = caches[0].getFieldByName(props.sensor.value);
-    let value1 = field?.values;
-    value = value1?.get(value1?.length - 1);
-    unit = field?.config.unit;
-    decimal = field && field.config.decimals
-    let thresholds = field?.config.thresholds?.steps.reverse();
-    if (thresholds) {
-      for (let i = 0; i < thresholds.length; i++) {
-        if (value > thresholds[i].value) {
-          color = thresholds[i].color
-          break;
-        }
-      }
-    }
-  }
+  const {display, field} = props.display;
+  const {color, numeric} = display;
 
   const resizeHandleRef = useRef<HTMLImageElement>(null);
   return (
@@ -157,8 +135,8 @@ export const Sensor: React.FC<SensorProps> = (props: SensorProps) => {
                         className={css`
                           color: ${color}
                         `}
-                      >{value?.toFixed(decimal||2)}</span>
-                      {unit||''}
+                      >{numeric}</span>
+                      {field.unit||''}
                     </a>
 
                   </div>

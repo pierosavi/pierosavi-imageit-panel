@@ -29,10 +29,6 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       name: 'Allow resize sensors',
       defaultValue: true
     })
-    // .addSelect({
-    //   path: '',
-    //   name: 'Add Sensor'
-    // })
     .addCustomEditor({
       id: 'sensors',
       path: 'sensors',
