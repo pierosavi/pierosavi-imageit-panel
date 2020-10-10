@@ -1,7 +1,8 @@
 type Sensor = {
   visible: boolean;
   name: string;
-  value: string | undefined;
+  refId: string;
+  alias: string;
   backgroundColor: string;
   fontColor: string;
   bold: boolean;
