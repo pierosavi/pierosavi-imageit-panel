@@ -51,6 +51,17 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
       >
         {options.sensors &&
           options.sensors.map((sensor: SensorType, index: number) => {
+            // Get serie for sensor based on refId or alias fields
+            // let value: Number | undefined = undefined;
+            const serie = data.series.find(serie => (sensor.refId ? sensor.refId === serie.refId : sensor.alias === serie.name))
+
+            // Assume value is in field with name 'Value'
+            // This could be a problem for some data sources
+            const field = serie?.fields.find(field => field.name === 'Value')
+
+            // Get last value of values array
+            const value = field?.values.get(field.values.length - 1)
+
             return (
               <Sensor
                 draggable={options.lockSensors}
@@ -58,6 +69,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
                 index={index}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
+                value={value}
               />
             );
           })}

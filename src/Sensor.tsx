@@ -14,6 +14,7 @@ type Props = {
     height: number;
   };
   onPositionChange: Function;
+  value: any | undefined;
 };
 
 const pxToPerc = (px: number, size: number): number => {
@@ -81,6 +82,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
                 {props.sensor.name}
+                {props.value}
               </a>
             </div>
 
