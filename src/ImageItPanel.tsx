@@ -46,6 +46,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
           styles.imageWrapper,
           css`
             max-height: ${height}px;
+            font-size: ${options.sensorTextSize}em;
           `
         )}
       >

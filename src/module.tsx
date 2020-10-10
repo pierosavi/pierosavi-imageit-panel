@@ -17,33 +17,19 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       name: 'Lock sensors movement',
       defaultValue: false,
     })
-    .addRadio({
+    .addNumberInput({
       path: 'sensorTextSize',
-      defaultValue: 'sm',
       name: 'Sensor text size',
-      settings: {
-        options: [
-          {
-            value: 'sm',
-            label: 'Small',
-          },
-          {
-            value: 'md',
-            label: 'Medium',
-          },
-          {
-            value: 'lg',
-            label: 'Large',
-          },
-        ],
-      },
-      // showIf: config => config.showSeriesCount,
+      description: 'Text size in em. Default 1',
+      defaultValue: 1,
     })
     .addCustomEditor({
       id: 'sensors',
       path: 'sensors',
       name: 'Sensors',
       description: 'List of sensors',
+      category: ['Sensors'],
+      defaultValue: [],
       editor: props => {
         return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
       },
