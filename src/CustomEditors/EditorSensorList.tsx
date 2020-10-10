@@ -13,7 +13,8 @@ interface Props {
 
 const defaultNewSensor: Sensor = {
   name: 'Name',
-  value: undefined,
+  refId: '',
+  alias: '',
   visible: true,
   backgroundColor: '#000',
   fontColor: '#FFF',
