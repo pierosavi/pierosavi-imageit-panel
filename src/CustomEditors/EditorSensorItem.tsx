@@ -5,6 +5,7 @@ import Sensor from '../Types/Sensor';
 interface Props {
   sensor: Sensor;
   onChange: (sensor: Sensor, index: number) => void;
+  onDelete: (index: number) => void;
   index: number;
 }
 
@@ -15,11 +16,15 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
     props.onChange(sensor, index);
   }
 
+  const onDelete = () => {
+    props.onDelete(index);
+  };
+
   return (
     <>
       <HorizontalGroup>
         Sensor {props.index + 1}
-        <IconButton name="trash-alt" size="sm" surface="header" />
+        <IconButton name="trash-alt" size="sm" surface="header" onClick={onDelete} />
       </HorizontalGroup>
 
       <Field label="Id">

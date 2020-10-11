@@ -81,12 +81,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 `}
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
-                <div className={cx(styles.name)}>
-                  {props.sensor.name}
-                </div>
-                <div className={cx(styles.value)}>
-                  {props.value}
-                </div>
+                <div className={cx(styles.name)}>{props.sensor.name}</div>
+                <div className={cx(styles.value)}>{props.value}</div>
               </a>
             </div>
 
@@ -118,7 +114,6 @@ const getStyles = stylesFactory(() => {
     name: css`
       font-size: 0.5em;
     `,
-    value: css`
-    `,
+    value: css``,
   };
 });

@@ -14,7 +14,7 @@ interface Props {
 const defaultNewSensor: Sensor = {
   name: 'Name',
   refId: 'A',
-  alias: 'Alias',
+  alias: '',
   visible: true,
   backgroundColor: '#000',
   fontColor: '#FFF',
@@ -29,16 +29,6 @@ const defaultNewSensor: Sensor = {
 export const EditorSensorList: React.FC<Props> = (props: Props) => {
   const { sensors } = props;
 
-  /*
-  const onRemove = (sensorToRemove: Sensor) => {
-    const sensors = props.sensors;
-
-    const updatedSensors = sensors.filter(sensor => sensorToRemove !== sensor);
-
-    onChange(updatedSensors);
-  };
-  */
-
   const onChange = (sensors: Sensor[]) => {
     props.onChange(sensors);
   };
@@ -47,6 +37,12 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
     sensors[index] = sensor;
 
     onChange(sensors);
+  };
+
+  const onSensorDelete = (index: number) => {
+    sensors.splice(index);
+
+    props.onChange(sensors);
   };
 
   const addNewSensor = () => {
@@ -64,7 +60,13 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
         sensors.map((sensor: Sensor, index: number) => {
           return (
             <div className={styles.sensorItemWrapperStyle}>
-              <EditorSensorItem key={index} sensor={sensor} onChange={onSensorChange} index={index} />
+              <EditorSensorItem
+                key={index}
+                sensor={sensor}
+                onChange={onSensorChange}
+                onDelete={onSensorDelete}
+                index={index}
+              />
             </div>
           );
         })}
