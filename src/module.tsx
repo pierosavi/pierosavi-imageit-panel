@@ -9,19 +9,21 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
     .addTextInput({
       path: 'imageUrl',
       name: 'Image URL',
-      description: 'URL of base image',
+      description: 'URL of background image',
       defaultValue: 'https://i.ibb.co/tLXrjb6/imageit.png',
     })
     .addBooleanSwitch({
       path: 'lockSensors',
       name: 'Lock sensors movement',
       defaultValue: false,
+      category: ['Sensors'],
     })
     .addNumberInput({
-      path: 'sensorTextSize',
-      name: 'Sensor text size',
-      description: 'Text size in em. Default 1',
+      path: 'sensorsTextSize',
+      name: 'Sensors text size',
+      description: 'Text size in em',
       defaultValue: 1,
+      category: ['Sensors'],
     })
     .addCustomEditor({
       id: 'sensors',
