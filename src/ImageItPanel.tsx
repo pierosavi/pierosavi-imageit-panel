@@ -46,7 +46,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
           styles.imageWrapper,
           css`
             max-height: ${height}px;
-            font-size: ${options.sensorsTextSize}em;
+            font-size: ${options.sensorsTextSize * imageDimensions.width / 50}px;
           `
         )}
       >
