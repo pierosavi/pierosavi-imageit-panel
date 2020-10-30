@@ -6,25 +6,30 @@ Allows a user to superimpose measurement displays ontop of picture.
 
 ### Setup
 
-1. Install the last stable version with `grafana-cli plugins install pierosavi-imageit-panel` or clone master for the latest features.
-2. Enter a URL for your background image.
-3. Set up a metric and give it an unique alias.
-4. Add a Sensor and give it the same name as the alias.
+WIP
 
 ### How to build
 
-`npm run build`
+Prerequisites: `git` , `node 12`, `yarn 1`
 
-Master branch is always built before pushing
+Open Terminal on MacOs or Cmd on Windows inside your grafana plugins folder
+
+Paste these commands:
+* `git clone --single-branch --branch react-migration git@github.com:pierosavi/pierosavi-imageit-panel.git`
+* `cd pierosavi-imageit-panel`
+* `yarn`
+* `yarn build`
+
+Restart Grafana instance
 
 ### Features
 
 * Sensors stay in the same position, even when resizing the panel
 * Draggable sensors
 * Resizing sensors when resizing the panel
-* Plugin compatibility with Grafana 5/6
+* Plugin compatibility with Grafana 7+
 * Plugin canvas compatible with larger images
 * Links on sensors
 * Change sensors background color (even transparent)
-* Font Awesome Icons - Images mapping on sensor name
-* Value mapping system
+* Font Awesome Icons - Images mapping on sensor name - WIP
+* Value mapping system - WIP
