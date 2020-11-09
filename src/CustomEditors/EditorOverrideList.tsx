@@ -12,8 +12,13 @@ interface Props {
   onChange: (overrides: Override[]) => void;
 }
 
-const getRandomId = function () {
-  return '_' + Math.random().toString(36).substr(2, 9);
+const getRandomId = function() {
+  return (
+    '_' +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+  );
 };
 
 const defaultNewOverride: Override = {
