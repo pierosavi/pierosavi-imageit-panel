@@ -15,7 +15,7 @@ Prerequisites: `git` , `node 12`, `yarn 1`
 Open Terminal on MacOs or Cmd on Windows inside your grafana plugins folder
 
 Paste these commands:
-* `git clone --single-branch --branch react-migration git@github.com:pierosavi/pierosavi-imageit-panel.git`
+* `git clone --single-branch --branch react-migration https://github.com/pierosavi/pierosavi-imageit-panel.git`
 * `cd pierosavi-imageit-panel`
 * `yarn`
 * `yarn build`
