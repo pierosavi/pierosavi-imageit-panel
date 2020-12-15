@@ -6,6 +6,9 @@ import { EditorOverrideItem } from './EditorOverrideItem';
 import { Override } from 'Types/Override';
 import OverrideOperators from 'OverrideOperators';
 
+import { Provider } from 'react-redux';
+import store from '../store/store';
+
 interface Props {
   overrides: Override[];
 
@@ -56,7 +59,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
   const styles = getStyles();
 
   return (
-    <>
+    <Provider store={store}>
       {/* list of existing overrides */}
       {overrides &&
         overrides.map((override: Override, index: number) => {
@@ -76,7 +79,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
       <Button className={styles.addButtonStyle} onClick={addNewOverride} variant="secondary" size="md">
         Add New
       </Button>
-    </>
+    </Provider>
   );
 };
 

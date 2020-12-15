@@ -2,6 +2,10 @@ import React from 'react';
 import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
+// import store from '../store/store';
+import { counterSelector } from '../store/metricsSlice';
+import { useSelector } from 'react-redux';
+
 interface Props {
   sensor: Sensor;
   onChange: (sensor: Sensor, index: number) => void;
@@ -11,6 +15,13 @@ interface Props {
 
 export const EditorSensorItem: React.FC<Props> = (props: Props) => {
   const { sensor, index } = props;
+
+  const debugValue = useSelector(counterSelector);
+
+  // const debug = useSelector(state => state)
+
+  // console.log('debug');
+  // console.log(debug);
 
   function updateSensorState(sensor: Sensor) {
     props.onChange(sensor, index);
@@ -28,12 +39,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </HorizontalGroup>
 
       <Field label="Id">
-        <Input
-          value={sensor.refId}
-          onChange={event => {
-            updateSensorState({ ...sensor, refId: event.currentTarget.value });
-          }}
-        />
+        <Input value={debugValue} />
       </Field>
 
       <Field label="Alias">

@@ -8,11 +8,18 @@ import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
 import SensorType from './Types/Sensor';
 
+/* import { Provider } from 'react-redux';
+import store from './store/store';
+
+import { increment, counterSelector } from './store/metricsSlice';
+import { useSelector, useDispatch } from 'react-redux'; */
+
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
+export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig, id }) => {
   //  const theme = useTheme();
   const styles = getStyles();
+  console.log('id:', id);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
@@ -43,7 +50,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
       <div
         id="imageItBgImage"
         className={cx(
-          styles.imageWrapper,
+          styles.bgImage,
           css`
             max-height: ${height}px;
             font-size: ${(options.sensorsTextSize * imageDimensions.width) / 50}px;

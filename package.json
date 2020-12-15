@@ -23,14 +23,16 @@
     "@grafana/data": "7.0.0",
     "@grafana/toolkit": "7.0.0",
     "@grafana/ui": "7.0.0",
+    "@reduxjs/toolkit": "^1.4.0",
+    "@types/lodash": "^4.14.157",
+    "@types/react-redux": "^7.1.9",
     "emotion": "10.0.27",
-    "@types/lodash": "^4.14.157"
+    "react-redux": "^7.2.1"
   },
   "engines": {
     "node": ">=12 <13"
   },
   "dependencies": {
-    "immutability-helper": "^3.0.2",
     "react-draggable": "^4.4.2"
   }
 }

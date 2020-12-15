@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/@grafana/toolkit/src/config/tsconfig.plugin.json",
   "include": ["src", "types"],
+  "module": "commonjs",
   "compilerOptions": {
     "jsx": "react",
     "rootDir": "./src",
@@ -8,4 +9,3 @@
     "typeRoots": ["./node_modules/@types"]
   }
 }
-  

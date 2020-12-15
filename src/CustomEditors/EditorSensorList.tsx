@@ -5,6 +5,11 @@ import { Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import Sensor from '../Types/Sensor';
 
+/* import { increment } from '../store/metricsSlice';
+import { useDispatch } from 'react-redux'; */
+
+import { Provider } from 'react-redux';
+import store from '../store/store';
 interface Props {
   sensors: Sensor[];
 
@@ -47,14 +52,13 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
 
   const addNewSensor = () => {
     sensors.push(defaultNewSensor);
-
     onChange(sensors);
   };
 
   const styles = getStyles();
 
   return (
-    <>
+    <Provider store={store}>
       {/* list of existing sensors */}
       {sensors &&
         sensors.map((sensor: Sensor, index: number) => {
@@ -74,7 +78,7 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
       <Button className={styles.addButtonStyle} onClick={addNewSensor} variant="secondary" size="md">
         Add New
       </Button>
-    </>
+    </Provider>
   );
 };
 

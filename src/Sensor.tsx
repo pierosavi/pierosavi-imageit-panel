@@ -5,6 +5,11 @@ import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 
+// import store from './store/store';
+
+import { incrementByAmount, counterSelector } from './store/metricsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+
 type Props = {
   sensor: SensorType;
   draggable: boolean;
@@ -28,6 +33,8 @@ const percToPx = (perc: number, size: number): number => {
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
   const styles = getStyles();
+
+  const debugValue = useSelector(counterSelector);
 
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -53,6 +60,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
 
+  const dispatch = useDispatch();
+
   return (
     <>
       {props.sensor.visible && (
@@ -71,6 +80,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 background-color: ${props.sensor.backgroundColor};
               `
             )}
+            onClick={() => dispatch(incrementByAmount(10))}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
           >
@@ -82,7 +92,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 href={props.sensor.link ? props.sensor.link : '#'}
               >
                 <div className={cx(styles.name)}>{props.sensor.name}</div>
-                <div className={cx(styles.value)}>{props.value}</div>
+                <div className={cx(styles.value)}>{debugValue}</div>
               </a>
             </div>
 
