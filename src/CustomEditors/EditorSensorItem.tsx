@@ -33,7 +33,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           value={sensor.query.id}
           onChange={event => {
             // I should use an immutability helper like immer.js
-            updateSensorState({ ...sensor, query: { ...sensor.query, id: event.currentTarget.value }});
+            updateSensorState({ ...sensor, query: { ...sensor.query, id: event.currentTarget.value } });
           }}
         />
       </Field>
@@ -42,7 +42,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.query.alias}
           onChange={event => {
-            updateSensorState({ ...sensor, query: { ...sensor.query, alias: event.currentTarget.value }});
+            updateSensorState({ ...sensor, query: { ...sensor.query, alias: event.currentTarget.value } });
           }}
         />
       </Field>

@@ -18,7 +18,7 @@ const OverrideOperators: OverrideOperator[] = [
     id: 'equal',
     operator: '=',
     function: isEqualTo,
-    description: 'Check if the two values are equal'
+    description: 'Check if the two values are equal',
   },
   {
     id: 'greaterThan',

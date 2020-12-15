@@ -4,7 +4,7 @@ import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
-import OverrideOperators from 'OverrideOperators'
+import OverrideOperators from 'OverrideOperators';
 import { Override } from 'Types/Override';
 
 type Props = {
@@ -64,7 +64,6 @@ export const Sensor: React.FC<Props> = (props: Props) => {
   if (isOverrode) {
     // apply override to sensor
   }
-
 
   return (
     <>

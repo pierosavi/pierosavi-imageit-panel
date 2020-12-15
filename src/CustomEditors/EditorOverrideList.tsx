@@ -13,10 +13,9 @@ interface Props {
 }
 
 const getRandomID = function() {
-
   const randomString = Math.random()
     .toString(36)
-    .substr(2, 5)
+    .substr(2, 5);
 
   return 'override-' + randomString;
 };
@@ -25,7 +24,7 @@ const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperat
   label: overrideOperator.operator,
   value: overrideOperator.id,
   description: overrideOperator.description,
-}))
+}));
 
 export const EditorOverrideList: React.FC<Props> = (props: Props) => {
   const { overrides } = props;
@@ -70,7 +69,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
             <div className={styles.overrideItemWrapper}>
               <EditorOverrideItem
                 override={override}
-                operatorsOptions = {operatorsOptions}
+                operatorsOptions={operatorsOptions}
                 onChange={onOverrideChange}
                 onDelete={onOverrideDelete}
                 index={index}

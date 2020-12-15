@@ -13,9 +13,9 @@ interface Props {
 
 const defaultNewSensor: Sensor = {
   name: 'Name',
-  query:  {
+  query: {
     id: 'A',
-    alias: ''
+    alias: '',
   },
   visible: true,
   backgroundColor: '#000',

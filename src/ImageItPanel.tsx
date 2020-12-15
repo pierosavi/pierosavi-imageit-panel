@@ -66,7 +66,9 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             const value = field?.values.get(field.values.length - 1);
 
             // Get override by id || undefined
-            const override = sensor.overrideId ? options.overrides.find(override => sensor.overrideId === override.id) : undefined;
+            const override = sensor.overrideId
+              ? options.overrides.find(override => sensor.overrideId === override.id)
+              : undefined;
 
             return (
               <Sensor

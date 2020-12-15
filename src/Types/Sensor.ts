@@ -4,7 +4,7 @@ type Sensor = {
   query: {
     id: string;
     alias: string;
-  }
+  };
   backgroundColor: string;
   fontColor: string;
   bold: boolean;
