@@ -55,7 +55,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             // Get serie for sensor based on refId or alias fields
             // let value: Number | undefined = undefined;
             const serie = data.series.find(serie =>
-              sensor.queryId ? sensor.queryId === serie.refId : sensor.queryAlias === serie.name
+              sensor.query.id ? sensor.query.id === serie.refId : sensor.query.alias === serie.name
             );
 
             // Assume value is in field with name 'Value'

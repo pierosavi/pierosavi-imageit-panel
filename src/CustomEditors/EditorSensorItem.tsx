@@ -30,18 +30,19 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       {/* <HorizontalGroup> */}
       <Field label="Query ID" description="Set this as query ID OR the query alias below">
         <Input
-          value={sensor.queryId}
+          value={sensor.query.id}
           onChange={event => {
-            updateSensorState({ ...sensor, queryId: event.currentTarget.value });
+            // I should use an immutability helper like immer.js
+            updateSensorState({ ...sensor, query: { ...sensor.query, id: event.currentTarget.value }});
           }}
         />
       </Field>
 
       <Field label="Query Alias" description="If both alias and ID are set, ID has precedence">
         <Input
-          value={sensor.queryAlias}
+          value={sensor.query.alias}
           onChange={event => {
-            updateSensorState({ ...sensor, queryAlias: event.currentTarget.value });
+            updateSensorState({ ...sensor, query: { ...sensor.query, alias: event.currentTarget.value }});
           }}
         />
       </Field>

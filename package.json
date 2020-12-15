@@ -30,7 +30,6 @@
     "node": ">=12 <13"
   },
   "dependencies": {
-    "immutability-helper": "^3.0.2",
     "react-draggable": "^4.4.2"
   }
 }
