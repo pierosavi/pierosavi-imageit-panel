@@ -15,18 +15,19 @@ function isLessThan(a: number | string, b: number | string) {
 
 const OverrideOperators: OverrideOperator[] = [
   {
-    name: 'equal',
+    id: 'equal',
     operator: '=',
     function: isEqualTo,
+    description: 'Check if the two values are equal'
   },
   {
-    name: 'greaterThan',
+    id: 'greaterThan',
     operator: '>',
     function: isGreaterThan,
   },
   {
     // smallerThan would be better, to consider if it's easy to change when building the migration tool
-    name: 'lessThan',
+    id: 'lessThan',
     operator: '<',
     function: isLessThan,
   },

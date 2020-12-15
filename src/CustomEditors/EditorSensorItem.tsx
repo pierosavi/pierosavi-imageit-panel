@@ -27,23 +27,25 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <IconButton name="trash-alt" size="sm" surface="header" onClick={onDelete} />
       </HorizontalGroup>
 
-      <Field label="Id">
+      {/* <HorizontalGroup> */}
+      <Field label="Query ID" description="Set this as query ID OR the query alias below">
         <Input
-          value={sensor.refId}
+          value={sensor.queryId}
           onChange={event => {
-            updateSensorState({ ...sensor, refId: event.currentTarget.value });
+            updateSensorState({ ...sensor, queryId: event.currentTarget.value });
           }}
         />
       </Field>
 
-      <Field label="Alias">
+      <Field label="Query Alias" description="If both alias and ID are set, ID has precedence">
         <Input
-          value={sensor.alias}
+          value={sensor.queryAlias}
           onChange={event => {
-            updateSensorState({ ...sensor, alias: event.currentTarget.value });
+            updateSensorState({ ...sensor, queryAlias: event.currentTarget.value });
           }}
         />
       </Field>
+      {/* </HorizontalGroup> */}
 
       <Field label="Name">
         <Input

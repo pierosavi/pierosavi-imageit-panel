@@ -1,8 +1,8 @@
 type Sensor = {
   visible: boolean;
   name: string;
-  refId: string;
-  alias: string;
+  queryId: string;
+  queryAlias: string;
   backgroundColor: string;
   fontColor: string;
   bold: boolean;

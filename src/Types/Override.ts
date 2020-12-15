@@ -1,12 +1,13 @@
 export type Override = {
   id: string;
-  name: string;
-  operator: OverrideOperator['name'];
+  description: string;
+  operator: OverrideOperator['id'];
   compareTo: number | string;
 };
 
 export type OverrideOperator = {
-  name: string;
+  id: string;
   operator: string;
   function: Function;
+  description?: string;
 };
