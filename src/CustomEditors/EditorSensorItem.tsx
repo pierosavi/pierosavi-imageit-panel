@@ -48,6 +48,15 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </Field>
       {/* </HorizontalGroup> */}
 
+      <Field label="Override ID" description="Past here the ID of the override you want to use for this sensor">
+        <Input
+          value={sensor.overrideId}
+          onChange={event => {
+            updateSensorState({ ...sensor, overrideId: event.currentTarget.value });
+          }}
+        />
+      </Field>
+
       <Field label="Name">
         <Input
           value={sensor.name}

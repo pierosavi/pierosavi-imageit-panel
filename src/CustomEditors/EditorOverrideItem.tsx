@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, NumberValueEditor } from '@grafana/ui';
+import { Input, Field, HorizontalGroup, IconButton, Select, TextArea } from '@grafana/ui';
 import { Override } from '../Types/Override';
 import { SelectableValue } from '@grafana/data';
 

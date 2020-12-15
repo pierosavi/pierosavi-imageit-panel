@@ -8,6 +8,6 @@ export type Override = {
 export type OverrideOperator = {
   id: string;
   operator: string;
-  function: Function;
+  function: (value: any, compareTo: any) => boolean;
   description?: string;
 };

@@ -4,9 +4,12 @@ import { css, cx } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
+import OverrideOperators from 'OverrideOperators'
+import { Override } from 'Types/Override';
 
 type Props = {
   sensor: SensorType;
+  override: Override | undefined;
   draggable: boolean;
   index: number;
   imageDimensions: {
@@ -52,6 +55,16 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     x: percToPx(props.sensor.position.x, props.imageDimensions.width),
     y: percToPx(props.sensor.position.y, props.imageDimensions.height),
   };
+
+  const overrideOperator = OverrideOperators.find(overrideOperator => props.override?.operator === overrideOperator.id);
+
+  // Apply override function if found and check if it should override
+  const isOverrode = overrideOperator?.function(props.value, props.override!.compareTo);
+
+  if (isOverrode) {
+    // apply override to sensor
+  }
+
 
   return (
     <>

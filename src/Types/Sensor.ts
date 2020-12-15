@@ -13,6 +13,7 @@ type Sensor = {
     x: number;
     y: number;
   };
+  overrideId: string;
 };
 
 export default Sensor;
