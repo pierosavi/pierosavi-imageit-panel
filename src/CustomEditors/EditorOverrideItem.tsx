@@ -1,16 +1,18 @@
 import React from 'react';
-import { Input, Field, HorizontalGroup, IconButton } from '@grafana/ui';
+import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, NumberValueEditor } from '@grafana/ui';
 import { Override } from '../Types/Override';
+import { SelectableValue } from '@grafana/data';
 
 interface Props {
   override: Override;
+  operatorsOptions: SelectableValue[];
   onChange: (override: Override, index: number) => void;
   onDelete: (index: number) => void;
   index: number;
 }
 
 export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
-  const { override, index } = props;
+  const { override, index, operatorsOptions } = props;
 
   function updateOverrideState(override: Override) {
     props.onChange(override, index);
@@ -27,11 +29,30 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
         <IconButton name="trash-alt" size="sm" surface="header" onClick={onDelete} />
       </HorizontalGroup>
 
-      <Field label="Name">
+      <Field label="ID">
         <Input
-          value={override.name}
+          value={override.id}
           onChange={event => {
-            updateOverrideState({ ...override, name: event.currentTarget.value });
+            updateOverrideState({ ...override, id: event.currentTarget.value });
+          }}
+        />
+      </Field>
+
+      <Field label="Description">
+        <TextArea
+          value={override.description}
+          onChange={event => {
+            updateOverrideState({ ...override, description: event.currentTarget.value });
+          }}
+        />
+      </Field>
+
+      <Field label="Operator">
+        <Select
+          value={override.operator}
+          options={operatorsOptions}
+          onChange={selectableValue => {
+            updateOverrideState({ ...override, operator: selectableValue.value });
           }}
         />
       </Field>
