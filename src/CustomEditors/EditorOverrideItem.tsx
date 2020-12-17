@@ -70,7 +70,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
         <ColorPicker
           color={override.values?.fontColor || '#ffffff'}
           onChange={color => {
-            updateOverrideState({ ...override, values: {...override.values, fontColor: color }});
+            updateOverrideState({ ...override, values: { ...override.values, fontColor: color } });
           }}
           enableNamedColors
         />

@@ -6,7 +6,7 @@ export type Override = {
 
   values: {
     fontColor: string;
-  }
+  };
 };
 
 export type OverrideOperator = {

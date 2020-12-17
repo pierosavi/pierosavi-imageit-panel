@@ -67,8 +67,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   if (isOverrode) {
     // Assume that override values perfectly matches sensor fields, it's not covered by typescript
-    sensor = {...sensor, ...props.override!.values}
-
+    sensor = { ...sensor, ...props.override!.values };
   }
 
   return (
