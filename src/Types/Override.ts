@@ -3,6 +3,10 @@ export type Override = {
   description: string;
   operator: OverrideOperator['id'];
   compareTo: number | string;
+
+  values: {
+    fontColor: string;
+  }
 };
 
 export type OverrideOperator = {

@@ -30,6 +30,10 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
+  const sensorProp = props.sensor;
+
+  let sensor = sensorProp;
+
   const styles = getStyles();
 
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -52,8 +56,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
   };
 
   const sensorPosition: ControlPosition = {
-    x: percToPx(props.sensor.position.x, props.imageDimensions.width),
-    y: percToPx(props.sensor.position.y, props.imageDimensions.height),
+    x: percToPx(sensor.position.x, props.imageDimensions.width),
+    y: percToPx(sensor.position.y, props.imageDimensions.height),
   };
 
   const overrideOperator = OverrideOperators.find(overrideOperator => props.override?.operator === overrideOperator.id);
@@ -62,12 +66,14 @@ export const Sensor: React.FC<Props> = (props: Props) => {
   const isOverrode = overrideOperator?.function(props.value, props.override!.compareTo);
 
   if (isOverrode) {
-    // apply override to sensor
+    // Assume that override values perfectly matches sensor fields, it's not covered by typescript
+    sensor = {...sensor, ...props.override!.values}
+
   }
 
   return (
     <>
-      {props.sensor.visible && (
+      {sensor.visible && (
         <Draggable
           disabled={props.draggable}
           bounds="#imageItBgImage"
@@ -79,8 +85,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
             className={cx(
               styles.container,
               css`
-                color: ${props.sensor.fontColor};
-                background-color: ${props.sensor.backgroundColor};
+                color: ${sensor.fontColor};
+                background-color: ${sensor.backgroundColor};
               `
             )}
             onMouseEnter={onMouseEnter}
@@ -89,11 +95,11 @@ export const Sensor: React.FC<Props> = (props: Props) => {
             <div className={cx(styles.content)}>
               <a
                 className={css`
-                  color: ${props.sensor.fontColor};
+                  color: ${sensor.fontColor};
                 `}
-                href={props.sensor.link ? props.sensor.link : '#'}
+                href={sensor.link ? sensor.link : '#'}
               >
-                <div className={cx(styles.name)}>{props.sensor.name}</div>
+                <div className={cx(styles.name)}>{sensor.name}</div>
                 <div className={cx(styles.value)}>{props.value}</div>
               </a>
             </div>

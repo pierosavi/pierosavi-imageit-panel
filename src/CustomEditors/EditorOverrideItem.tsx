@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Field, HorizontalGroup, IconButton, Select, TextArea } from '@grafana/ui';
+import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker } from '@grafana/ui';
 import { Override } from '../Types/Override';
 import { SelectableValue } from '@grafana/data';
 
@@ -63,6 +63,16 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateOverrideState({ ...override, compareTo: event.currentTarget.value });
           }}
+        />
+      </Field>
+
+      <Field label="Font Color">
+        <ColorPicker
+          color={override.values?.fontColor || '#ffffff'}
+          onChange={color => {
+            updateOverrideState({ ...override, values: {...override.values, fontColor: color }});
+          }}
+          enableNamedColors
         />
       </Field>
     </>
