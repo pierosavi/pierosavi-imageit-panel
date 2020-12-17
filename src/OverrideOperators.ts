@@ -1,4 +1,4 @@
-import { OverrideOperator } from 'Types/Override';
+import { OverrideOperator } from 'Types/Mapping';
 
 function isEqualTo(a: number | string, b: number | string) {
   // Maybe keep == to compare string and numbers

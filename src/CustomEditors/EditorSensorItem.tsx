@@ -48,7 +48,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </Field>
       {/* </HorizontalGroup> */}
 
-      <Field label="Override ID" description="Past here the ID of the override you want to use for this sensor">
+      <Field label="Mapping ID" description="Past here the ID of the mapping you want to use for this sensor">
         <Input
           value={sensor.overrideId}
           onChange={event => {

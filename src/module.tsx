@@ -3,7 +3,7 @@ import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './Types/SimpleOptions';
 import { ImageItPanel } from './ImageItPanel';
 import { EditorSensorList } from 'CustomEditors/EditorSensorList';
-import { EditorOverrideList } from 'CustomEditors/EditorOverrideList';
+import { EditorOverrideList } from 'CustomEditors/EditorMappingList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
   const panelOptionsBuilder = builder
@@ -38,14 +38,14 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       },
     })
     .addCustomEditor({
-      id: 'overrides',
-      path: 'overrides',
-      name: 'Overrides',
-      description: 'List of overrides',
-      category: ['Overrides'],
+      id: 'mappings',
+      path: 'mappings',
+      name: 'Mappings',
+      description: 'List of mappings',
+      category: ['Mappings'],
       defaultValue: [],
       editor: props => {
-        return <EditorOverrideList overrides={props.value} onChange={props.onChange} />;
+        return <EditorOverrideList mappings={props.value} onChange={props.onChange} />;
       },
     });
 

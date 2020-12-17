@@ -1,4 +1,4 @@
-export type Override = {
+export type Mapping = {
   id: string;
   description: string;
   operator: OverrideOperator['id'];

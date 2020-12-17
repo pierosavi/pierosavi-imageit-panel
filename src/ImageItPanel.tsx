@@ -65,16 +65,16 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             // Get last value of values array
             const value = field?.values.get(field.values.length - 1);
 
-            // Get override by id || undefined
-            const override = sensor.overrideId
-              ? options.overrides.find(override => sensor.overrideId === override.id)
+            // Get mapping by id || undefined
+            const mapping = sensor.overrideId
+              ? options.mappings.find(mapping => sensor.overrideId === mapping.id)
               : undefined;
 
             return (
               <Sensor
                 draggable={options.lockSensors}
                 sensor={sensor}
-                override={override}
+                mapping={mapping}
                 index={index}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}

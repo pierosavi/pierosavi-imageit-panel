@@ -5,11 +5,11 @@ import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 import OverrideOperators from 'OverrideOperators';
-import { Override } from 'Types/Override';
+import { Mapping } from 'Types/Mapping';
 
 type Props = {
   sensor: SensorType;
-  override: Override | undefined;
+  mapping: Mapping | undefined;
   draggable: boolean;
   index: number;
   imageDimensions: {
@@ -60,14 +60,14 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(sensor.position.y, props.imageDimensions.height),
   };
 
-  const overrideOperator = OverrideOperators.find(overrideOperator => props.override?.operator === overrideOperator.id);
+  const overrideOperator = OverrideOperators.find(overrideOperator => props.mapping?.operator === overrideOperator.id);
 
-  // Apply override function if found and check if it should override
-  const isOverrode = overrideOperator?.function(props.value, props.override!.compareTo);
+  // Apply mapping function if it satisfies requirements
+  const isOverrode = overrideOperator?.function(props.value, props.mapping!.compareTo);
 
   if (isOverrode) {
-    // Assume that override values perfectly matches sensor fields, it's not covered by typescript
-    sensor = { ...sensor, ...props.override!.values };
+    // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
+    sensor = { ...sensor, ...props.mapping!.values };
   }
 
   return (

@@ -2,14 +2,14 @@ import React from 'react';
 import { css } from 'emotion';
 import { stylesFactory, Button } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
-import { EditorOverrideItem } from './EditorOverrideItem';
-import { Override } from 'Types/Override';
+import { EditorOverrideItem } from './EditorMappingItem';
+import { Mapping } from 'Types/Mapping';
 import OverrideOperators from 'OverrideOperators';
 
 interface Props {
-  overrides: Override[];
+  mappings: Mapping[];
 
-  onChange: (overrides: Override[]) => void;
+  onChange: (mappings: Mapping[]) => void;
 }
 
 const getRandomID = function() {
@@ -17,7 +17,7 @@ const getRandomID = function() {
     .toString(36)
     .substr(2, 5);
 
-  return 'override-' + randomString;
+  return 'mapping-' + randomString;
 };
 
 const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperator => ({
@@ -27,9 +27,9 @@ const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperat
 }));
 
 export const EditorOverrideList: React.FC<Props> = (props: Props) => {
-  const { overrides } = props;
+  const { mappings } = props;
 
-  const defaultNewOverride: Override = {
+  const defaultNewOverride: Mapping = {
     id: getRandomID(),
     description: '',
     compareTo: 0,
@@ -40,39 +40,39 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     },
   };
 
-  const onChange = (overrides: Override[]) => {
-    props.onChange(overrides);
+  const onChange = (mappings: Mapping[]) => {
+    props.onChange(mappings);
   };
 
-  const onOverrideChange = (override: Override, index: number) => {
-    overrides[index] = override;
+  const onOverrideChange = (mapping: Mapping, index: number) => {
+    mappings[index] = mapping;
 
-    onChange(overrides);
+    onChange(mappings);
   };
 
   const onOverrideDelete = (index: number) => {
-    overrides.splice(index, 1);
+    mappings.splice(index, 1);
 
-    props.onChange(overrides);
+    props.onChange(mappings);
   };
 
   const addNewOverride = () => {
-    overrides.push(defaultNewOverride);
+    mappings.push(defaultNewOverride);
 
-    onChange(overrides);
+    onChange(mappings);
   };
 
   const styles = getStyles();
 
   return (
     <>
-      {/* list of existing overrides */}
-      {overrides &&
-        overrides.map((override: Override, index: number) => {
+      {/* list of existing mappings */}
+      {mappings &&
+        mappings.map((mapping: Mapping, index: number) => {
           return (
             <div className={styles.overrideItemWrapper}>
               <EditorOverrideItem
-                override={override}
+                mapping={mapping}
                 operatorsOptions={operatorsOptions}
                 onChange={onOverrideChange}
                 onDelete={onOverrideDelete}
