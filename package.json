@@ -23,13 +23,14 @@
     "@grafana/data": "7.0.0",
     "@grafana/toolkit": "7.0.0",
     "@grafana/ui": "7.0.0",
-    "emotion": "10.0.27",
-    "@types/lodash": "^4.14.157"
+    "@types/lodash": "^4.14.157",
+    "emotion": "10.0.27"
   },
   "engines": {
     "node": ">=12 <13"
   },
   "dependencies": {
+    "immer": "^8.0.0",
     "react-draggable": "^4.4.2"
   }
 }

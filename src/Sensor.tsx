@@ -38,14 +38,6 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const onMouseEnter = (event: any) => {
-    setIsMouseOver(true);
-  };
-
-  const onMouseLeave = (event: any) => {
-    setIsMouseOver(false);
-  };
-
   const onDragStop = (event: DraggableEvent, data: DraggableData) => {
     const newPosition: SensorType['position'] = {
       x: pxToPerc(data.x, props.imageDimensions.width),
@@ -88,8 +80,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 background-color: ${sensor.backgroundColor};
               `
             )}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
+            onMouseEnter={ () => setIsMouseOver(true) }
+            onMouseLeave={ () => setIsMouseOver(false) }
           >
             <div className={cx(styles.content)}>
               <a

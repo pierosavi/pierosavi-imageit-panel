@@ -3,6 +3,8 @@ import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicke
 import { Mapping } from '../Types/Mapping';
 import { SelectableValue } from '@grafana/data';
 
+import produce from 'immer'
+
 interface Props {
   mapping: Mapping;
   operatorsOptions: SelectableValue[];
@@ -12,28 +14,26 @@ interface Props {
 }
 
 export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
-  const { mapping, index, operatorsOptions } = props;
+  const { mapping, index, operatorsOptions, onChange, onDelete } = props;
 
-  function updateOverrideState(mapping: Mapping) {
-    props.onChange(mapping, index);
+  function updateMapping(draftState: (draftMapping: Mapping) => void) {
+    const updatedMapping = produce(mapping, draftState)
+
+    onChange(updatedMapping, index)
   }
-
-  const onDelete = () => {
-    props.onDelete(index);
-  };
 
   return (
     <>
       <HorizontalGroup>
-        Mapping {props.index + 1}
-        <IconButton name="trash-alt" size="sm" surface="header" onClick={onDelete} />
+        Mapping { index + 1 }
+        <IconButton name="trash-alt" size="sm" surface="header" onClick={ () => onDelete(index) } />
       </HorizontalGroup>
 
       <Field label="ID">
         <Input
           value={mapping.id}
           onChange={event => {
-            updateOverrideState({ ...mapping, id: event.currentTarget.value });
+            updateMapping(mapping => { mapping.id = event.currentTarget.value })
           }}
         />
       </Field>
@@ -42,7 +42,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
         <TextArea
           value={mapping.description}
           onChange={event => {
-            updateOverrideState({ ...mapping, description: event.currentTarget.value });
+            updateMapping(mapping => { mapping.description = event.currentTarget.value });
           }}
         />
       </Field>
@@ -52,7 +52,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
           value={mapping.operator}
           options={operatorsOptions}
           onChange={selectableValue => {
-            updateOverrideState({ ...mapping, operator: selectableValue.value });
+            updateMapping(mapping => { mapping.operator = selectableValue.value });
           }}
         />
       </Field>
@@ -61,7 +61,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
         <Input
           value={mapping.compareTo}
           onChange={event => {
-            updateOverrideState({ ...mapping, compareTo: event.currentTarget.value });
+            updateMapping(mapping => { mapping.compareTo = event.currentTarget.value });
           }}
         />
       </Field>
@@ -70,7 +70,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
         <ColorPicker
           color={mapping.values?.fontColor || '#ffffff'}
           onChange={color => {
-            updateOverrideState({ ...mapping, values: { ...mapping.values, fontColor: color } });
+            updateMapping(mapping => { mapping.values.fontColor = color });
           }}
           enableNamedColors
         />
