@@ -34,7 +34,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.query.id = event.currentTarget.value;
-            })
+            });
           }}
         />
       </Field>
@@ -45,7 +45,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.query.alias = event.currentTarget.value;
-            })
+            });
           }}
         />
       </Field>
@@ -57,7 +57,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.overrideId = event.currentTarget.value;
-            })
+            });
           }}
         />
       </Field>
@@ -68,7 +68,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.name = event.currentTarget.value;
-            })
+            });
           }}
         />
       </Field>
@@ -79,7 +79,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.link = event.currentTarget.value;
-            })
+            });
           }}
         />
       </Field>
@@ -90,7 +90,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={event => {
             updateSensor(sensor => {
               sensor.visible = event.currentTarget.checked;
-            })
+            });
           }}
         />
       </Field>
@@ -101,7 +101,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={unit => {
             updateSensor(sensor => {
               sensor.unit = unit;
-            })
+            });
           }}
         />
       </Field>
@@ -112,7 +112,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={color => {
             updateSensor(sensor => {
               sensor.fontColor = color;
-            })
+            });
           }}
           enableNamedColors
         />
@@ -124,7 +124,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={color => {
             updateSensor(sensor => {
               sensor.backgroundColor = color;
-            })
+            });
           }}
           enableNamedColors
         />
