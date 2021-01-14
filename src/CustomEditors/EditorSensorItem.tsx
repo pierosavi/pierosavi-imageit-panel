@@ -2,6 +2,8 @@ import React from 'react';
 import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton, UnitPicker } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
+import produce from 'immer';
+
 interface Props {
   sensor: Sensor;
   onChange: (sensor: Sensor, index: number) => void;
@@ -10,21 +12,19 @@ interface Props {
 }
 
 export const EditorSensorItem: React.FC<Props> = (props: Props) => {
-  const { sensor, index } = props;
+  const { sensor, index, onChange, onDelete } = props;
 
-  function updateSensorState(sensor: Sensor) {
-    props.onChange(sensor, index);
+  function updateSensor(draftState: (draftMapping: Sensor) => void) {
+    const updatedMapping = produce(sensor, draftState);
+
+    onChange(updatedMapping, index);
   }
-
-  const onDelete = () => {
-    props.onDelete(index);
-  };
 
   return (
     <>
       <HorizontalGroup>
         Sensor {props.index + 1}
-        <IconButton name="trash-alt" size="sm" surface="header" onClick={onDelete} />
+        <IconButton name="trash-alt" size="sm" surface="header" onClick={() => onDelete(index)} />
       </HorizontalGroup>
 
       {/* <HorizontalGroup> */}
@@ -32,8 +32,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.query.id}
           onChange={event => {
-            // I should use an immutability helper like immer.js
-            updateSensorState({ ...sensor, query: { ...sensor.query, id: event.currentTarget.value } });
+            updateSensor(sensor => {
+              sensor.query.id = event.currentTarget.value;
+            })
           }}
         />
       </Field>
@@ -42,7 +43,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.query.alias}
           onChange={event => {
-            updateSensorState({ ...sensor, query: { ...sensor.query, alias: event.currentTarget.value } });
+            updateSensor(sensor => {
+              sensor.query.alias = event.currentTarget.value;
+            })
           }}
         />
       </Field>
@@ -52,7 +55,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.overrideId}
           onChange={event => {
-            updateSensorState({ ...sensor, overrideId: event.currentTarget.value });
+            updateSensor(sensor => {
+              sensor.overrideId = event.currentTarget.value;
+            })
           }}
         />
       </Field>
@@ -61,7 +66,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.name}
           onChange={event => {
-            updateSensorState({ ...sensor, name: event.currentTarget.value });
+            updateSensor(sensor => {
+              sensor.name = event.currentTarget.value;
+            })
           }}
         />
       </Field>
@@ -70,7 +77,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Input
           value={sensor.link}
           onChange={event => {
-            updateSensorState({ ...sensor, link: event.currentTarget.value });
+            updateSensor(sensor => {
+              sensor.link = event.currentTarget.value;
+            })
           }}
         />
       </Field>
@@ -79,7 +88,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <Switch
           value={sensor.visible}
           onChange={event => {
-            updateSensorState({ ...sensor, visible: event.currentTarget.checked });
+            updateSensor(sensor => {
+              sensor.visible = event.currentTarget.checked;
+            })
           }}
         />
       </Field>
@@ -88,7 +99,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <UnitPicker
           value={sensor.unit}
           onChange={unit => {
-            updateSensorState({ ...sensor, unit });
+            updateSensor(sensor => {
+              sensor.unit = unit;
+            })
           }}
         />
       </Field>
@@ -97,7 +110,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <ColorPicker
           color={sensor.fontColor}
           onChange={color => {
-            updateSensorState({ ...sensor, fontColor: color });
+            updateSensor(sensor => {
+              sensor.fontColor = color;
+            })
           }}
           enableNamedColors
         />
@@ -107,7 +122,9 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         <ColorPicker
           color={sensor.backgroundColor}
           onChange={color => {
-            updateSensorState({ ...sensor, backgroundColor: color });
+            updateSensor(sensor => {
+              sensor.backgroundColor = color;
+            })
           }}
           enableNamedColors
         />
