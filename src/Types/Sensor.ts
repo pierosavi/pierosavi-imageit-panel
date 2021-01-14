@@ -14,6 +14,7 @@ type Sensor = {
     y: number;
   };
   overrideId: string;
+  unit: string | undefined;
 };
 
 export default Sensor;

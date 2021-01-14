@@ -6,6 +6,7 @@ import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
 import OverrideOperators from 'OverrideOperators';
 import { Mapping } from 'Types/Mapping';
+import { formattedValueToString, getValueFormat } from '@grafana/data';
 
 type Props = {
   sensor: SensorType;
@@ -30,9 +31,7 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const sensorProp = props.sensor;
-
-  let sensor = sensorProp;
+  let sensor = _.clone(props.sensor);
 
   const styles = getStyles();
 
@@ -59,8 +58,17 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   if (isOverrode) {
     // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
-    sensor = { ...sensor, ...props.mapping!.values };
+    sensor = _.merge(sensor, props.mapping!.values);
   }
+
+  // Get and apply unit type formatter
+  const { unit } = sensor;
+
+  const valueFormatter = getValueFormat(unit);
+
+  const formattedValue = valueFormatter(props.value);
+
+  const formattedValueString = formattedValueToString(formattedValue);
 
   return (
     <>
@@ -80,8 +88,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 background-color: ${sensor.backgroundColor};
               `
             )}
-            onMouseEnter={ () => setIsMouseOver(true) }
-            onMouseLeave={ () => setIsMouseOver(false) }
+            onMouseEnter={() => setIsMouseOver(true)}
+            onMouseLeave={() => setIsMouseOver(false)}
           >
             <div className={cx(styles.content)}>
               <a
@@ -91,7 +99,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 href={sensor.link ? sensor.link : '#'}
               >
                 <div className={cx(styles.name)}>{sensor.name}</div>
-                <div className={cx(styles.value)}>{props.value}</div>
+                <div className={cx(styles.value)}>{formattedValueString}</div>
               </a>
             </div>
 

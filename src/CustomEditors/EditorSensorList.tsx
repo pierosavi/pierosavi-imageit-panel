@@ -27,6 +27,7 @@ const defaultNewSensor: Sensor = {
     y: 50,
   },
   overrideId: '',
+  unit: undefined,
 };
 
 export const EditorSensorList: React.FC<Props> = (props: Props) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton } from '@grafana/ui';
+import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton, UnitPicker } from '@grafana/ui';
 import Sensor from '../Types/Sensor';
 
 interface Props {
@@ -80,6 +80,15 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           value={sensor.visible}
           onChange={event => {
             updateSensorState({ ...sensor, visible: event.currentTarget.checked });
+          }}
+        />
+      </Field>
+
+      <Field label="Unit Type">
+        <UnitPicker
+          value={sensor.unit}
+          onChange={unit => {
+            updateSensorState({ ...sensor, unit });
           }}
         />
       </Field>
