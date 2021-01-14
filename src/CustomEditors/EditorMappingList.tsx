@@ -27,7 +27,7 @@ const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperat
 }));
 
 export const EditorOverrideList: React.FC<Props> = (props: Props) => {
-  const { mappings } = props;
+  const { mappings, onChange } = props;
 
   const defaultNewOverride: Mapping = {
     id: getRandomID(),
@@ -40,10 +40,6 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     },
   };
 
-  const onChange = (mappings: Mapping[]) => {
-    props.onChange(mappings);
-  };
-
   const onOverrideChange = (mapping: Mapping, index: number) => {
     mappings[index] = mapping;
 
@@ -53,7 +49,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
   const onOverrideDelete = (index: number) => {
     mappings.splice(index, 1);
 
-    props.onChange(mappings);
+    onChange(mappings);
   };
 
   const addNewOverride = () => {

@@ -31,11 +31,7 @@ const defaultNewSensor: Sensor = {
 };
 
 export const EditorSensorList: React.FC<Props> = (props: Props) => {
-  const { sensors } = props;
-
-  const onChange = (sensors: Sensor[]) => {
-    props.onChange(sensors);
-  };
+  const { sensors, onChange } = props;
 
   const onSensorChange = (sensor: Sensor, index: number) => {
     sensors[index] = sensor;
@@ -46,7 +42,7 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
   const onSensorDelete = (index: number) => {
     sensors.splice(index);
 
-    props.onChange(sensors);
+    onChange(sensors);
   };
 
   const addNewSensor = () => {
