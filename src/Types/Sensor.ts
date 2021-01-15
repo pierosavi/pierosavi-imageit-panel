@@ -15,6 +15,7 @@ type Sensor = {
   };
   overrideId: string;
   unit: string | undefined;
+  decimals: number;
 };
 
 export default Sensor;

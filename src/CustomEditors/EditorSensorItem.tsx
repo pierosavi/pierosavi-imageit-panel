@@ -129,6 +129,18 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           enableNamedColors
         />
       </Field>
+
+      <Field label="Decimals">
+        <Input
+          value={sensor.decimals}
+          type="number"
+          onChange={event => {
+            updateSensor(sensor => {
+              sensor.decimals = Number.parseInt(event.currentTarget.value, 10);
+            });
+          }}
+        />
+      </Field>
     </>
   );
 };

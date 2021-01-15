@@ -31,6 +31,7 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
+  const { draggable, imageDimensions, onPositionChange, index, mapping, value } = props;
   let sensor = _.clone(props.sensor);
 
   const styles = getStyles();
@@ -39,26 +40,26 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   const onDragStop = (event: DraggableEvent, data: DraggableData) => {
     const newPosition: SensorType['position'] = {
-      x: pxToPerc(data.x, props.imageDimensions.width),
-      y: pxToPerc(data.y, props.imageDimensions.height),
+      x: pxToPerc(data.x, imageDimensions.width),
+      y: pxToPerc(data.y, imageDimensions.height),
     };
 
-    props.onPositionChange(newPosition, props.index);
+    onPositionChange(newPosition, index);
   };
 
   const sensorPosition: ControlPosition = {
-    x: percToPx(sensor.position.x, props.imageDimensions.width),
-    y: percToPx(sensor.position.y, props.imageDimensions.height),
+    x: percToPx(sensor.position.x, imageDimensions.width),
+    y: percToPx(sensor.position.y, imageDimensions.height),
   };
 
-  const overrideOperator = OverrideOperators.find(overrideOperator => props.mapping?.operator === overrideOperator.id);
+  const overrideOperator = OverrideOperators.find(overrideOperator => mapping?.operator === overrideOperator.id);
 
   // Apply mapping function if it satisfies requirements
-  const isOverrode = overrideOperator?.function(props.value, props.mapping!.compareTo);
+  const isOverrode = overrideOperator?.function(value, mapping!.compareTo);
 
   if (isOverrode) {
     // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
-    sensor = _.merge(sensor, props.mapping!.values);
+    sensor = _.merge(sensor, mapping!.values);
   }
 
   // Get and apply unit type formatter
@@ -66,7 +67,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   const valueFormatter = getValueFormat(unit);
 
-  const formattedValue = valueFormatter(props.value);
+  const formattedValue = valueFormatter(value, sensor.decimals);
 
   const formattedValueString = formattedValueToString(formattedValue);
 
@@ -74,7 +75,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     <>
       {sensor.visible && (
         <Draggable
-          disabled={props.draggable}
+          disabled={draggable}
           bounds="#imageItBgImage"
           handle=".handle"
           onStop={onDragStop}
@@ -103,7 +104,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
               </a>
             </div>
 
-            {!props.draggable && isMouseOver && (
+            {!draggable && isMouseOver && (
               <div className={cx(styles.handle, 'handle')}>
                 <div className="fa fa-bars" />
               </div>
