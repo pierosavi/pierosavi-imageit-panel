@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
-import { stylesFactory, Button } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
+import { stylesFactory, Button, useTheme } from '@grafana/ui';
+import { GrafanaTheme, SelectableValue } from '@grafana/data';
 import { EditorOverrideItem } from './EditorMappingItem';
 import { Mapping } from 'Types/Mapping';
 import OverrideOperators from 'OverrideOperators';
@@ -28,6 +28,9 @@ const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperat
 
 export const EditorOverrideList: React.FC<Props> = (props: Props) => {
   const { mappings, onChange } = props;
+
+  const theme = useTheme();
+  const styles = getStyles(theme);
 
   const defaultNewOverride: Mapping = {
     id: getRandomID(),
@@ -58,8 +61,6 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     onChange(mappings);
   };
 
-  const styles = getStyles();
-
   return (
     <>
       {/* list of existing mappings */}
@@ -85,11 +86,11 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
   );
 };
 
-const getStyles = stylesFactory(() => ({
+const getStyles = stylesFactory((theme: GrafanaTheme) => ({
   overrideItemWrapper: css`
     margin-bottom: 16px;
     padding: 8px;
-    background-color: #2f343b;
+    background-color: ${theme.colors.bg2};
   `,
 
   addButtonStyle: css`
