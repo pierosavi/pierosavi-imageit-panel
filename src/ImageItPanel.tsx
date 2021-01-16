@@ -93,6 +93,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
           src={options.imageUrl}
           ref={imageRef}
           onLoad={onImageLoad}
+          draggable="false"
         />
       </div>
     </div>
