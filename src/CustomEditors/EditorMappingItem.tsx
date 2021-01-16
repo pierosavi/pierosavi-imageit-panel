@@ -76,14 +76,21 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Font Color">
         <ColorPicker
-          color={mapping.values?.fontColor || '#ffffff'}
+          color={mapping.values?.fontColor}
           onChange={color => {
             updateMapping(mapping => {
               mapping.values.fontColor = color;
             });
           }}
           enableNamedColors
-        />
+        >
+          {({ ref, showColorPicker, hideColorPicker }) => (
+            <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
+              Open color picker
+            </Button>
+          )}
+        </ColorPicker>
+      </Field>
       </Field>
     </>
   );
