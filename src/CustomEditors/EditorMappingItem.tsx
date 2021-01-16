@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker } from '@grafana/ui';
+import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker, Button } from '@grafana/ui';
 import { Mapping } from '../Types/Mapping';
 import { SelectableValue } from '@grafana/data';
 
@@ -91,6 +91,23 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
           )}
         </ColorPicker>
       </Field>
+
+      <Field label="Background Color">
+        <ColorPicker
+          color={mapping.values?.backgroundColor}
+          onChange={color => {
+            updateMapping(mapping => {
+              mapping.values.backgroundColor = color;
+            });
+          }}
+          enableNamedColors
+        >
+          {({ ref, showColorPicker, hideColorPicker }) => (
+            <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
+              Open color picker
+            </Button>
+          )}
+        </ColorPicker>
       </Field>
     </>
   );

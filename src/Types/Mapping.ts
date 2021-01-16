@@ -6,6 +6,7 @@ export type Mapping = {
 
   values: {
     fontColor: string;
+    backgroundColor: string;
   };
 };
 

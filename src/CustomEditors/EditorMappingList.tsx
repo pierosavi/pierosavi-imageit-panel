@@ -39,7 +39,8 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     operator: OverrideOperators[0].id,
 
     values: {
-      fontColor: 'white',
+      fontColor: '#fff',
+      backgroundColor: '#000',
     },
   };
 
