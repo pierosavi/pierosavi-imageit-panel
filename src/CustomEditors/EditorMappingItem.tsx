@@ -4,6 +4,7 @@ import { Mapping } from '../Types/Mapping';
 import { SelectableValue } from '@grafana/data';
 
 import produce from 'immer';
+import { ColorDot } from 'components/ColorDot';
 
 interface Props {
   mapping: Mapping;
@@ -86,7 +87,7 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
-              Open color picker
+              Open color picker <ColorDot color={mapping.values.fontColor} />
             </Button>
           )}
         </ColorPicker>
@@ -104,7 +105,7 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
-              Open color picker
+              Open color picker <ColorDot color={mapping.values.backgroundColor} />
             </Button>
           )}
         </ColorPicker>

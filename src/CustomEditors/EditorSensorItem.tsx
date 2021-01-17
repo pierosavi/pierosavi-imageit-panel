@@ -3,6 +3,7 @@ import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton, UnitPic
 import Sensor from '../Types/Sensor';
 
 import produce from 'immer';
+import { ColorDot } from 'components/ColorDot';
 
 interface Props {
   sensor: Sensor;
@@ -10,17 +11,6 @@ interface Props {
   onDelete: (index: number) => void;
   index: number;
 }
-
-// Can be used to display current color
-// const ColorDot = (props: { color: string; }) => {
-//   return <div style={{
-//     height: "10px",
-//     width: "10px",
-//     backgroundColor: props.color,
-//     borderRadius: "50%",
-//     display: "inline-block"
-//   }}></div>
-// }
 
 export const EditorSensorItem: React.FC<Props> = (props: Props) => {
   const { sensor, index, onChange, onDelete } = props;
@@ -117,43 +107,43 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         />
       </Field>
 
-      <HorizontalGroup>
-        <Field label="Font Color">
-          <ColorPicker
-            color={sensor.fontColor}
-            onChange={color => {
-              updateSensor(sensor => {
-                sensor.fontColor = color;
-              });
-            }}
-            enableNamedColors
-          >
-            {({ ref, showColorPicker, hideColorPicker }) => (
-              <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
-                Open color picker
-              </Button>
-            )}
-          </ColorPicker>
-        </Field>
+      {/* <HorizontalGroup> */}
+      <Field label="Font Color">
+        <ColorPicker
+          color={sensor.fontColor}
+          onChange={color => {
+            updateSensor(sensor => {
+              sensor.fontColor = color;
+            });
+          }}
+          enableNamedColors
+        >
+          {({ ref, showColorPicker, hideColorPicker }) => (
+            <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
+              Open color picker <ColorDot color={sensor.fontColor} />
+            </Button>
+          )}
+        </ColorPicker>
+      </Field>
 
-        <Field label="Background Color">
-          <ColorPicker
-            color={sensor.backgroundColor}
-            onChange={color => {
-              updateSensor(sensor => {
-                sensor.backgroundColor = color;
-              });
-            }}
-            enableNamedColors
-          >
-            {({ ref, showColorPicker, hideColorPicker }) => (
-              <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
-                Open color picker
-              </Button>
-            )}
-          </ColorPicker>
-        </Field>
-      </HorizontalGroup>
+      <Field label="Background Color">
+        <ColorPicker
+          color={sensor.backgroundColor}
+          onChange={color => {
+            updateSensor(sensor => {
+              sensor.backgroundColor = color;
+            });
+          }}
+          enableNamedColors
+        >
+          {({ ref, showColorPicker, hideColorPicker }) => (
+            <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
+              Open color picker <ColorDot color={sensor.backgroundColor} />
+            </Button>
+          )}
+        </ColorPicker>
+      </Field>
+      {/* </HorizontalGroup> */}
 
       <Field label="Decimals">
         <Input
