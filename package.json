@@ -2,7 +2,6 @@
   "name": "pierosavi-imageit-panel",
   "version": "0.1.3",
   "description": "Add Measurements to a Picture in Grafana",
-  "main": "src/module.tsx",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
