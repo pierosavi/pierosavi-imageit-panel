@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { stylesFactory, Button, useTheme } from '@grafana/ui';
 import { GrafanaTheme, SelectableValue } from '@grafana/data';
 import { EditorMappingItem } from './EditorMappingItem';
-import { Mapping } from 'Types/Mapping';
+import { Mapping } from 'types/Mapping';
 import OverrideOperators from 'OverrideOperators';
 
 interface Props {

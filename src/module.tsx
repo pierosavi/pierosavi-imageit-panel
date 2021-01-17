@@ -1,9 +1,9 @@
 import React from 'react';
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions } from './Types/SimpleOptions';
+import { SimpleOptions } from './types/SimpleOptions';
 import { ImageItPanel } from './ImageItPanel';
-import { EditorSensorList } from 'CustomEditors/EditorSensorList';
-import { EditorOverrideList } from 'CustomEditors/EditorMappingList';
+import { EditorSensorList } from 'customEditors/EditorSensorList';
+import { EditorOverrideList } from 'customEditors/EditorMappingList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
   const panelOptionsBuilder = builder

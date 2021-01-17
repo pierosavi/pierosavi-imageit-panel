@@ -3,9 +3,9 @@ import * as _ from 'lodash';
 import { css, cx, keyframes } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
-import SensorType from './Types/Sensor';
+import SensorType from './types/Sensor';
 import OverrideOperators from 'OverrideOperators';
-import { Mapping } from 'Types/Mapping';
+import { Mapping } from 'types/Mapping';
 import { formattedValueToString, getValueFormat } from '@grafana/data';
 
 type Props = {

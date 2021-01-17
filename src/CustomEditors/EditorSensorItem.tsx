@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton, UnitPicker, Button } from '@grafana/ui';
-import Sensor from '../Types/Sensor';
+import Sensor from '../types/Sensor';
 
 import produce from 'immer';
 import { ColorDot } from 'components/ColorDot';

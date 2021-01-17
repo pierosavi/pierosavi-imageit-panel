@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker, Button, Switch } from '@grafana/ui';
-import { Mapping } from '../Types/Mapping';
+import { Mapping } from '../types/Mapping';
 import { SelectableValue } from '@grafana/data';
 
 import produce from 'immer';

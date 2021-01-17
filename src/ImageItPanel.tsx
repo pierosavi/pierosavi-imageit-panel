@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions } from 'Types/SimpleOptions';
+import { SimpleOptions } from './types/SimpleOptions';
 import { css, cx } from 'emotion';
 import _ from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
-import SensorType from './Types/Sensor';
+import SensorType from './types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 

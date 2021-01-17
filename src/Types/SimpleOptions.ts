@@ -1,4 +1,4 @@
-import SensorType from '../Types/Sensor';
+import SensorType from './Sensor';
 import { Mapping } from './Mapping';
 
 export interface SimpleOptions {

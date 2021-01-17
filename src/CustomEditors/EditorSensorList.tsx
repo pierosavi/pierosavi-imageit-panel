@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { stylesFactory, useTheme } from '@grafana/ui';
 import { Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
-import Sensor from '../Types/Sensor';
+import Sensor from '../types/Sensor';
 import { GrafanaTheme } from '@grafana/data';
 
 interface Props {
