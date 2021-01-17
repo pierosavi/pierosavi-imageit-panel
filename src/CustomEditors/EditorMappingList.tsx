@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { stylesFactory, Button, useTheme } from '@grafana/ui';
 import { GrafanaTheme, SelectableValue } from '@grafana/data';
-import { EditorOverrideItem } from './EditorMappingItem';
+import { EditorMappingItem } from './EditorMappingItem';
 import { Mapping } from 'Types/Mapping';
 import OverrideOperators from 'OverrideOperators';
 
@@ -41,6 +41,10 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     values: {
       fontColor: '#fff',
       backgroundColor: '#000',
+      valueBlink: false,
+      backgroundBlink: false,
+      bold: false,
+      visible: true,
     },
   };
 
@@ -69,7 +73,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
         mappings.map((mapping: Mapping, index: number) => {
           return (
             <div className={styles.overrideItemWrapper}>
-              <EditorOverrideItem
+              <EditorMappingItem
                 mapping={mapping}
                 operatorsOptions={operatorsOptions}
                 onChange={onOverrideChange}

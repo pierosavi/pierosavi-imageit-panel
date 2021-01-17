@@ -30,6 +30,8 @@ const defaultNewSensor: Sensor = {
   overrideId: '',
   unit: undefined,
   decimals: 2,
+  valueBlink: false,
+  backgroundBlink: false,
 };
 
 export const EditorSensorList: React.FC<Props> = (props: Props) => {

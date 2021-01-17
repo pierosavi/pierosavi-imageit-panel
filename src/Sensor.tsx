@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as _ from 'lodash';
-import { css, cx } from 'emotion';
+import { css, cx, keyframes } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './Types/Sensor';
@@ -38,7 +38,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const onDragStop = (event: DraggableEvent, data: DraggableData) => {
+  const onDragStop = (_event: DraggableEvent, data: DraggableData) => {
     const newPosition: SensorType['position'] = {
       x: pxToPerc(data.x, imageDimensions.width),
       y: pxToPerc(data.y, imageDimensions.height),
@@ -87,7 +87,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
               css`
                 color: ${sensor.fontColor};
                 background-color: ${sensor.backgroundColor};
-              `
+              `,
+              (sensor.backgroundBlink && styles.blink),
             )}
             onMouseEnter={() => setIsMouseOver(true)}
             onMouseLeave={() => setIsMouseOver(false)}
@@ -97,10 +98,16 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 className={css`
                   color: ${sensor.fontColor};
                 `}
-                href={sensor.link ? sensor.link : '#'}
+                href={sensor.link || '#'}
               >
                 <div className={cx(styles.name)}>{sensor.name}</div>
-                <div className={cx(styles.value)}>{formattedValueString}</div>
+                <div className={cx(
+                    styles.value,
+                    (sensor.valueBlink && styles.blink),
+                    (sensor.bold && styles.bold)
+                  )}>
+                    {formattedValueString}
+                  </div>
               </a>
             </div>
 
@@ -115,6 +122,12 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     </>
   );
 };
+
+const blink = keyframes`
+  50% {
+    opacity: 0;
+  }
+`
 
 const getStyles = stylesFactory(() => {
   return {
@@ -133,5 +146,11 @@ const getStyles = stylesFactory(() => {
       font-size: 0.5em;
     `,
     value: css``,
+    blink: css`
+      animation: ${blink} 1s linear infinite;
+    `,
+    bold: css`
+      font-weight: bold;
+    `,
   };
 });

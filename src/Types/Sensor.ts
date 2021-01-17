@@ -8,6 +8,8 @@ type Sensor = {
   backgroundColor: string;
   fontColor: string;
   bold: boolean;
+  valueBlink: boolean;
+  backgroundBlink: boolean;
   link: string;
   position: {
     x: number;

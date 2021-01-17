@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker, Button } from '@grafana/ui';
+import { Input, Field, HorizontalGroup, IconButton, Select, TextArea, ColorPicker, Button, Switch } from '@grafana/ui';
 import { Mapping } from '../Types/Mapping';
 import { SelectableValue } from '@grafana/data';
 
@@ -13,7 +13,7 @@ interface Props {
   index: number;
 }
 
-export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
+export const EditorMappingItem: React.FC<Props> = (props: Props) => {
   const { mapping, index, operatorsOptions, onChange, onDelete } = props;
 
   function updateMapping(draftState: (draftMapping: Mapping) => void) {
@@ -94,7 +94,7 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Background Color">
         <ColorPicker
-          color={mapping.values?.backgroundColor}
+          color={mapping.values.backgroundColor}
           onChange={color => {
             updateMapping(mapping => {
               mapping.values.backgroundColor = color;
@@ -108,6 +108,50 @@ export const EditorOverrideItem: React.FC<Props> = (props: Props) => {
             </Button>
           )}
         </ColorPicker>
+      </Field>
+
+      <Field label="Show">
+        <Switch
+          value={mapping.values.visible}
+          onChange={event => {
+            updateMapping(mapping => {
+              mapping.values.visible = event.currentTarget.checked;
+            });
+          }}
+        />
+      </Field>
+
+      <Field label="Bold">
+        <Switch
+          value={mapping.values.bold}
+          onChange={event => {
+            updateMapping(mapping => {
+              mapping.values.bold = event.currentTarget.checked;
+            });
+          }}
+        />
+      </Field>
+
+      <Field label="Background Blink">
+        <Switch
+          value={mapping.values.backgroundBlink}
+          onChange={event => {
+            updateMapping(mapping => {
+              mapping.values.backgroundBlink = event.currentTarget.checked;
+            });
+          }}
+        />
+      </Field>
+
+      <Field label="Value Blink">
+        <Switch
+          value={mapping.values.valueBlink}
+          onChange={event => {
+            updateMapping(mapping => {
+              mapping.values.valueBlink = event.currentTarget.checked;
+            });
+          }}
+        />
       </Field>
     </>
   );

@@ -7,6 +7,10 @@ export type Mapping = {
   values: {
     fontColor: string;
     backgroundColor: string;
+    visible: boolean;
+    bold: boolean;
+    valueBlink: boolean;
+    backgroundBlink: boolean;
   };
 };
 
