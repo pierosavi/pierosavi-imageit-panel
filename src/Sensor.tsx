@@ -88,7 +88,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 color: ${sensor.fontColor};
                 background-color: ${sensor.backgroundColor};
               `,
-              (sensor.backgroundBlink && styles.blink),
+              sensor.backgroundBlink && styles.blink
             )}
             onMouseEnter={() => setIsMouseOver(true)}
             onMouseLeave={() => setIsMouseOver(false)}
@@ -101,13 +101,9 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 href={sensor.link || '#'}
               >
                 <div className={cx(styles.name)}>{sensor.name}</div>
-                <div className={cx(
-                    styles.value,
-                    (sensor.valueBlink && styles.blink),
-                    (sensor.bold && styles.bold)
-                  )}>
-                    {formattedValueString}
-                  </div>
+                <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
+                  {formattedValueString}
+                </div>
               </a>
             </div>
 
@@ -127,7 +123,7 @@ const blink = keyframes`
   50% {
     opacity: 0;
   }
-`
+`;
 
 const getStyles = stylesFactory(() => {
   return {
