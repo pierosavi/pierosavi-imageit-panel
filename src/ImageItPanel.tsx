@@ -12,7 +12,7 @@ interface Props extends PanelProps<SimpleOptions> {}
 
 export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
   //  const theme = useTheme();
-  const styles = getStyles();
+  const styles = getStyles()
 
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
