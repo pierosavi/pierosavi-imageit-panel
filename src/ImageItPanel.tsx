@@ -17,6 +17,18 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
 
+  const [imageUrl, setImageUrl] = useState(options.imageUrl);
+
+  useEffect(() => {
+    setImageUrl(options.imageUrl);
+  }, [options.imageUrl]);
+
+  useEffect(() => {
+    if (options.forceImageRefresh) {
+      setImageUrl(`${options.imageUrl}?${_.uniqueId()}`);
+    }
+  }, [data]);
+
   useEffect(() => {
     setImageDimensions({
       height: imageRef.current!.offsetHeight,
@@ -90,7 +102,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
               max-height: ${height}px;
             `
           )}
-          src={options.imageUrl}
+          src={imageUrl}
           ref={imageRef}
           onLoad={onImageLoad}
           draggable="false"

@@ -14,6 +14,13 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       defaultValue: 'https://i.ibb.co/tLXrjb6/imageit.png',
     })
     .addBooleanSwitch({
+      path: 'forceImageRefresh',
+      name: 'Force image refresh',
+      description:
+        'Enable to force image refresh when data changes. Use only if cache control is not possible. Check readme on Github if not sure.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
       path: 'lockSensors',
       name: 'Lock sensors movement',
       defaultValue: false,
