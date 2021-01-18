@@ -1,41 +1,56 @@
-## Rewrite
+# ImageIt Panel Plugin for Grafana
 
-The plugin is currently being rewritten in React following the new Grafana Plugin standard
+Allows a user to superimpose measurement displays ontop of a picture.
 
-New PRs for the old Angular V1 version will not be accepted
+![ImageIt](https://raw.githubusercontent.com/pierosavi/pierosavi-imageit-panel/master/src/img/imageit_example.png?raw=true)
 
-## ImageIt Panel Plugin for Grafana
+## Setup
 
-Allows a user to superimpose measurement displays ontop of picture.
+[How to install](https://grafana.com/docs/grafana/latest/plugins/installation/)
 
-![ImageIt](https://raw.githubusercontent.com/pierosavi/pierosavi-imageit-panel/master/src/img/imageit_example.png?raw=true) 
-
-### Setup
-
-WIP
-
-### How to build
-
-Prerequisites: `git` , `node 12`, `yarn 1`
-
-Open Terminal on MacOs or Cmd on Windows inside your grafana plugins folder
-
-Paste these commands:
-* `git clone --single-branch --branch react-migration https://github.com/pierosavi/pierosavi-imageit-panel.git`
-* `cd pierosavi-imageit-panel`
-* `yarn`
-* `yarn build`
-
-Restart Grafana instance
-
-### Features
+## Features
 
 * Sensors stay in the same position, even when resizing the panel
 * Draggable sensors
-* Resizing sensors when resizing the panel
+* Sensors resize with the panel
 * Plugin compatibility with Grafana 7+
 * Plugin canvas compatible with larger images
 * Links on sensors
-* Change sensors background color (even transparent)
-* Font Awesome Icons - Images mapping on sensor name - WIP
-* Value mapping system - WIP
+* Change sensors text and background color
+* Value mapping system
+
+## What features are missing from the previous version?
+* Font awesome icons in sensor name
+* Font size configurable per sensor
+
+They will come in the next versions
+
+ ## FAQ
+
+### Why do I have to go trough the migration tool to keep configurations coming from v0.1.3?
+This plugin was originally a fork of an unmantained plugin. Because of this I wanted to keep compatibility between the two as high as possible, sadly that plugin wasn't developed with best practices in mind.
+
+With the new Grafana sdk I had to rewrite the plugin from scratch and all the old configurations are impossible to read from the new version.
+
+### What's up with the force image refresh warning?
+You should switch it on only if you have control over the image hosting service. If not you could fill the users' browser cache fast. [Check this for more info](https://stackoverflow.com/questions/1077041/refresh-image-with-a-new-one-at-the-same-url)
+
+
+### Can I host my images inside my Grafana instance?
+Kinda. Grafana doesn't have an official way but there's a workaround. If you have access to your Grafana instance's files you can add your file at `/usr/share/grafana/public/img/` and reach it at `/public/img/yourimage.jpg`. Note that images added like this will be deleted during the next Grafana update and this workaround might not work in the future.
+
+If you don't have access to the files or don't know how to do it I can't help you.
+
+### Is v1.x.x compatible with Grafana 5/6?
+No, use v0.1.3 or update to Grafana v7+.
+
+## Develop locally
+To build you must use node v12 and yarn
+
+Install dependencies and watch for changes with
+```bash
+yarn
+yarn watch
+```
+
+Restart Grafana instance to register plugin
