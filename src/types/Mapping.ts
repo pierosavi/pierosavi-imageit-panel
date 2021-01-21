@@ -1,7 +1,7 @@
 export type Mapping = {
   id: string;
   description: string;
-  operator: OverrideOperator['id'];
+  operator: MappingOperator['id'];
   compareTo: number | string;
 
   values: {
@@ -14,7 +14,7 @@ export type Mapping = {
   };
 };
 
-export type OverrideOperator = {
+export type MappingOperator = {
   id: string;
   operator: string;
   function: (value: any, compareTo: any) => boolean;

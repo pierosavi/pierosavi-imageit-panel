@@ -1,4 +1,4 @@
-import { OverrideOperator } from './types/Mapping';
+import { MappingOperator } from './types/Mapping';
 
 function isEqualTo(a: number | string, b: number | string) {
   // Maybe keep == to compare string and numbers
@@ -13,7 +13,7 @@ function isLessThan(a: number | string, b: number | string) {
   return a !== undefined && b !== undefined ? a < b : false;
 }
 
-const OverrideOperators: OverrideOperator[] = [
+const MappingOperators: MappingOperator[] = [
   {
     id: 'equal',
     operator: '=',
@@ -33,4 +33,4 @@ const OverrideOperators: OverrideOperator[] = [
   },
 ];
 
-export default OverrideOperators;
+export default MappingOperators;

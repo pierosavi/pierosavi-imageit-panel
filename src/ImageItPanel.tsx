@@ -78,8 +78,8 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             const value = field?.values.get(field.values.length - 1);
 
             // Get mapping by id || undefined
-            const mapping = sensor.overrideId
-              ? options.mappings.find(mapping => sensor.overrideId === mapping.id)
+            const mapping = sensor.mappingId
+              ? options.mappings.find(mapping => sensor.mappingId === mapping.id)
               : undefined;
 
             return (

@@ -15,7 +15,7 @@ type Sensor = {
     x: number;
     y: number;
   };
-  overrideId: string;
+  mappingId: string;
   unit: string | undefined;
   decimals: number;
 };

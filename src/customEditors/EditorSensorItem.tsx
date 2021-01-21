@@ -54,10 +54,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Mapping ID" description="Past here the ID of the mapping you want to use for this sensor">
         <Input
-          value={sensor.overrideId}
+          value={sensor.mappingId}
           onChange={event => {
             updateSensor(sensor => {
-              sensor.overrideId = event.currentTarget.value;
+              sensor.mappingId = event.currentTarget.value;
             });
           }}
         />

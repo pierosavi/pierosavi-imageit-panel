@@ -4,7 +4,7 @@ import { css, cx, keyframes } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
 import SensorType from './types/Sensor';
-import OverrideOperators from 'OverrideOperators';
+import MappingOperators from 'MappingOperators';
 import { Mapping } from 'types/Mapping';
 import { formattedValueToString, getValueFormat } from '@grafana/data';
 
@@ -52,10 +52,10 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(sensor.position.y, imageDimensions.height),
   };
 
-  const overrideOperator = OverrideOperators.find(overrideOperator => mapping?.operator === overrideOperator.id);
+  const mappingOperator = MappingOperators.find(mappingOperator => mapping?.operator === mappingOperator.id);
 
   // Apply mapping function if it satisfies requirements
-  const isOverrode = overrideOperator?.function(value, mapping!.compareTo);
+  const isOverrode = mappingOperator?.function(value, mapping!.compareTo);
 
   if (isOverrode) {
     // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript

@@ -3,7 +3,7 @@ import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './types/SimpleOptions';
 import { ImageItPanel } from './ImageItPanel';
 import { EditorSensorList } from 'customEditors/EditorSensorList';
-import { EditorOverrideList } from 'customEditors/EditorMappingList';
+import { EditorMappingList } from 'customEditors/EditorMappingList';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
   const panelOptionsBuilder = builder
@@ -52,7 +52,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       category: ['Mappings'],
       defaultValue: [],
       editor: props => {
-        return <EditorOverrideList mappings={props.value} onChange={props.onChange} />;
+        return <EditorMappingList mappings={props.value} onChange={props.onChange} />;
       },
     });
 

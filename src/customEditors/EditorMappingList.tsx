@@ -4,7 +4,7 @@ import { stylesFactory, Button, useTheme } from '@grafana/ui';
 import { GrafanaTheme, SelectableValue } from '@grafana/data';
 import { EditorMappingItem } from './EditorMappingItem';
 import { Mapping } from 'types/Mapping';
-import OverrideOperators from 'OverrideOperators';
+import MappingOperators from 'MappingOperators';
 
 interface Props {
   mappings: Mapping[];
@@ -20,23 +20,23 @@ const getRandomID = function() {
   return 'mapping-' + randomString;
 };
 
-const operatorsOptions: SelectableValue[] = OverrideOperators.map(overrideOperator => ({
-  label: overrideOperator.operator,
-  value: overrideOperator.id,
-  description: overrideOperator.description,
+const operatorsOptions: SelectableValue[] = MappingOperators.map(mappingOperator => ({
+  label: mappingOperator.operator,
+  value: mappingOperator.id,
+  description: mappingOperator.description,
 }));
 
-export const EditorOverrideList: React.FC<Props> = (props: Props) => {
+export const EditorMappingList: React.FC<Props> = (props: Props) => {
   const { mappings, onChange } = props;
 
   const theme = useTheme();
   const styles = getStyles(theme);
 
-  const defaultNewOverride: Mapping = {
+  const defaultNewMapping: Mapping = {
     id: getRandomID(),
     description: '',
     compareTo: 0,
-    operator: OverrideOperators[0].id,
+    operator: MappingOperators[0].id,
 
     values: {
       fontColor: '#fff',
@@ -48,20 +48,20 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
     },
   };
 
-  const onOverrideChange = (mapping: Mapping, index: number) => {
+  const onMappingChange = (mapping: Mapping, index: number) => {
     mappings[index] = mapping;
 
     onChange(mappings);
   };
 
-  const onOverrideDelete = (index: number) => {
+  const onMappingDelete = (index: number) => {
     mappings.splice(index, 1);
 
     onChange(mappings);
   };
 
-  const addNewOverride = () => {
-    mappings.push(defaultNewOverride);
+  const addNewMapping = () => {
+    mappings.push(defaultNewMapping);
 
     onChange(mappings);
   };
@@ -72,19 +72,19 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
       {mappings &&
         mappings.map((mapping: Mapping, index: number) => {
           return (
-            <div className={styles.overrideItemWrapper}>
+            <div className={styles.mappingItemWrapper}>
               <EditorMappingItem
                 mapping={mapping}
                 operatorsOptions={operatorsOptions}
-                onChange={onOverrideChange}
-                onDelete={onOverrideDelete}
+                onChange={onMappingChange}
+                onDelete={onMappingDelete}
                 index={index}
               />
             </div>
           );
         })}
 
-      <Button className={styles.addButtonStyle} onClick={addNewOverride} variant="secondary" size="md">
+      <Button className={styles.addButtonStyle} onClick={addNewMapping} variant="secondary" size="md">
         Add New
       </Button>
     </>
@@ -92,7 +92,7 @@ export const EditorOverrideList: React.FC<Props> = (props: Props) => {
 };
 
 const getStyles = stylesFactory((theme: GrafanaTheme) => ({
-  overrideItemWrapper: css`
+  mappingItemWrapper: css`
     margin-bottom: 16px;
     padding: 8px;
     background-color: ${theme.colors.bg2};
