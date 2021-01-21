@@ -9,7 +9,7 @@ function isGreaterThan(a: number | string, b: number | string) {
   return a !== undefined && b !== undefined ? a > b : false;
 }
 
-function isLessThan(a: number | string, b: number | string) {
+function isSmallerThan(a: number | string, b: number | string) {
   return a !== undefined && b !== undefined ? a < b : false;
 }
 
@@ -26,10 +26,9 @@ const MappingOperators: MappingOperator[] = [
     function: isGreaterThan,
   },
   {
-    // smallerThan would be better, to consider if it's easy to change when building the migration tool
-    id: 'lessThan',
+    id: 'smallerThan',
     operator: '<',
-    function: isLessThan,
+    function: isSmallerThan,
   },
 ];
 
