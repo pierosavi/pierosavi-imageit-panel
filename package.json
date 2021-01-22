@@ -2,10 +2,11 @@
   "name": "pierosavi-imageit-panel",
   "version": "0.1.3",
   "description": "Add Measurements to a Picture in Grafana",
-  "main": "src/module.js",
   "scripts": {
-    "build": "grunt",
-    "debug": "grunt watch"
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
   },
   "keywords": [
     "picture",
@@ -15,27 +16,20 @@
     "panel"
   ],
   "author": "pierosavi",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pierosavi/pierosavi-imageit-panel"
-  },
-  "license": "MIT",
+  "repository": "github:/pierosavi/pierosavi-imageit-panel",
+  "license": "Apache-2.0",
   "devDependencies": {
-    "@babel/cli": "7.5.0",
-    "@babel/core": "7.5.4",
-    "babel-eslint": "10.0.2",
-    "@babel/preset-env": "7.5.4",
-    "@babel/plugin-transform-modules-systemjs": "7.5.0",
-    "eslint": "6.0.1",
-    "eslint-config-airbnb": "17.1.1",
-    "eslint-plugin-import": "2.18.0",
-    "grunt": "1.0.4",
-    "grunt-babel": "8.0.0",
-    "grunt-cli": "1.3.2",
-    "grunt-contrib-clean": "2.0.0",
-    "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-watch": "1.1.0",
-    "grunt-systemjs-builder": "1.0.0",
-    "load-grunt-tasks": "5.0.0"
+    "@grafana/data": "7.0.0",
+    "@grafana/toolkit": "7.0.0",
+    "@grafana/ui": "7.0.0",
+    "@types/lodash": "^4.14.157",
+    "emotion": "10.0.27"
+  },
+  "engines": {
+    "node": ">=12 <13"
+  },
+  "dependencies": {
+    "immer": "^8.0.0",
+    "react-draggable": "^4.4.2"
   }
 }
