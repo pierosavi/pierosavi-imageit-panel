@@ -4,6 +4,12 @@ Allows a user to superimpose measurement displays ontop of a picture.
 
 ![ImageIt](https://raw.githubusercontent.com/pierosavi/pierosavi-imageit-panel/master/src/img/imageit_example.png?raw=true)
 
+# READ BEFORE UPDATING
+
+If you are migrating to v0.x to v1 there is a step you must take to preserve the data.
+Why How When: https://github.com/pierosavi/imageit-migration/blob/master/README.md
+Migration website: https://pierosavi.github.io/imageit-migration/
+
 ## Setup
 
 [How to install](https://grafana.com/docs/grafana/latest/plugins/installation/)
