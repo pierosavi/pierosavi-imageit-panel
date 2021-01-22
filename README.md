@@ -50,14 +50,3 @@ If you don't have access to the files or don't know how to do it I can't help yo
 
 ### Is v1.x.x compatible with Grafana 5/6?
 No, use v0.1.3 or update to Grafana v7+.
-
-## Develop locally
-To build you must use node v12 and yarn
-
-Install dependencies and watch for changes with
-```bash
-yarn
-yarn watch
-```
-
-Restart Grafana instance to register plugin

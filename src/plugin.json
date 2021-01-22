@@ -2,7 +2,6 @@
   "id": "pierosavi-imageit-panel",
   "name": "ImageIt",
   "type": "panel",
-  "url": "https://github.com/pierosavi/pierosavi-imageit-panel",
   "info": {
     "description": "Add Measurements to a Picture in Grafana",
     "author": {
@@ -25,7 +24,6 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaVersion": "7.0.x",
-    "plugins": []
+    "grafanaDependency": "7.0.x"
   }
 }
