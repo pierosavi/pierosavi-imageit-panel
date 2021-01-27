@@ -29,7 +29,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
     .addNumberInput({
       path: 'sensorsTextSize',
       name: 'Sensors text size',
-      // description: 'Text size',
+      description: 'Default sensors text size. Default 10.',
       defaultValue: 1,
       category: ['Sensors'],
     })
