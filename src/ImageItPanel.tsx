@@ -11,6 +11,7 @@ import SensorType from './types/Sensor';
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
+  const { forceImageRefresh, lockSensors, mappings, sensors, sensorsTextSize } = options;
   //  const theme = useTheme();
   const styles = getStyles();
 
@@ -20,14 +21,12 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   const [imageUrl, setImageUrl] = useState(options.imageUrl);
 
   useEffect(() => {
-    setImageUrl(options.imageUrl);
-  }, [options.imageUrl]);
-
-  useEffect(() => {
-    if (options.forceImageRefresh) {
+    if (forceImageRefresh) {
       setImageUrl(`${options.imageUrl}?${_.uniqueId()}`);
+    } else {
+      setImageUrl(options.imageUrl);
     }
-  }, [data]);
+  }, [data, options.imageUrl, forceImageRefresh]);
 
   useEffect(() => {
     setImageDimensions({
@@ -58,12 +57,12 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
           styles.imageWrapper,
           css`
             max-height: ${height}px;
-            font-size: ${(options.sensorsTextSize * imageDimensions.width) / 50 / 10}px;
+            font-size: ${(sensorsTextSize * imageDimensions.width) / 50 / 10}px;
           `
         )}
       >
-        {options.sensors &&
-          options.sensors.map((sensor: SensorType, index: number) => {
+        {sensors &&
+          sensors.map((sensor: SensorType, index: number) => {
             // Get serie for sensor based on refId or alias fields
             // let value: Number | undefined = undefined;
             const serie = data.series.find(serie =>
@@ -78,13 +77,11 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
             const value = field?.values.get(field.values.length - 1);
 
             // Get mapping by id || undefined
-            const mapping = sensor.mappingId
-              ? options.mappings.find(mapping => sensor.mappingId === mapping.id)
-              : undefined;
+            const mapping = sensor.mappingId ? mappings.find(mapping => sensor.mappingId === mapping.id) : undefined;
 
             return (
               <Sensor
-                draggable={options.lockSensors}
+                draggable={lockSensors}
                 sensor={sensor}
                 mapping={mapping}
                 index={index}
