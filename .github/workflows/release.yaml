@@ -75,10 +75,10 @@ jobs:
           version: latest
           args: buildAll
 
-      # - name: Sign plugin
-      #   run: yarn run grafana-toolkit plugin:sign
-      #   env:
-      #     GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }} # Requires a Grafana API key from Grafana.com.
+      - name: Sign plugin
+        run: yarn run grafana-toolkit plugin:sign
+        env:
+          GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }} # Requires a Grafana API key from Grafana.com.
 
       - name: Get plugin metadata
         id: metadata
@@ -102,7 +102,7 @@ jobs:
       - name: Read changelog
         id: changelog
         run: |
-          awk '/^## / {s++} s == 1 {print}' CHANGELOG.md > release_notes.md
+          awk '/^# / {s++} s == 1 {print}' CHANGELOG.md > release_notes.md
           echo "::set-output name=path::release_notes.md"
 
       - name: Check package version
@@ -116,13 +116,13 @@ jobs:
           md5sum ${{ steps.metadata.outputs.archive }} > ${{ steps.metadata.outputs.archive-checksum }}
           echo "::set-output name=checksum::$(cat ./${{ steps.metadata.outputs.archive-checksum }} | cut -d' ' -f1)"
 
-      # - name: Lint plugin
-      #   run: |
-      #     git clone https://github.com/grafana/plugin-validator
-      #     pushd ./plugin-validator/cmd/plugincheck
-      #     go install
-      #     popd
-      #     plugincheck ${{ steps.metadata.outputs.archive }}
+      - name: Lint plugin
+        run: |
+          git clone https://github.com/grafana/plugin-validator
+          pushd ./plugin-validator/cmd/plugincheck
+          go install
+          popd
+          plugincheck ${{ steps.metadata.outputs.archive }}
 
       - name: Create release
         id: create_release
