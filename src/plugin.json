@@ -20,6 +20,20 @@
         "name": "License", "url": "https://github.com/pierosavi/pierosavi-imageit-panel/blob/master/LICENSE"
       }
     ],
+    "screenshots": [
+      {
+        "name": "Panel Example",
+        "path": "img/imageit_example.png"
+      },
+      {
+        "name": "Sensor options",
+        "path": "img/imageit_sensor.png"
+      },
+      {
+        "name": "Mapping options",
+        "path": "img/imageit_mapping.png"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },
