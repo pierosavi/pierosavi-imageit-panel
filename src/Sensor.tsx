@@ -69,7 +69,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
 
   const formattedValue = valueFormatter(value, sensor.decimals);
 
-  const formattedValueString =  value ? formattedValueToString(formattedValue) : 'No data';
+  const formattedValueString = value ? formattedValueToString(formattedValue) : 'No data';
 
   return (
     <>
