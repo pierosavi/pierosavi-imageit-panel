@@ -30,7 +30,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       path: 'sensorsTextSize',
       name: 'Sensors text size',
       description: 'Default sensors text size. Default 10.',
-      defaultValue: 1,
+      defaultValue: 10,
       category: ['Sensors'],
     })
     .addCustomEditor({
