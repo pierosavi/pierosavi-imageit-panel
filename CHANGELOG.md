@@ -1,3 +1,10 @@
+# v1.0.1
+
+## Improvements
+
+* Change grafana version requirements to every grafana 7 version instead of 7.0.x
+* Add No Data text on sensor when no data is received
+
 # v1.0.0
 
 ## Features
