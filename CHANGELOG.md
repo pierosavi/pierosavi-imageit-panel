@@ -1,3 +1,9 @@
+# v1.0.2
+
+## Fix
+
+* No data showing when query returned 0
+
 # v1.0.1
 
 ## Improvements
