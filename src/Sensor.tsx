@@ -7,11 +7,16 @@ import SensorType from './types/Sensor';
 import MappingOperators from 'MappingOperators';
 import { Mapping } from 'types/Mapping';
 import { formattedValueToString, getValueFormat } from '@grafana/data';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 type Props = {
   sensor: SensorType;
   mapping: Mapping | undefined;
   draggable: boolean;
+  iconName: IconName;
+  valueDisplay: boolean;
+  nameDisplay: boolean;
   index: number;
   imageDimensions: {
     width: number;
@@ -31,7 +36,17 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const { draggable, imageDimensions, onPositionChange, index, mapping, value } = props;
+  const {
+    draggable,
+    imageDimensions,
+    onPositionChange,
+    iconName,
+    valueDisplay,
+    nameDisplay,
+    index,
+    mapping,
+    value,
+  } = props;
   let sensor = _.clone(props.sensor);
 
   const styles = getStyles();
@@ -52,7 +67,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(sensor.position.y, imageDimensions.height),
   };
 
-  const mappingOperator = MappingOperators.find(mappingOperator => mapping?.operator === mappingOperator.id);
+  const mappingOperator = MappingOperators.find((mappingOperator) => mapping?.operator === mappingOperator.id);
 
   // Apply mapping function if it satisfies requirements
   const isOverrode = mappingOperator?.function(value, mapping!.compareTo);
@@ -100,10 +115,13 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 `}
                 href={sensor.link || '#'}
               >
-                <div className={cx(styles.name)}>{sensor.name}</div>
-                <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
-                  {formattedValueString}
-                </div>
+                {iconName && <FontAwesomeIcon icon={iconName} />}
+                {nameDisplay && <div className={cx(styles.name)}>{sensor.name}</div>}
+                {valueDisplay && (
+                  <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
+                    {formattedValueString}
+                  </div>
+                )}
               </a>
             </div>
 

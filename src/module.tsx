@@ -5,7 +5,7 @@ import { ImageItPanel } from './ImageItPanel';
 import { EditorSensorList } from 'customEditors/EditorSensorList';
 import { EditorMappingList } from 'customEditors/EditorMappingList';
 
-export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions(builder => {
+export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptions((builder) => {
   const panelOptionsBuilder = builder
     .addTextInput({
       path: 'imageUrl',
@@ -40,7 +40,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       description: 'List of sensors',
       category: ['Sensors'],
       defaultValue: [],
-      editor: props => {
+      editor: function SensorListEditor(props) {
         return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
       },
     })
@@ -51,7 +51,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel).setPanelOptio
       description: 'List of mappings',
       category: ['Mappings'],
       defaultValue: [],
-      editor: props => {
+      editor: function MappingsEditor(props) {
         return <EditorMappingList mappings={props.value} onChange={props.onChange} />;
       },
     });

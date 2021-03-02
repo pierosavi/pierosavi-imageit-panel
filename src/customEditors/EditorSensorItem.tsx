@@ -31,9 +31,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       {/* <HorizontalGroup> */}
       <Field label="Query ID" description="Set this as query ID OR the query alias below">
         <Input
+          css=""
           value={sensor.query.id}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.query.id = event.currentTarget.value;
             });
           }}
@@ -42,9 +43,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Query Alias" description="If both alias and ID are set, ID has precedence">
         <Input
+          css=""
           value={sensor.query.alias}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.query.alias = event.currentTarget.value;
             });
           }}
@@ -54,9 +56,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Mapping ID" description="Past here the ID of the mapping you want to use for this sensor">
         <Input
+          css=""
           value={sensor.mappingId}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.mappingId = event.currentTarget.value;
             });
           }}
@@ -65,10 +68,47 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Name">
         <Input
+          css=""
+          key={sensor.name}
           value={sensor.name}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.name = event.currentTarget.value;
+            });
+          }}
+        />
+      </Field>
+      <Field label="Name display">
+        <Switch
+          css=""
+          value={sensor.nameDisplay}
+          onChange={(event) => {
+            updateSensor((sensor) => {
+              sensor.nameDisplay = event.currentTarget.checked;
+            });
+          }}
+        />
+      </Field>
+      <Field label="Value display">
+        <Switch
+          css=""
+          value={sensor.valueDisplay}
+          onChange={(event) => {
+            updateSensor((sensor) => {
+              sensor.valueDisplay = event.currentTarget.checked;
+            });
+          }}
+        />
+      </Field>
+
+      <Field label="IconName">
+        <Input
+          css=""
+          key={sensor.name}
+          value={sensor.iconName}
+          onChange={(event) => {
+            updateSensor((sensor) => {
+              sensor.iconName = event.currentTarget.value;
             });
           }}
         />
@@ -76,9 +116,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Link">
         <Input
+          css=""
           value={sensor.link}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.link = event.currentTarget.value;
             });
           }}
@@ -87,9 +128,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Show">
         <Switch
+          css=""
           value={sensor.visible}
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.visible = event.currentTarget.checked;
             });
           }}
@@ -99,8 +141,8 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       <Field label="Unit Type">
         <UnitPicker
           value={sensor.unit}
-          onChange={unit => {
-            updateSensor(sensor => {
+          onChange={(unit) => {
+            updateSensor((sensor) => {
               sensor.unit = unit;
             });
           }}
@@ -111,8 +153,8 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       <Field label="Font Color">
         <ColorPicker
           color={sensor.fontColor}
-          onChange={color => {
-            updateSensor(sensor => {
+          onChange={(color) => {
+            updateSensor((sensor) => {
               sensor.fontColor = color;
             });
           }}
@@ -129,8 +171,8 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       <Field label="Background Color">
         <ColorPicker
           color={sensor.backgroundColor}
-          onChange={color => {
-            updateSensor(sensor => {
+          onChange={(color) => {
+            updateSensor((sensor) => {
               sensor.backgroundColor = color;
             });
           }}
@@ -147,10 +189,11 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Decimals">
         <Input
+          css=""
           value={sensor.decimals}
           type="number"
-          onChange={event => {
-            updateSensor(sensor => {
+          onChange={(event) => {
+            updateSensor((sensor) => {
               sensor.decimals = Number.parseInt(event.currentTarget.value, 10);
             });
           }}

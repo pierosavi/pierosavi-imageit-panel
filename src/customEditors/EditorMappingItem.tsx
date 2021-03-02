@@ -32,9 +32,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="ID">
         <Input
+          css=""
           value={mapping.id}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.id = event.currentTarget.value;
             });
           }}
@@ -43,9 +44,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Description">
         <TextArea
+          css=""
           value={mapping.description}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.description = event.currentTarget.value;
             });
           }}
@@ -56,8 +58,8 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
         <Select
           value={mapping.operator}
           options={operatorsOptions}
-          onChange={selectableValue => {
-            updateMapping(mapping => {
+          onChange={(selectableValue) => {
+            updateMapping((mapping) => {
               mapping.operator = selectableValue.value;
             });
           }}
@@ -66,9 +68,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Compare to">
         <Input
+          css=""
           value={mapping.compareTo}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.compareTo = event.currentTarget.value;
             });
           }}
@@ -78,8 +81,8 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
       <Field label="Font Color">
         <ColorPicker
           color={mapping.values?.fontColor}
-          onChange={color => {
-            updateMapping(mapping => {
+          onChange={(color) => {
+            updateMapping((mapping) => {
               mapping.values.fontColor = color;
             });
           }}
@@ -96,8 +99,8 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
       <Field label="Background Color">
         <ColorPicker
           color={mapping.values.backgroundColor}
-          onChange={color => {
-            updateMapping(mapping => {
+          onChange={(color) => {
+            updateMapping((mapping) => {
               mapping.values.backgroundColor = color;
             });
           }}
@@ -113,9 +116,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Show">
         <Switch
+          css=""
           value={mapping.values.visible}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.values.visible = event.currentTarget.checked;
             });
           }}
@@ -124,9 +128,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Bold">
         <Switch
+          css=""
           value={mapping.values.bold}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.values.bold = event.currentTarget.checked;
             });
           }}
@@ -135,9 +140,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Background Blink">
         <Switch
+          css=""
           value={mapping.values.backgroundBlink}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.values.backgroundBlink = event.currentTarget.checked;
             });
           }}
@@ -146,9 +152,10 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
 
       <Field label="Value Blink">
         <Switch
+          css=""
           value={mapping.values.valueBlink}
-          onChange={event => {
-            updateMapping(mapping => {
+          onChange={(event) => {
+            updateMapping((mapping) => {
               mapping.values.valueBlink = event.currentTarget.checked;
             });
           }}

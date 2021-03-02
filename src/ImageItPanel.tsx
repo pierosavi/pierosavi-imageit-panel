@@ -7,6 +7,8 @@ import _ from 'lodash';
 import { stylesFactory } from '@grafana/ui';
 import { Sensor } from './Sensor';
 import SensorType from './types/Sensor';
+import { IconName, library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
@@ -14,6 +16,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   const { forceImageRefresh, lockSensors, mappings, sensors, sensorsTextSize } = options;
   //  const theme = useTheme();
   const styles = getStyles();
+  library.add(fas);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
@@ -65,25 +68,29 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
           sensors.map((sensor: SensorType, index: number) => {
             // Get serie for sensor based on refId or alias fields
             // let value: Number | undefined = undefined;
-            const serie = data.series.find(serie =>
+            const serie = data.series.find((serie) =>
               sensor.query.id ? sensor.query.id === serie.refId : sensor.query.alias === serie.name
             );
 
             // Assume value is in field with name 'Value'
             // This could be a problem for some data sources
-            const field = serie?.fields.find(field => field.name === 'Value');
+            const field = serie?.fields.find((field) => field.name === 'Value');
 
             // Get last value of values array
             const value = field?.values.get(field.values.length - 1);
 
             // Get mapping by id || undefined
-            const mapping = sensor.mappingId ? mappings.find(mapping => sensor.mappingId === mapping.id) : undefined;
+            const mapping = sensor.mappingId ? mappings.find((mapping) => sensor.mappingId === mapping.id) : undefined;
 
             return (
               <Sensor
+                key={sensor.name}
                 draggable={lockSensors}
                 sensor={sensor}
                 mapping={mapping}
+                iconName={sensor.iconName as IconName}
+                valueDisplay={sensor.valueDisplay}
+                nameDisplay={sensor.nameDisplay}
                 index={index}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}

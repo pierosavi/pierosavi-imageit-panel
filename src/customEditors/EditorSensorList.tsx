@@ -31,6 +31,9 @@ const defaultNewSensor: Sensor = {
   unit: undefined,
   decimals: 2,
   valueBlink: false,
+  valueDisplay: true,
+  nameDisplay: true,
+  iconName: '',
   backgroundBlink: false,
 };
 
@@ -64,7 +67,7 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
       {sensors &&
         sensors.map((sensor: Sensor, index: number) => {
           return (
-            <div className={styles.sensorItemWrapperStyle}>
+            <div key={index} className={styles.sensorItemWrapperStyle}>
               <EditorSensorItem
                 key={index}
                 sensor={sensor}
