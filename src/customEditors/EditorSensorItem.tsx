@@ -78,7 +78,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </Field>
-      <Field label="Name display">
+      <Field label="Display name">
         <Switch
           css=""
           value={sensor.nameDisplay}
