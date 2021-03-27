@@ -126,12 +126,6 @@ const getStyles = stylesFactory(() => {
     bgImage: css`
       max-width: 100%;
     `,
-    lockIcon: css`
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      z-index: 1;
-    `,
     textBox: css`
       position: absolute;
       bottom: 0;
