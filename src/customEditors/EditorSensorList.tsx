@@ -47,7 +47,7 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
   };
 
   const onSensorDelete = (index: number) => {
-    sensors.splice(index);
+    sensors.splice(index, 1);
 
     onChange(sensors);
   };
