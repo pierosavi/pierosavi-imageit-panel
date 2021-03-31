@@ -1,18 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { PanelProps } from '@grafana/data';
+import { PanelProps, getFieldDisplayValues, ReducerID } from '@grafana/data';
 import { SimpleOptions } from './types/SimpleOptions';
 import { css, cx } from 'emotion';
 import _ from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
-import { stylesFactory } from '@grafana/ui';
+import { stylesFactory, useTheme } from '@grafana/ui';
 import { Sensor } from './Sensor';
 import SensorType from './types/Sensor';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
+export const ImageItPanel: React.FC<Props> = ({
+  options,
+  data,
+  width,
+  height,
+  onOptionsChange,
+  fieldConfig,
+  replaceVariables,
+}) => {
   const { forceImageRefresh, lockSensors, mappings, sensors, sensorsTextSize } = options;
-  //  const theme = useTheme();
+  const theme = useTheme();
   const styles = getStyles();
 
   const imageRef = useRef<HTMLImageElement>(null);
@@ -69,12 +77,21 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
               sensor.query.id ? sensor.query.id === serie.refId : sensor.query.alias === serie.name
             );
 
-            // Assume value is in field with name 'Value'
-            // This could be a problem for some data sources
-            const field = serie?.fields.find(field => field.name === 'Value');
+            let value = undefined;
 
-            // Get last value of values array
-            const value = field?.values.get(field.values.length - 1);
+            if (serie !== undefined) {
+              const fieldDisplay = getFieldDisplayValues({
+                data: [serie],
+                reduceOptions: {
+                  calcs: [ReducerID.last],
+                },
+                fieldConfig,
+                replaceVariables,
+                theme,
+              })[0];
+
+              value = fieldDisplay.display.numeric;
+            }
 
             // Get mapping by id || undefined
             const mapping = sensor.mappingId ? mappings.find(mapping => sensor.mappingId === mapping.id) : undefined;
