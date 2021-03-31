@@ -1,3 +1,9 @@
+# v1.0.3
+
+## Improvements
+
+* Better data format to support more data sources
+
 # v1.0.2
 
 ## Fix
