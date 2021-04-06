@@ -13,6 +13,8 @@ type Props = {
   mapping: Mapping | undefined;
   draggable: boolean;
   index: number;
+  link: string;
+  newName: string;
   imageDimensions: {
     width: number;
     height: number;
@@ -31,7 +33,7 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const { draggable, imageDimensions, onPositionChange, index, mapping, value } = props;
+  const { draggable, imageDimensions, onPositionChange, index, link, newName, mapping, value } = props;
   let sensor = _.clone(props.sensor);
 
   const styles = getStyles();
@@ -98,9 +100,9 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 className={css`
                   color: ${sensor.fontColor};
                 `}
-                href={sensor.link || '#'}
+                href={link || '#'}
               >
-                <div className={cx(styles.name)}>{sensor.name}</div>
+                <div className={cx(styles.name)}>{newName}</div>
                 <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
                   {formattedValueString}
                 </div>

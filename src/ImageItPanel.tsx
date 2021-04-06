@@ -96,12 +96,17 @@ export const ImageItPanel: React.FC<Props> = ({
             // Get mapping by id || undefined
             const mapping = sensor.mappingId ? mappings.find(mapping => sensor.mappingId === mapping.id) : undefined;
 
+            const renderedLink = replaceVariables(sensor.link);
+            const rendName = replaceVariables(sensor.name);
+
             return (
               <Sensor
                 draggable={lockSensors}
                 sensor={sensor}
                 mapping={mapping}
                 index={index}
+                link={renderedLink}
+                newName={rendName}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
                 value={value}
