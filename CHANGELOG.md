@@ -1,3 +1,10 @@
+# v1.0.4
+
+## Improvements
+
+* Variable support on sensor name
+* Variable support on sensor link
+
 # v1.0.3
 
 ## Improvements
