@@ -84,7 +84,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
 
             return (
               <Sensor
-                key={sensor.name}
+                key={index}
                 draggable={lockSensors}
                 sensor={sensor}
                 mapping={mapping}
