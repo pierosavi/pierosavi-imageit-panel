@@ -1,3 +1,9 @@
+# v1.0.5
+
+## Fix
+
+Add support for Grafana v8+
+
 # v1.0.4
 
 ## Improvements
