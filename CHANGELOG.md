@@ -1,15 +1,10 @@
-# v1.0.5
-
-## Fix
-
-Add support for Grafana v8+
-
 # v1.0.4
 
 ## Improvements
 
 * Variable support on sensor name
 * Variable support on sensor link
+* Add support for Grafana v8+
 
 # v1.0.3
 
