@@ -96,8 +96,8 @@ export const ImageItPanel: React.FC<Props> = ({
 
             // Get mappings by ids
             const sensorMappings: Mapping[] = sensor.mappingIds
-              .map((mappingId) => mappings.find((mapping: Mapping) => mappingId === mapping.id))
-              .filter((mapping) => typeof mapping !== "undefined") as Mapping[];
+              .map(mappingId => mappings.find((mapping: Mapping) => mappingId === mapping.id))
+              .filter(mapping => typeof mapping !== 'undefined') as Mapping[];
 
             return (
               <Sensor

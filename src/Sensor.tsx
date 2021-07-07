@@ -54,7 +54,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(sensor.position.y, imageDimensions.height),
   };
 
-  for(let mapping of mappings) {
+  for (let mapping of mappings) {
     const mappingOperator = MappingOperators.find(mappingOperator => mapping.operator === mappingOperator.id);
 
     // Apply mapping function if it satisfies requirements
