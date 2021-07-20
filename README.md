@@ -29,11 +29,11 @@ Migration website: https://pierosavi.github.io/imageit-migration/
 * Links on sensors
 * Change sensors text and background color
 * Value mapping system
+* Multiple mappings for sensor - Thanks [@lukaszsamson](https://github.com/lukaszsamson)
 
 ## What features are missing from the previous version?
 * Font awesome icons in sensor name
 * Font size configurable per sensor
-* Multiple mappings for sensor
 
 They will come in the next versions, if requested
 
