@@ -62,7 +62,10 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </Field>
       {/* </HorizontalGroup> */}
 
-      <Field label="Mapping IDs" description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied.">
+      <Field
+        label="Mapping IDs"
+        description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied."
+      >
         <TagsInput
           // @ts-ignore - will be removed when upgrading grafana/ui
           placeholder="Add a new mapping"
