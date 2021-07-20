@@ -1,5 +1,15 @@
 import React from 'react';
-import { Input, ColorPicker, Switch, Field, HorizontalGroup, IconButton, UnitPicker, Button } from '@grafana/ui';
+import {
+  Input,
+  ColorPicker,
+  Switch,
+  Field,
+  HorizontalGroup,
+  IconButton,
+  UnitPicker,
+  Button,
+  TagsInput,
+} from '@grafana/ui';
 import Sensor from '../types/Sensor';
 
 import produce from 'immer';
@@ -52,12 +62,17 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </Field>
       {/* </HorizontalGroup> */}
 
-      <Field label="Mapping ID" description="Past here the ID of the mapping you want to use for this sensor">
-        <Input
-          value={sensor.mappingId}
-          onChange={event => {
+      <Field
+        label="Mapping IDs"
+        description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied."
+      >
+        <TagsInput
+          // @ts-ignore - will be removed when upgrading grafana/ui
+          placeholder="Add a new mapping"
+          tags={sensor.mappingIds}
+          onChange={(mappingIds: string[]) => {
             updateSensor(sensor => {
-              sensor.mappingId = event.currentTarget.value;
+              sensor.mappingIds = mappingIds;
             });
           }}
         />

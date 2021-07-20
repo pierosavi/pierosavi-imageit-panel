@@ -1,3 +1,9 @@
+# v1.0.5
+
+## Improvements
+
+* Multiple mappings support
+
 # v1.0.4
 
 ## Improvements
