@@ -14,7 +14,9 @@ interface MappingProps {
 const Mapping: React.FC<MappingProps> = ({ mapping, onDelete }: MappingProps) => {
   return (
     <ButtonGroup>
-      <Button variant="link" size="sm">{mapping}</Button>
+      <Button variant="link" size="sm">
+        {mapping}
+      </Button>
       <Button icon="times" variant="link" size="sm" onClick={onDelete} />
     </ButtonGroup>
   );
@@ -37,7 +39,11 @@ export const MappingsInput: React.FC<MappingsInputProps> = ({ mappings, onChange
     onChange(newMappings);
   };
 
-  const addonAfter = <Button variant="secondary" onClick={addMapping}>Add</Button>;
+  const addonAfter = (
+    <Button variant="secondary" onClick={addMapping}>
+      Add
+    </Button>
+  );
 
   return (
     <>
