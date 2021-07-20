@@ -19,9 +19,9 @@
   "repository": "github:/pierosavi/pierosavi-imageit-panel",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "^7.3.7",
-    "@grafana/toolkit": "^7.3.7",
-    "@grafana/ui": "7.0.0",
+    "@grafana/data": "7.5.10",
+    "@grafana/toolkit": "7.5.10",
+    "@grafana/ui": "7.5.10",
     "@types/lodash": "^4.14.157",
     "emotion": "10.0.27"
   },

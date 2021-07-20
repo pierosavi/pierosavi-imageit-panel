@@ -12,15 +12,13 @@ interface Props {
   onChange: (mappings: Mapping[]) => void;
 }
 
-const getRandomID = function() {
-  const randomString = Math.random()
-    .toString(36)
-    .substr(2, 5);
+const getRandomID = function () {
+  const randomString = Math.random().toString(36).substr(2, 5);
 
   return 'mapping-' + randomString;
 };
 
-const operatorsOptions: SelectableValue[] = MappingOperators.map(mappingOperator => ({
+const operatorsOptions: SelectableValue[] = MappingOperators.map((mappingOperator) => ({
   label: mappingOperator.operator,
   value: mappingOperator.id,
   description: mappingOperator.description,
@@ -73,7 +71,7 @@ export const EditorMappingList: React.FC<Props> = (props: Props) => {
       {mappings &&
         mappings.map((mapping: Mapping, index: number) => {
           return (
-            <div className={styles.mappingItemWrapper}>
+            <div className={styles.mappingItemWrapper} key={index}>
               <EditorMappingItem
                 mapping={mapping}
                 operatorsOptions={operatorsOptions}

@@ -8,7 +8,7 @@ import { migrationHandler } from './migrationHandler';
 
 export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel)
   .setMigrationHandler(migrationHandler)
-  .setPanelOptions(builder => {
+  .setPanelOptions((builder) => {
     const panelOptionsBuilder = builder
       .addTextInput({
         path: 'imageUrl',
@@ -43,7 +43,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel)
         description: 'List of sensors',
         category: ['Sensors'],
         defaultValue: [],
-        editor: props => {
+        editor(props) {
           return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
         },
       })
@@ -54,7 +54,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel)
         description: 'List of mappings',
         category: ['Mappings'],
         defaultValue: [],
-        editor: props => {
+        editor(props) {
           return <EditorMappingList mappings={props.value} onChange={props.onChange} />;
         },
       });

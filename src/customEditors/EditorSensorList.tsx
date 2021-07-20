@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { stylesFactory, useTheme } from '@grafana/ui';
-import { Button } from '@grafana/ui';
+import { stylesFactory, useTheme, Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import Sensor from '../types/Sensor';
 import { GrafanaTheme } from '@grafana/data';
@@ -64,14 +63,8 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
       {sensors &&
         sensors.map((sensor: Sensor, index: number) => {
           return (
-            <div className={styles.sensorItemWrapperStyle}>
-              <EditorSensorItem
-                key={index}
-                sensor={sensor}
-                onChange={onSensorChange}
-                onDelete={onSensorDelete}
-                index={index}
-              />
+            <div className={styles.sensorItemWrapperStyle} key={index}>
+              <EditorSensorItem sensor={sensor} onChange={onSensorChange} onDelete={onSensorDelete} index={index} />
             </div>
           );
         })}

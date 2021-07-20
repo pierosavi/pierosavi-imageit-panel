@@ -56,7 +56,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
   };
 
   for (let mapping of mappings) {
-    const mappingOperator = MappingOperators.find(mappingOperator => mapping.operator === mappingOperator.id);
+    const mappingOperator = MappingOperators.find((mappingOperator) => mapping.operator === mappingOperator.id);
 
     // Apply mapping function if it satisfies requirements
     const isOverrode = mappingOperator?.function(value, mapping.compareTo);

@@ -13,7 +13,7 @@ export const migrationHandler = (panel: PanelModel<SimpleOptions>) => {
   const sensors = (options.sensors || []) as OldSensorType[];
 
   if (sensors) {
-    sensors.map(sensor => {
+    sensors.map((sensor) => {
       if (sensor.mappingId) {
         sensor.mappingIds = [sensor.mappingId];
         delete sensor.mappingId;

@@ -1,6 +1,7 @@
 import { MappingOperator } from './types/Mapping';
 
 function isEqualTo(a: number | string, b: number | string) {
+  // eslint-disable-next-line
   return a !== undefined && b !== undefined ? a == b : false;
 }
 

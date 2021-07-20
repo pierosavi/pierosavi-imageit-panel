@@ -74,7 +74,7 @@ export const ImageItPanel: React.FC<Props> = ({
           sensors.map((sensor: SensorType, index: number) => {
             // Get serie for sensor based on refId or alias fields
             // let value: Number | undefined = undefined;
-            const serie = data.series.find(serie =>
+            const serie = data.series.find((serie) =>
               sensor.query.id ? sensor.query.id === serie.refId : sensor.query.alias === serie.name
             );
 
@@ -96,8 +96,8 @@ export const ImageItPanel: React.FC<Props> = ({
 
             // Get mappings by ids
             const sensorMappings: Mapping[] = sensor.mappingIds
-              .map(mappingId => mappings.find((mapping: Mapping) => mappingId === mapping.id))
-              .filter(mapping => typeof mapping !== 'undefined') as Mapping[];
+              .map((mappingId) => mappings.find((mapping: Mapping) => mappingId === mapping.id))
+              .filter((mapping) => typeof mapping !== 'undefined') as Mapping[];
 
             return (
               <Sensor
@@ -110,6 +110,7 @@ export const ImageItPanel: React.FC<Props> = ({
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
                 value={value}
+                key={index}
               />
             );
           })}
