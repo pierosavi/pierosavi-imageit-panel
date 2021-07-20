@@ -29,7 +29,7 @@
     "node": ">=12 <13"
   },
   "dependencies": {
-    "immer": "^8.0.0",
+    "immer": "9.0.5",
     "react-draggable": "^4.4.2"
   }
 }
