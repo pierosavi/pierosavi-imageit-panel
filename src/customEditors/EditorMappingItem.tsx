@@ -154,6 +154,18 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </Field>
+
+      <Field label="Override value">
+        <Input
+          value={mapping.values.overrideValue}
+          onChange={event => {
+            updateMapping(mapping => {
+              mapping.values.overrideValue = event.currentTarget.value;
+            });
+          }}
+        />
+      </Field>
+
     </>
   );
 };

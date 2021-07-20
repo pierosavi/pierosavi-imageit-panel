@@ -45,6 +45,7 @@ export const EditorMappingList: React.FC<Props> = (props: Props) => {
       backgroundBlink: false,
       bold: false,
       visible: true,
+      overrideValue: undefined,
     },
   };
 

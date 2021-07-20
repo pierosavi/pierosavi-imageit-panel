@@ -33,8 +33,9 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const { draggable, imageDimensions, onPositionChange, index, link, name, mappings, value } = props;
+  const { draggable, imageDimensions, onPositionChange, index, link, name, mappings } = props;
   let sensor = _.clone(props.sensor);
+  let value = _.clone(props.value);
 
   const styles = getStyles();
 
@@ -63,6 +64,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     if (isOverrode) {
       // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
       sensor = _.merge(sensor, mapping.values);
+      value = mapping.values.overrideValue ? mapping.values.overrideValue : value;
       // Stop at first valid mapping
       break;
     }
