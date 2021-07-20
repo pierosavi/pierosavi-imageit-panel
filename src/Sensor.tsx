@@ -63,6 +63,8 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     if (isOverrode) {
       // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
       sensor = _.merge(sensor, mapping.values);
+      // Stop at first valid mapping
+      break;
     }
   }
 
