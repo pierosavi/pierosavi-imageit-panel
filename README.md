@@ -1,5 +1,6 @@
-[![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22pierosavi-imageit-panel%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
-[![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22pierosavi-imageit-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/pierosavi/pierosavi-imageit-panel?logo=github)
+[![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fpierosavi-imageit-panel)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
+[![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fpierosavi-imageit-panel)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
 
 # ImageIt Panel Plugin for Grafana
 
