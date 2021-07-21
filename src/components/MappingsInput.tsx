@@ -1,4 +1,4 @@
-import { Button, Input, ButtonGroup } from '@grafana/ui';
+import { Button, Input, ButtonGroup, Field } from '@grafana/ui';
 import React, { useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import { uniqueId } from 'lodash';
@@ -58,6 +58,18 @@ export const MappingsInput: React.FC<MappingsInputProps> = ({ mappings, onChange
     }
   };
 
+  const invalidMapping = () => {
+    return mappings.includes(newMapping) || newMapping.length === 0;
+  };
+
+  const generateErrorMessage = () => {
+    if (mappings.includes(newMapping)) {
+      return `${newMapping} is already in the list`;
+    }
+
+    return '';
+  };
+
   return (
     <>
       <ReactSortable list={sortableMappings} setList={(newState) => onChange(newState.map((mapping) => mapping.value))}>
@@ -65,12 +77,14 @@ export const MappingsInput: React.FC<MappingsInputProps> = ({ mappings, onChange
           <Mapping mapping={mapping.value} key={index} onDelete={() => deleteMapping(index)} />
         ))}
       </ReactSortable>
-      <Input
-        addonAfter={addonAfter}
-        onKeyPress={handleKeyPress}
-        onChange={(e) => setNewMapping(e.currentTarget.value)}
-        value={newMapping}
-      />
+      <Field invalid={invalidMapping()} error={generateErrorMessage()}>
+        <Input
+          addonAfter={addonAfter}
+          onKeyPress={handleKeyPress}
+          onChange={(e) => setNewMapping(e.currentTarget.value)}
+          value={newMapping}
+        />
+      </Field>
     </>
   );
 };
