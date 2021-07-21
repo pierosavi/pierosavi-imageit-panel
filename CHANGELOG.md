@@ -3,6 +3,7 @@
 ## Improvements
 
 * Multiple mappings support
+* Override value on mapping
 
 # v1.0.4
 
