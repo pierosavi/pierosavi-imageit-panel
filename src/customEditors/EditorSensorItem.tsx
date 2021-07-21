@@ -55,7 +55,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
 
       <Field
         label="Mapping IDs"
-        description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied."
+        description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied. List can be reordered by dragging."
       >
         <MappingsInput
           mappings={sensor.mappingIds}

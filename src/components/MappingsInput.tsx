@@ -1,5 +1,7 @@
 import { Button, Input, ButtonGroup } from '@grafana/ui';
 import React, { useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
+import { uniqueId } from 'lodash';
 
 interface MappingsInputProps {
   mappings: string[];
@@ -14,10 +16,10 @@ interface MappingProps {
 const Mapping: React.FC<MappingProps> = ({ mapping, onDelete }: MappingProps) => {
   return (
     <ButtonGroup>
+      <Button icon="times" variant="link" size="sm" onClick={onDelete} />
       <Button variant="link" size="sm">
         {mapping}
       </Button>
-      <Button icon="times" variant="link" size="sm" onClick={onDelete} />
     </ButtonGroup>
   );
 };
@@ -45,12 +47,30 @@ export const MappingsInput: React.FC<MappingsInputProps> = ({ mappings, onChange
     </Button>
   );
 
+  const sortableMappings = mappings.map((mapping) => ({
+    id: uniqueId('mapping'),
+    value: mapping,
+  }));
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      addMapping();
+    }
+  };
+
   return (
     <>
-      {mappings.map((mapping, index) => (
-        <Mapping mapping={mapping} key={index} onDelete={() => deleteMapping(index)} />
-      ))}
-      <Input addonAfter={addonAfter} onChange={(e) => setNewMapping(e.currentTarget.value)} value={newMapping} />
+      <ReactSortable list={sortableMappings} setList={(newState) => onChange(newState.map((mapping) => mapping.value))}>
+        {sortableMappings.map((mapping, index) => (
+          <Mapping mapping={mapping.value} key={index} onDelete={() => deleteMapping(index)} />
+        ))}
+      </ReactSortable>
+      <Input
+        addonAfter={addonAfter}
+        onKeyPress={handleKeyPress}
+        onChange={(e) => setNewMapping(e.currentTarget.value)}
+        value={newMapping}
+      />
     </>
   );
 };

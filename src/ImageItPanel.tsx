@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PanelProps, getFieldDisplayValues, ReducerID } from '@grafana/data';
 import { SimpleOptions } from './types/SimpleOptions';
 import { css, cx } from 'emotion';
-import _ from 'lodash';
+import { uniqueId, cloneDeep } from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
 import { stylesFactory, useTheme } from '@grafana/ui';
 import { Sensor } from './Sensor';
@@ -31,7 +31,7 @@ export const ImageItPanel: React.FC<Props> = ({
 
   useEffect(() => {
     if (forceImageRefresh) {
-      setImageUrl(`${options.imageUrl}?${_.uniqueId()}`);
+      setImageUrl(`${options.imageUrl}?${uniqueId()}`);
     } else {
       setImageUrl(options.imageUrl);
     }
@@ -52,7 +52,7 @@ export const ImageItPanel: React.FC<Props> = ({
   };
 
   const onSensorPositionChange = (position: SensorType['position'], index: number) => {
-    const newOptions = _.cloneDeep(options);
+    const newOptions = cloneDeep(options);
     newOptions.sensors[index].position = position;
 
     onOptionsChange(newOptions);

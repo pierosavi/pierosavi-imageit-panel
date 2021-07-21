@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as _ from 'lodash';
+import { clone, merge } from 'lodash';
 import { css, cx, keyframes } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
@@ -34,8 +34,8 @@ const percToPx = (perc: number, size: number): number => {
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
   const { draggable, imageDimensions, onPositionChange, index, link, name, mappings } = props;
-  let sensor = _.clone(props.sensor);
-  let value = _.clone(props.value);
+  let sensor = clone(props.sensor) as SensorType & Mapping['values'];
+  let value = clone(props.value);
 
   const styles = getStyles();
 
@@ -62,9 +62,10 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     const isOverrode = mappingOperator?.function(value, mapping.compareTo);
 
     if (isOverrode) {
-      // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
-      sensor = _.merge(sensor, mapping.values);
+      sensor = merge(sensor, mapping.values);
       value = mapping.values.overrideValue ? mapping.values.overrideValue : value;
+
+      delete sensor.overrideValue;
       // Stop at first valid mapping
       break;
     }

@@ -23,6 +23,7 @@
     "@grafana/toolkit": "7.5.10",
     "@grafana/ui": "7.5.10",
     "@types/lodash": "^4.14.157",
+    "@types/sortablejs": "^1.10.7",
     "emotion": "10.0.27"
   },
   "engines": {
@@ -30,6 +31,8 @@
   },
   "dependencies": {
     "immer": "9.0.5",
-    "react-draggable": "^4.4.2"
+    "react-draggable": "^4.4.2",
+    "react-sortablejs": "^6.0.0",
+    "sortablejs": "^1.14.0"
   }
 }

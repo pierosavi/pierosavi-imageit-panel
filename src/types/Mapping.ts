@@ -11,7 +11,7 @@ export type Mapping = {
     bold: boolean;
     valueBlink: boolean;
     backgroundBlink: boolean;
-    overrideValue: string | undefined;
+    overrideValue?: string;
   };
 };
 
