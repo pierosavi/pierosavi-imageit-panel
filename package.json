@@ -30,7 +30,7 @@
     "node": ">=12 <13"
   },
   "dependencies": {
-    "immer": "9.0.5",
+    "immer": "9.0.6",
     "react-draggable": "^4.4.2",
     "react-sortablejs": "^6.0.0",
     "sortablejs": "^1.14.0"
