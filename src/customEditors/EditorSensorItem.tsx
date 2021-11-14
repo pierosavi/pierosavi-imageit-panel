@@ -101,7 +101,7 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
         />
       </Field>
 
-      <Field label="IconName">
+      <Field label="Icon" description="Write a valid FontAwesome icon">
         <Input
           css=""
           key={sensor.name}
