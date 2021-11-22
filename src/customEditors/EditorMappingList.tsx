@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { stylesFactory, Button, useTheme } from '@grafana/ui';
 import { GrafanaTheme, SelectableValue } from '@grafana/data';
-import { EditorMappingItem } from 'customEditors/EditorMappingItem';
+import { EditorMappingItem } from './EditorMappingItem';
 import { Mapping } from 'types/Mapping';
 import MappingOperators from 'MappingOperators';
 
@@ -43,6 +43,7 @@ export const EditorMappingList: React.FC<Props> = (props: Props) => {
       backgroundBlink: false,
       bold: false,
       visible: true,
+      overrideValue: undefined,
     },
   };
 
@@ -70,9 +71,8 @@ export const EditorMappingList: React.FC<Props> = (props: Props) => {
       {mappings &&
         mappings.map((mapping: Mapping, index: number) => {
           return (
-            <div key={mapping.id} className={styles.mappingItemWrapper}>
+            <div className={styles.mappingItemWrapper} key={index}>
               <EditorMappingItem
-                key={mapping.id}
                 mapping={mapping}
                 operatorsOptions={operatorsOptions}
                 onChange={onMappingChange}

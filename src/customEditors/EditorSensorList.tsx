@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { stylesFactory, useTheme } from '@grafana/ui';
-import { Button } from '@grafana/ui';
+import { stylesFactory, useTheme, Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import Sensor from '../types/Sensor';
 import { GrafanaTheme } from '@grafana/data';
@@ -27,12 +26,10 @@ const defaultNewSensor: Sensor = {
     x: 50,
     y: 50,
   },
-  mappingId: '',
+  mappingIds: [],
   unit: undefined,
   decimals: 2,
   valueBlink: false,
-  valueDisplay: true,
-  nameDisplay: true,
   iconName: '',
   backgroundBlink: false,
 };
@@ -50,7 +47,7 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
   };
 
   const onSensorDelete = (index: number) => {
-    sensors.splice(index);
+    sensors.splice(index, 1);
 
     onChange(sensors);
   };
@@ -67,14 +64,8 @@ export const EditorSensorList: React.FC<Props> = (props: Props) => {
       {sensors &&
         sensors.map((sensor: Sensor, index: number) => {
           return (
-            <div key={index} className={styles.sensorItemWrapperStyle}>
-              <EditorSensorItem
-                key={index}
-                sensor={sensor}
-                onChange={onSensorChange}
-                onDelete={onSensorDelete}
-                index={index}
-              />
+            <div className={styles.sensorItemWrapperStyle} key={index}>
+              <EditorSensorItem sensor={sensor} onChange={onSensorChange} onDelete={onSensorDelete} index={index} />
             </div>
           );
         })}

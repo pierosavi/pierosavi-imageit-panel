@@ -4,6 +4,7 @@ import Sensor from '../types/Sensor';
 
 import produce from 'immer';
 import { ColorDot } from 'components/ColorDot';
+import { MappingsInput } from 'components/MappingsInput';
 
 interface Props {
   sensor: Sensor;
@@ -54,13 +55,16 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       </Field>
       {/* </HorizontalGroup> */}
 
-      <Field label="Mapping ID" description="Past here the ID of the mapping you want to use for this sensor">
-        <Input
+      <Field
+        label="Mapping IDs"
+        description="Select IDs of mappings you want to use for this sensor. First valid mapping will be applied. List can be reordered by dragging."
+      >
+        <MappingsInput
           css=""
-          value={sensor.mappingId}
-          onChange={(event) => {
+          mappings={sensor.mappingIds}
+          onChange={(mappings) => {
             updateSensor((sensor) => {
-              sensor.mappingId = event.currentTarget.value;
+              sensor.mappingIds = mappings;
             });
           }}
         />
@@ -74,28 +78,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
           onChange={(event) => {
             updateSensor((sensor) => {
               sensor.name = event.currentTarget.value;
-            });
-          }}
-        />
-      </Field>
-      <Field label="Display name">
-        <Switch
-          css=""
-          value={sensor.nameDisplay}
-          onChange={(event) => {
-            updateSensor((sensor) => {
-              sensor.nameDisplay = event.currentTarget.checked;
-            });
-          }}
-        />
-      </Field>
-      <Field label="Display value">
-        <Switch
-          css=""
-          value={sensor.valueDisplay}
-          onChange={(event) => {
-            updateSensor((sensor) => {
-              sensor.valueDisplay = event.currentTarget.checked;
             });
           }}
         />

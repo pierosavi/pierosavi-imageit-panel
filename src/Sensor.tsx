@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as _ from 'lodash';
+import { clone, merge } from 'lodash';
 import { css, cx, keyframes } from 'emotion';
 import Draggable, { DraggableEvent, DraggableData, ControlPosition } from 'react-draggable';
 import { stylesFactory } from '@grafana/ui';
@@ -12,12 +12,12 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 type Props = {
   sensor: SensorType;
-  mapping: Mapping | undefined;
+  mappings: Mapping[];
   draggable: boolean;
   iconName: IconName;
-  valueDisplay: boolean;
-  nameDisplay: boolean;
   index: number;
+  link: string;
+  name: string;
   imageDimensions: {
     width: number;
     height: number;
@@ -36,18 +36,9 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const {
-    draggable,
-    imageDimensions,
-    onPositionChange,
-    iconName,
-    valueDisplay,
-    nameDisplay,
-    index,
-    mapping,
-    value,
-  } = props;
-  let sensor = _.clone(props.sensor);
+  const { draggable, imageDimensions, onPositionChange, index, iconName, link, name, mappings } = props;
+  let sensor = clone(props.sensor) as SensorType & Mapping['values'];
+  let value = clone(props.value);
 
   const styles = getStyles();
 
@@ -67,14 +58,20 @@ export const Sensor: React.FC<Props> = (props: Props) => {
     y: percToPx(sensor.position.y, imageDimensions.height),
   };
 
-  const mappingOperator = MappingOperators.find((mappingOperator) => mapping?.operator === mappingOperator.id);
+  for (let mapping of mappings) {
+    const mappingOperator = MappingOperators.find((mappingOperator) => mapping.operator === mappingOperator.id);
 
-  // Apply mapping function if it satisfies requirements
-  const isOverrode = mappingOperator?.function(value, mapping!.compareTo);
+    // Apply mapping function if it satisfies requirements
+    const isOverrode = mappingOperator?.function(value, mapping.compareTo);
 
-  if (isOverrode) {
-    // Assume that mapping values perfectly matches sensor fields, it's not covered by typescript
-    sensor = _.merge(sensor, mapping!.values);
+    if (isOverrode) {
+      sensor = merge(sensor, mapping.values);
+      value = mapping.values.overrideValue ? mapping.values.overrideValue : value;
+
+      delete sensor.overrideValue;
+      // Stop at first valid mapping
+      break;
+    }
   }
 
   // Get and apply unit type formatter
@@ -113,15 +110,13 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 className={css`
                   color: ${sensor.fontColor};
                 `}
-                href={sensor.link || '#'}
+                href={link || '#'}
               >
                 {iconName && <FontAwesomeIcon icon={iconName} />}
-                {nameDisplay && <div className={cx(styles.name)}>{sensor.name}</div>}
-                {valueDisplay && (
-                  <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
-                    {formattedValueString}
-                  </div>
-                )}
+                <div className={cx(styles.name)}>{name}</div>
+                <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
+                  {formattedValueString}
+                </div>
               </a>
             </div>
 

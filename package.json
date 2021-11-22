@@ -1,6 +1,6 @@
 {
   "name": "pierosavi-imageit-panel",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Add Measurements to a Picture in Grafana",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
@@ -19,20 +19,24 @@
   "repository": "github:/pierosavi/pierosavi-imageit-panel",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "^7.3.7",
-    "@grafana/toolkit": "^7.4.3",
-    "@grafana/ui": "^7.3.7",
+    "@grafana/data": "7.5.10",
+    "@grafana/toolkit": "7.5.10",
+    "@grafana/ui": "7.5.10",
     "@types/lodash": "^4.14.157",
+    "@types/sortablejs": "^1.10.7",
     "emotion": "10.0.27"
   },
   "engines": {
-    "node": ">=12 <13"
+    "node": ">=12 <17"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "immer": "^8.0.0",
-    "react-draggable": "^4.4.2"
+    "@iconscout/react-unicons": "^1.1.6",
+    "immer": "9.0.5",
+    "react-draggable": "^4.4.2",
+    "react-sortablejs": "^6.0.0",
+    "sortablejs": "^1.14.0"
   }
 }

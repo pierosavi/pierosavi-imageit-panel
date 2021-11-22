@@ -1,20 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { PanelProps } from '@grafana/data';
+import { PanelProps, getFieldDisplayValues, ReducerID } from '@grafana/data';
 import { SimpleOptions } from './types/SimpleOptions';
 import { css, cx } from 'emotion';
-import _ from 'lodash';
+import { uniqueId, cloneDeep } from 'lodash';
 // import { stylesFactory, useTheme } from '@grafana/ui';
-import { stylesFactory } from '@grafana/ui';
+import { stylesFactory, useTheme } from '@grafana/ui';
 import { Sensor } from './Sensor';
+import { Mapping } from './types/Mapping';
 import SensorType from './types/Sensor';
 import { IconName, library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, onOptionsChange, fieldConfig }) => {
+export const ImageItPanel: React.FC<Props> = ({
+  options,
+  data,
+  width,
+  height,
+  onOptionsChange,
+  fieldConfig,
+  replaceVariables,
+}) => {
   const { forceImageRefresh, lockSensors, mappings, sensors, sensorsTextSize } = options;
-  //  const theme = useTheme();
+  const theme = useTheme();
   const styles = getStyles();
   library.add(fas);
 
@@ -25,7 +34,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
 
   useEffect(() => {
     if (forceImageRefresh) {
-      setImageUrl(`${options.imageUrl}?${_.uniqueId()}`);
+      setImageUrl(`${options.imageUrl}?${uniqueId()}`);
     } else {
       setImageUrl(options.imageUrl);
     }
@@ -46,7 +55,7 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
   };
 
   const onSensorPositionChange = (position: SensorType['position'], index: number) => {
-    const newOptions = _.cloneDeep(options);
+    const newOptions = cloneDeep(options);
     newOptions.sensors[index].position = position;
 
     onOptionsChange(newOptions);
@@ -72,29 +81,40 @@ export const ImageItPanel: React.FC<Props> = ({ options, data, width, height, on
               sensor.query.id ? sensor.query.id === serie.refId : sensor.query.alias === serie.name
             );
 
-            // Assume value is in field with name 'Value'
-            // This could be a problem for some data sources
-            const field = serie?.fields.find((field) => field.name === 'Value');
+            let value = undefined;
 
-            // Get last value of values array
-            const value = field?.values.get(field.values.length - 1);
+            if (serie !== undefined) {
+              const fieldDisplay = getFieldDisplayValues({
+                data: [serie],
+                reduceOptions: {
+                  calcs: [ReducerID.last],
+                },
+                fieldConfig,
+                replaceVariables,
+                theme,
+              })[0];
 
-            // Get mapping by id || undefined
-            const mapping = sensor.mappingId ? mappings.find((mapping) => sensor.mappingId === mapping.id) : undefined;
+              value = fieldDisplay.display.numeric;
+            }
+
+            // Get mappings by ids
+            const sensorMappings: Mapping[] = sensor.mappingIds
+              .map((mappingId) => mappings.find((mapping: Mapping) => mappingId === mapping.id))
+              .filter((mapping) => typeof mapping !== 'undefined') as Mapping[];
 
             return (
               <Sensor
-                key={index}
                 draggable={lockSensors}
                 sensor={sensor}
-                mapping={mapping}
                 iconName={sensor.iconName as IconName}
-                valueDisplay={sensor.valueDisplay}
-                nameDisplay={sensor.nameDisplay}
+                mappings={sensorMappings}
                 index={index}
+                link={replaceVariables(sensor.link)}
+                name={replaceVariables(sensor.name)}
                 imageDimensions={imageDimensions}
                 onPositionChange={onSensorPositionChange}
                 value={value}
+                key={index}
               />
             );
           })}
@@ -132,12 +152,6 @@ const getStyles = stylesFactory(() => {
     `,
     bgImage: css`
       max-width: 100%;
-    `,
-    lockIcon: css`
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      z-index: 1;
     `,
     textBox: css`
       position: absolute;

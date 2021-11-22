@@ -1,3 +1,24 @@
+# v1.0.5
+
+## Improvements
+
+* Multiple mappings support
+* Override value on mapping
+
+# v1.0.4
+
+## Improvements
+
+* Variable support on sensor name
+* Variable support on sensor link
+* Add support for Grafana v8+
+
+# v1.0.3
+
+## Improvements
+
+* Better data format to support more data sources
+
 # v1.0.2
 
 ## Fix

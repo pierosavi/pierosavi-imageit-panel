@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "id": "pierosavi-imageit-panel",
   "name": "ImageIt",
   "type": "panel",
@@ -38,6 +39,6 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": "7.x.x"
+    "grafanaDependency": ">=7.x.x"
   }
 }

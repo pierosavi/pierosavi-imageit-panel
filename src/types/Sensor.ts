@@ -9,8 +9,6 @@ type Sensor = {
   fontColor: string;
   bold: boolean;
   valueBlink: boolean;
-  valueDisplay: boolean;
-  nameDisplay: boolean;
   iconName: string;
   backgroundBlink: boolean;
   link: string;
@@ -18,7 +16,7 @@ type Sensor = {
     x: number;
     y: number;
   };
-  mappingId: string;
+  mappingIds: string[];
   unit: string | undefined;
   decimals: number;
 };
