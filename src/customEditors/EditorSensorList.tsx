@@ -30,6 +30,7 @@ const defaultNewSensor: Sensor = {
   unit: undefined,
   decimals: 2,
   valueBlink: false,
+  iconName: '',
   backgroundBlink: false,
 };
 

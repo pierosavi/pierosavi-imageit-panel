@@ -8,6 +8,8 @@ import { stylesFactory, useTheme } from '@grafana/ui';
 import { Sensor } from './Sensor';
 import { Mapping } from './types/Mapping';
 import SensorType from './types/Sensor';
+import { IconName, library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
@@ -23,6 +25,7 @@ export const ImageItPanel: React.FC<Props> = ({
   const { forceImageRefresh, lockSensors, mappings, sensors, sensorsTextSize } = options;
   const theme = useTheme();
   const styles = getStyles();
+  library.add(fas);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageDimensions, setImageDimensions] = useState({ height: 0, width: 0 });
@@ -103,6 +106,7 @@ export const ImageItPanel: React.FC<Props> = ({
               <Sensor
                 draggable={lockSensors}
                 sensor={sensor}
+                iconName={sensor.iconName as IconName}
                 mappings={sensorMappings}
                 index={index}
                 link={replaceVariables(sensor.link)}

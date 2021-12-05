@@ -27,9 +27,13 @@
     "emotion": "10.0.27"
   },
   "engines": {
-    "node": ">=12 <13"
+    "node": ">=12 <17"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@iconscout/react-unicons": "^1.1.6",
     "immer": "9.0.5",
     "react-draggable": "^4.4.2",
     "react-sortablejs": "^6.0.0",

@@ -5,6 +5,7 @@
     "jsx": "react",
     "rootDir": "./src",
     "baseUrl": "./src",
+    "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types"]
   }
 }
