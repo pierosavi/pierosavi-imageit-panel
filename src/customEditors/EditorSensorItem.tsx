@@ -73,7 +73,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       <Field label="Name">
         <Input
           css=""
-          key={sensor.name}
           value={sensor.name}
           onChange={(event) => {
             updateSensor((sensor) => {
@@ -86,7 +85,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
       <Field label="Icon" description="Write a valid FontAwesome icon">
         <Input
           css=""
-          key={sensor.name}
           value={sensor.iconName}
           onChange={(event) => {
             updateSensor((sensor) => {
