@@ -2,6 +2,16 @@
 [![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fpierosavi-imageit-panel)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
 [![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fpierosavi-imageit-panel)](https://grafana.com/grafana/plugins/pierosavi-imageit-panel)
 
+# !! Warning !! No new features, support will stop at Grafana 9.
+
+I initially developed this panel as I used Grafana daily at my previous job and, surprisingly, a panel like this didn't really exist.
+
+Sadly I don't work with Grafana anymore and it seems like every major Grafana update breaks the panel over and over again, requiring a lot of maintenance.
+
+I don't have the time and the right motivation anymore to create new features and fix every compatiblity bug as they appear, so I decided that I will not support Grafana 9 and the repo will probably be archived when it comes out.
+
+If your use case requires a panel like this feel free to fork, rename and upload your version for Grafana >=9
+
 # ImageIt Panel Plugin for Grafana
 
 Allows a user to superimpose measurement displays ontop of a picture.
