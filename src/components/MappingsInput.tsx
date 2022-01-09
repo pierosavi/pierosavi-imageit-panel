@@ -69,10 +69,10 @@ export const MappingsInput: React.FC<MappingsInputProps> = ({ mappings, onChange
 
     return '';
   };
-
+  const [state, setState] = useState(sortableMappings);
   return (
     <>
-      <ReactSortable list={sortableMappings} setList={(newState) => onChange(newState.map((mapping) => mapping.value))}>
+      <ReactSortable list={state} setList={setState}>
         {sortableMappings.map((mapping, index) => (
           <Mapping mapping={mapping.value} key={index} onDelete={() => deleteMapping(index)} />
         ))}
