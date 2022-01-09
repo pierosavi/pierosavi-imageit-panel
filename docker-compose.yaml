@@ -1,0 +1,22 @@
+version: "3"
+services:
+  grafana-dev:
+    # replace with whatever version you want
+    image: grafana/grafana:latest
+    container_name: grafana-dev
+    volumes:
+      # replace with plugin folder
+      - ~/whatever/:/var/lib/grafana/plugins
+    ports:
+      - 3000:3000
+    environment:
+      - GF_APP_MODE=development
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=pierosavi-imageit-panel
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+# docker run --rm \
+#     -e GF_DEFAULT_APP_MODE=development \
+#     -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=pierosavi-imageit-panel \
+#     -p 3000:3000 \
+#     -v ~/whatever/:/var/lib/grafana/plugins \
+#     grafana/grafana:8.3.3
