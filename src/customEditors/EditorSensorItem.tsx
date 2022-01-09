@@ -138,7 +138,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
               sensor.fontColor = color;
             });
           }}
-          enableNamedColors
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
@@ -156,7 +155,6 @@ export const EditorSensorItem: React.FC<Props> = (props: Props) => {
               sensor.backgroundColor = color;
             });
           }}
-          enableNamedColors
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">

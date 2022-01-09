@@ -86,7 +86,6 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
               mapping.values.fontColor = color;
             });
           }}
-          enableNamedColors
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
@@ -104,7 +103,6 @@ export const EditorMappingItem: React.FC<Props> = (props: Props) => {
               mapping.values.backgroundColor = color;
             });
           }}
-          enableNamedColors
         >
           {({ ref, showColorPicker, hideColorPicker }) => (
             <Button ref={ref} onMouseLeave={hideColorPicker} onClick={showColorPicker} variant="secondary">
