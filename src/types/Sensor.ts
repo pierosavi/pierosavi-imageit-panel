@@ -9,6 +9,7 @@ type Sensor = {
   fontColor: string;
   bold: boolean;
   valueBlink: boolean;
+  iconName: string;
   backgroundBlink: boolean;
   link: string;
   position: {

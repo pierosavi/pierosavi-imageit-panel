@@ -7,11 +7,14 @@ import SensorType from './types/Sensor';
 import MappingOperators from 'MappingOperators';
 import { Mapping } from 'types/Mapping';
 import { formattedValueToString, getValueFormat } from '@grafana/data';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 type Props = {
   sensor: SensorType;
   mappings: Mapping[];
   draggable: boolean;
+  iconName: IconName;
   index: number;
   link: string;
   name: string;
@@ -33,7 +36,7 @@ const percToPx = (perc: number, size: number): number => {
 
 export const Sensor: React.FC<Props> = (props: Props) => {
   // const theme = useTheme();
-  const { draggable, imageDimensions, onPositionChange, index, link, name, mappings } = props;
+  const { draggable, imageDimensions, onPositionChange, index, iconName, link, name, mappings } = props;
   let sensor = clone(props.sensor) as SensorType & Mapping['values'];
   let value = clone(props.value);
 
@@ -109,6 +112,7 @@ export const Sensor: React.FC<Props> = (props: Props) => {
                 `}
                 href={link || '#'}
               >
+                {iconName && <FontAwesomeIcon icon={iconName} />}
                 <div className={cx(styles.name)}>{name}</div>
                 <div className={cx(styles.value, sensor.valueBlink && styles.blink, sensor.bold && styles.bold)}>
                   {formattedValueString}
