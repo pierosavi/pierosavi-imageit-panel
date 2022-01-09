@@ -1,3 +1,10 @@
+# v1.0.6
+
+## Fix
+
+* Remove enableNamedColors, which caused some colors to not render correctly - thanks [peishaofeng](https://github.com/peishaofeng)
+* UI Slowdown on v8.3.3 - thanks [rvdwijngaard](https://github.com/rvdwijngaard)
+
 # v1.0.5
 
 ## Improvements
