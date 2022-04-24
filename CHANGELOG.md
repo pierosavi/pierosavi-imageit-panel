@@ -1,3 +1,9 @@
+# v1.0.7
+
+## Fix
+
+* Fix text field editing - thanks [rvdwijngaard](https://github.com/rvdwijngaard)
+
 # v1.0.6
 
 ## Fix
