@@ -3,13 +3,9 @@ import { css } from 'emotion';
 import { stylesFactory, useTheme, Button } from '@grafana/ui';
 import { EditorSensorItem } from './EditorSensorItem';
 import Sensor from '../types/Sensor';
-import { GrafanaTheme } from '@grafana/data';
+import { GrafanaTheme, StandardEditorProps } from '@grafana/data';
 
-interface Props {
-  sensors: Sensor[];
-
-  onChange: (sensors: Sensor[]) => void;
-}
+interface Props extends StandardEditorProps<Sensor[]> {}
 
 const defaultNewSensor: Sensor = {
   name: 'Name',
@@ -35,7 +31,8 @@ const defaultNewSensor: Sensor = {
 };
 
 export const EditorSensorList: React.FC<Props> = (props: Props) => {
-  const { sensors, onChange } = props;
+  const { onChange } = props;
+  const sensors = props.value;
 
   const theme = useTheme();
   const styles = getStyles(theme);

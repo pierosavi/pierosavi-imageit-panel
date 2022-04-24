@@ -1,4 +1,3 @@
-import React from 'react';
 import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './types/SimpleOptions';
 import { ImageItPanel } from './ImageItPanel';
@@ -43,9 +42,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel)
         description: 'List of sensors',
         category: ['Sensors'],
         defaultValue: [],
-        editor(props) {
-          return <EditorSensorList sensors={props.value} onChange={props.onChange} />;
-        },
+        editor: EditorSensorList,
       })
       .addCustomEditor({
         id: 'mappings',
@@ -54,9 +51,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(ImageItPanel)
         description: 'List of mappings',
         category: ['Mappings'],
         defaultValue: [],
-        editor(props) {
-          return <EditorMappingList mappings={props.value} onChange={props.onChange} />;
-        },
+        editor: EditorMappingList,
       });
 
     return panelOptionsBuilder;

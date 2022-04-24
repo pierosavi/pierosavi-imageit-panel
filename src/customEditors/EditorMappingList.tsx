@@ -1,16 +1,12 @@
 import React from 'react';
 import { css } from 'emotion';
 import { stylesFactory, Button, useTheme } from '@grafana/ui';
-import { GrafanaTheme, SelectableValue } from '@grafana/data';
+import { GrafanaTheme, SelectableValue, StandardEditorProps } from '@grafana/data';
 import { EditorMappingItem } from './EditorMappingItem';
 import { Mapping } from 'types/Mapping';
 import MappingOperators from 'MappingOperators';
 
-interface Props {
-  mappings: Mapping[];
-
-  onChange: (mappings: Mapping[]) => void;
-}
+interface Props extends StandardEditorProps<Mapping[]> {}
 
 const getRandomID = function () {
   const randomString = Math.random().toString(36).substr(2, 5);
@@ -25,7 +21,8 @@ const operatorsOptions: SelectableValue[] = MappingOperators.map((mappingOperato
 }));
 
 export const EditorMappingList: React.FC<Props> = (props: Props) => {
-  const { mappings, onChange } = props;
+  const onChange = props.onChange;
+  const mappings = props.value;
 
   const theme = useTheme();
   const styles = getStyles(theme);
